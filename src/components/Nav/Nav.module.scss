@@ -17,6 +17,20 @@
   .center {
     width: 20%;
     text-align: center;
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .logoImg {
+        width: 30px;
+        .logoComponent {
+          width: 100%;
+        }
+        @media only screen and (max-width: 1000px) {
+          width: 20px;
+        }
+      }
+    }
   }
   .right {
     width: 40%;

@@ -1,6 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { FormattedMessage } from "react-intl";
 import styles from "./Nav.module.scss";
 import classnames from "classnames";
@@ -74,6 +75,15 @@ export default function Nav() {
             <Link href="/" className={styles.logoLink}>
               Variegata
             </Link>
+            <div className={styles.logoImg}>
+              <Image
+                src="/img/logo.png"
+                width="100"
+                height="100"
+                alt="Variegata Logo"
+                className={styles.logoComponent}
+              />
+            </div>
           </div>
         </div>
         <div className={styles.right}>

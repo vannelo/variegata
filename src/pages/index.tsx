@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import Image from "next/image";
 import styles from "./Index.module.scss";
 import Heading, {
   HeadingAlignEnum,
   HeadingTypeEnum,
 } from "@/components/Heading/Heading";
-import { FormattedMessage } from "react-intl";
 import Button, {
   ButtonColorEnum,
   ButtonSizeEnum,
   ButtonTypeEnum,
 } from "@/components/Button/Button";
 import Auctions from "@/components/Auctions/Auctions";
-import { Product, Store } from "@/utils/types";
-import productsJson from "../constants/products.json";
-import storesJson from "../constants/stores.json";
 import FeaturedProduct from "@/components/FeaturedProduct/FeaturedProduct";
 import Products from "@/components/Products/Products";
 import FeaturedStores from "@/components/FeaturedStores/FeaturedStores";
+import { Product, Store } from "@/utils/types";
+import productsJson from "../constants/products.json";
+import storesJson from "../constants/stores.json";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
