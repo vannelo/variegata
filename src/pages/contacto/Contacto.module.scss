@@ -1,0 +1,27 @@
+.contactSection {
+  margin: 6rem 0;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .contact {
+    text-align: center;
+    p {
+      font-size: 1.2rem;
+      margin: 0.8rem 0;
+      font-weight: 300;
+      color: rgb(var(--darkLight));
+    }
+  }
+  .cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+  }
+  @media only screen and (max-width: 1000px) {
+    margin: 8rem 0;
+    padding: 1rem;
+  }
+}

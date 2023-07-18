@@ -1,0 +1,26 @@
+.review {
+  border-bottom: 1px solid rgb(var(--light200));
+  margin-bottom: 2rem;
+  .stars {
+    display: flex;
+    margin-bottom: 0.5rem;
+    column-gap: 0.2rem;
+    .star {
+      color: rgb(var(--warning));
+    }
+  }
+  .customer {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    .gray {
+      font-weight: 400;
+      color: rgb(var(--gray));
+    }
+  }
+  .heading {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+}

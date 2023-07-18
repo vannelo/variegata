@@ -1,0 +1,128 @@
+.nav {
+  position: fixed;
+  background-color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  padding: 1rem 4rem;
+  z-index: 999;
+  color: rgb(var(--dark));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .left {
+    width: 40%;
+  }
+  .center {
+    width: 20%;
+    text-align: center;
+  }
+  .right {
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .links {
+    display: flex;
+    column-gap: 2rem;
+    .link {
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition-duration: 0.2s;
+      &:hover {
+        color: rgb(var(--primary));
+      }
+    }
+    .linkActive {
+      color: rgb(var(--primary));
+    }
+  }
+  .logo {
+    .logoLink {
+      font-weight: 600;
+      font-size: 2rem;
+    }
+  }
+  .icons {
+    display: flex;
+    column-gap: 0.8rem;
+    .icon {
+      .iconBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 0.3rem;
+        transition-duration: 0.2s;
+      }
+      .username {
+        transition-duration: 0.2s;
+      }
+      svg {
+        transition-duration: 0.2s;
+      }
+      &:hover {
+        color: rgb(var(--primary));
+        transition-duration: 0.2s;
+      }
+    }
+  }
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .divider {
+    width: 30px;
+    height: 2px;
+    background-color: rgb(var(--primary));
+    margin: 1rem 0;
+  }
+  .logo h1 {
+    font-size: 3rem;
+  }
+  .link {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  .close {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .nav {
+    padding: 1rem 15px;
+  }
+  .left {
+    display: none;
+  }
+  .logoLink {
+    font-weight: 600;
+    font-size: 1.2rem !important;
+  }
+  .nav {
+    .center {
+      width: 50%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      column-gap: 0.2rem;
+    }
+  }
+  .right {
+    width: 50%;
+  }
+}

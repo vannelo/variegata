@@ -1,0 +1,36 @@
+.tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgb(var(--light200));
+  .tab {
+    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    @media only screen and (max-width: 1000px) {
+      padding: 1.2rem;
+      font-size: 0.9rem;
+    }
+    &.active {
+      border-bottom: 2px solid rgb(var(--dark));
+    }
+    justify-content: flex-start;
+  }
+}
+.contents {
+  .content {
+    padding: 4rem 0;
+    @media only screen and (max-width: 1000px) {
+      padding: 2rem 0;
+    }
+    h4 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: rgb(var(--gray));
+      margin-bottom: 2rem;
+    }
+  }
+}

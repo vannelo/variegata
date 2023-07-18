@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap");
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --background-dark: 20, 20, 23;
+  --primary: 193, 154, 107;
+  --secondary: 100, 100, 100;
+  --dark: 38, 38, 38;
+  --darkLight: 75 85 99;
+  --light: 247, 247, 247;
+  --light200: 220, 220, 220;
+  --lightGray: 200, 200, 200;
+  --gray: 98, 98, 98;
+  --grayLight: 140, 140, 140;
+  --grayLight: 140, 140, 140;
+  --danger: 218, 63, 63;
+  --success: 22, 179, 110;
+  --warning: 245, 158, 11;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--dark));
+  background: white;
+}
+.show-mobile {
+  display: none !important;
+}
+.show-mobile-flex {
+  display: none !important;
+}
+
+@media only screen and (max-width: 1000px) {
+  .show-mobile {
+    display: block !important;
+  }
+  .show-mobile-flex {
+    display: flex !important;
+  }
+  .hide-mobile {
+    display: none !important;
+  }
+}

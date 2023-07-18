@@ -1,0 +1,130 @@
+.button {
+  margin: 1rem 0;
+  &.fluid button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid rgb(var(--dark));
+    &:hover {
+      background-color: transparent;
+      border: 1px solid rgb(var(--dark));
+      transition-duration: 0.2s;
+      color: rgb(var(--dark));
+    }
+  }
+  button {
+    background-color: rgb(var(--dark));
+    border: 1px solid rgb(var(--dark));
+    color: white;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    transition-duration: 0.2s;
+    &:hover {
+      background-color: transparent;
+      border: 1px solid rgb(var(--dark));
+      transition-duration: 0.2s;
+      color: rgb(var(--dark));
+    }
+  }
+  @media only screen and (max-width: 1000px) {
+    margin: 1rem 0;
+  }
+}
+
+.large {
+  button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+  }
+}
+.medium {
+  button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
+.small {
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+.primary {
+  button {
+    background-color: rgb(var(--primary));
+    border: 1px solid rgb(var(--primary));
+    color: white;
+    &:hover {
+      border: 1px solid rgb(var(--primary));
+    }
+  }
+}
+.secondary {
+  button {
+    background-color: rgb(var(--secondary));
+    border: 1px solid rgb(var(--secondary));
+    color: white;
+    &:hover {
+      border: 1px solid rgb(var(--secondary));
+    }
+  }
+}
+.dark {
+  button {
+    background-color: rgb(var(--dark));
+    border: 1px solid rgb(var(--dark));
+    color: white;
+    &:hover {
+      border: 1px solid gb(var(--dark));
+    }
+  }
+}
+.light {
+  button {
+    background-color: rgb(var(--light));
+    border: 1px solid rgb(var(--light));
+    color: rgb(var(--dark));
+    &:hover {
+      border: 1px solid rgb(var(--light));
+      color: rgb(var(--light));
+    }
+  }
+}
+
+.flatButton {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.4rem;
+    transition-duration: 0.2s;
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+    &:hover {
+      color: rgb(var(--primary));
+      transition-duration: 0.2s;
+    }
+  }
+  &.small button {
+    font-size: 0.9rem;
+  }
+  &.medium button {
+    font-size: 1.1rem;
+  }
+  &.largebutton {
+    font-size: 2rem;
+  }
+  @media only screen and (max-width: 1000px) {
+    margin: 1rem 0;
+  }
+}

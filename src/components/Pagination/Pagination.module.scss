@@ -1,0 +1,40 @@
+.productsSection {
+  margin: 4rem 0;
+  padding: 4rem 0;
+  @media only screen and (max-width: 1000px) {
+    padding: 1rem;
+    margin: 2rem 0;
+  }
+}
+
+.pagination {
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition-duration: 0.2s;
+    &:hover {
+      background-color: rgb(var(--light));
+      transition-duration: 0.2s;
+    }
+  }
+  .spaceBox {
+    width: 40px;
+    height: 40px;
+    &:hover {
+      background-color: transparent;
+      cursor: initial;
+    }
+  }
+  .pageNumberActive {
+    background-color: rgb(var(--light));
+  }
+}
