@@ -16,40 +16,27 @@ import FeaturedProduct from "@/components/FeaturedProduct/FeaturedProduct";
 import Products from "@/components/Products/Products";
 import FeaturedStores from "@/components/FeaturedStores/FeaturedStores";
 import { Product, Store } from "@/utils/types";
-import productsJson from "../constants/products.json";
-import storesJson from "../constants/stores.json";
+import { getProducts } from "@/redux/slices/products-slice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { getStores } from "@/redux/slices/stores-slice";
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [stores, setStores] = useState<Store[]>([]);
+  const { products } = useAppSelector((state) => state.productsReducer);
+  const { stores } = useAppSelector((state) => state.storesReducer);
   const [featuredProduct, setFeaturedProduct] = useState<Product>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const productsArr = productsJson.map((p) => {
-      return {
-        id: p.id,
-        photoId: p.photo_id,
-        price: p.price,
-        salePrice: p.sale_price,
-        name: p.name,
-        store: p.store,
-      };
-    });
-    const storesArr = storesJson.map((s) => {
-      return {
-        id: s.id,
-        photoId: s.photo_id,
-        name: s.name,
-      };
-    });
+    dispatch<any>(getProducts());
+    dispatch<any>(getStores());
+  }, [dispatch]);
 
-    setProducts(productsArr);
-    setStores(storesArr);
-
-    if (productsArr.length > 0) {
-      setFeaturedProduct(productsArr[1]);
+  useEffect(() => {
+    if (products.length) {
+      setFeaturedProduct(products[1]);
     }
-  }, []);
+  }, [products]);
 
   return (
     <main>

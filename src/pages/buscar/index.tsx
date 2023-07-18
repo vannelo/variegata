@@ -1,4 +1,3 @@
-"use client";
 import Heading, {
   HeadingAlignEnum,
   HeadingTypeEnum,
