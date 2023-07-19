@@ -1,12 +1,12 @@
 import styles from "./Products.module.scss";
-import { Product as ProductType, productsPaginationData } from "@/utils/types";
+import { Product as ProductType, ProductsPaginationData } from "@/utils/types";
 import Product from "./Product/Product";
 import { useEffect, useState } from "react";
 
 interface productsProps {
   size: number;
   products: ProductType[];
-  paginationData?: productsPaginationData;
+  paginationData?: ProductsPaginationData;
 }
 
 export default function Products(props: productsProps) {

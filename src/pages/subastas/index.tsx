@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import styles from "./Subastas.module.scss";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
-import { productsPaginationData } from "@/utils/types";
+import { ProductsPaginationData } from "@/utils/types";
 import Auctions from "@/components/Auctions/Auctions";
 import Pagination from "@/components/Pagination/Pagination";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ export default function Subastas() {
   const [productsPagesCount, setProductsPagesCount] = useState<number>(0);
   const [productsPageActive, setProductsPageActive] = useState<number>(0);
   const [paginationData, setPaginationData] =
-    useState<productsPaginationData>();
+    useState<ProductsPaginationData>();
 
   useEffect(() => {
     dispatch<any>(getProducts());

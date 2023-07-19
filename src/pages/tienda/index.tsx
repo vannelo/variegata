@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import styles from "./Tienda.module.scss";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Products from "@/components/Products/Products";
-import { productsPaginationData } from "@/utils/types";
+import { ProductsPaginationData } from "@/utils/types";
 import Pagination from "@/components/Pagination/Pagination";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
@@ -17,7 +17,7 @@ export default function Tienda() {
   const [productsPagesCount, setProductsPagesCount] = useState<number>(0);
   const [productsPageActive, setProductsPageActive] = useState<number>(0);
   const [paginationData, setPaginationData] =
-    useState<productsPaginationData>();
+    useState<ProductsPaginationData>();
 
   useEffect(() => {
     dispatch<any>(getProducts());

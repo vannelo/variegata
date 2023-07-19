@@ -1,4 +1,3 @@
-"use client";
 import classnames from "classnames";
 import styles from "./Pagination.module.scss";
 

@@ -7,7 +7,7 @@ export interface Product {
   store: string;
 }
 
-export interface productsPaginationData {
+export interface ProductsPaginationData {
   length: number;
   pageActive: number;
 }
