@@ -3,9 +3,11 @@ import Heading, {
   HeadingTypeEnum,
 } from "@/components/Heading/Heading";
 import styles from "./Buscar.module.scss";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 export default function Buscar() {
+  const intl = useIntl();
+
   return (
     <section className={styles.page}>
       <div className="container mx-auto">
@@ -19,7 +21,7 @@ export default function Buscar() {
           <div className={styles.search}>
             <input
               type="text"
-              placeholder="Plantas, subastas, tiendas y más..."
+              placeholder={intl.formatMessage({ id: "buscarPlaceholder" })}
             />
             <button className={styles.icon}>
               <svg

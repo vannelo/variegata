@@ -15,17 +15,17 @@ import Auctions from "@/components/Auctions/Auctions";
 import FeaturedProduct from "@/components/FeaturedProduct/FeaturedProduct";
 import Products from "@/components/Products/Products";
 import FeaturedStores from "@/components/FeaturedStores/FeaturedStores";
-import { Product, Store } from "@/utils/types";
+import { Product } from "@/utils/types";
 import { getProducts } from "@/redux/slices/products-slice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { getStores } from "@/redux/slices/stores-slice";
 
 export default function Home() {
-  const { products } = useAppSelector((state) => state.productsReducer);
-  const { stores } = useAppSelector((state) => state.storesReducer);
-  const [featuredProduct, setFeaturedProduct] = useState<Product>();
   const dispatch = useDispatch();
+  const { products } = useAppSelector((state) => state.products);
+  const { stores } = useAppSelector((state) => state.stores);
+  const [featuredProduct, setFeaturedProduct] = useState<Product>();
 
   useEffect(() => {
     dispatch<any>(getProducts());

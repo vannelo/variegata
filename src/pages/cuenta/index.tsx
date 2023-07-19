@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { logOut } from "@/redux/slices/auth-slice";
 
 export default function Entrar() {
-  const { isAuth } = useAppSelector((state) => state.authReducer.value);
+  const { isAuth } = useAppSelector((state) => state.auth.value);
   const dispatch = useDispatch<AppDispatch>();
   const { push } = useRouter();
 
@@ -19,7 +19,7 @@ export default function Entrar() {
     if (!isAuth) {
       push("/entrar");
     }
-  }, [isAuth]);
+  }, [isAuth, push]);
 
   const logOutHandler = () => {
     dispatch(logOut());
@@ -38,12 +38,16 @@ export default function Entrar() {
           <div className={styles.left}>
             <div className={styles.options}>
               <button className={`${styles.option} ${styles.active}`}>
-                Perfil
+                <FormattedMessage id="cuentaPerfil" />
               </button>
-              <button className={styles.option}>Órdenes</button>
-              <button className={styles.option}>Dirección</button>
+              <button className={styles.option}>
+                <FormattedMessage id="cuentaOrdenes" />
+              </button>
+              <button className={styles.option}>
+                <FormattedMessage id="cuentaDireccion" />
+              </button>
               <button className={styles.option} onClick={logOutHandler}>
-                Salir
+                <FormattedMessage id="cuentaSalir" />
               </button>
             </div>
           </div>
@@ -55,17 +59,23 @@ export default function Entrar() {
               />
               <div className={styles.info}>
                 <div className={styles.item}>
-                  <div className={styles.left}>Nombre</div>
+                  <div className={styles.left}>
+                    <FormattedMessage id="cuentaNombre" />
+                  </div>
                   <div className={styles.right}>Allan Castellanos</div>
                 </div>
                 <div className={styles.item}>
-                  <div className={styles.left}>Email</div>
+                  <div className={styles.left}>
+                    <FormattedMessage id="cuentaEmail" />
+                  </div>
                   <div className={styles.right}>
                     allancastellanosmx@gmail.com
                   </div>
                 </div>
                 <div className={styles.item}>
-                  <div className={styles.left}>Estado</div>
+                  <div className={styles.left}>
+                    <FormattedMessage id="cuentaEstado" />
+                  </div>
                   <div className={styles.right}>Ciudad de México</div>
                 </div>
               </div>

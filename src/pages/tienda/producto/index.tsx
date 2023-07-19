@@ -1,18 +1,19 @@
-"use client";
 import { useEffect, useState } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import Link from "next/link";
+import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Products from "@/components/Products/Products";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
-import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
-import { Product } from "@/utils/types";
 import { SlideshowLightbox } from "lightbox.js-react";
 import styles from "./Producto.module.scss";
-import productsJson from "../../../constants/products.json";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { getProducts } from "@/redux/slices/products-slice";
 
 export default function Producto() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [images, setImages] = useState<object[]>([
+  const dispatch = useDispatch();
+  const { products } = useAppSelector((state) => state.products);
+  const images = [
     {
       src: "/img/products/plant-1-1.jpg",
       alt: "Plant 1",
@@ -29,25 +30,14 @@ export default function Producto() {
       src: "/img/products/plant-1-4.jpg",
       alt: "Plant 4",
     },
-  ]);
+  ];
   const [imageActive, setImageActive] = useState<string>(
     "/img/products/plant-1-1.jpg"
   );
 
   useEffect(() => {
-    const productsArr = productsJson.map((p) => {
-      return {
-        id: p.id,
-        photoId: p.photo_id,
-        price: p.price,
-        salePrice: p.sale_price,
-        name: p.name,
-        store: p.store,
-      };
-    });
-
-    setProducts(productsArr);
-  }, []);
+    dispatch<any>(getProducts());
+  }, [dispatch]);
 
   return (
     <section className={styles.productPage}>

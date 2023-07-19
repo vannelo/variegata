@@ -1,15 +1,14 @@
-"use client";
 import { useEffect, useRef, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/navigation";
 import Heading, {
   HeadingAlignEnum,
   HeadingTypeEnum,
 } from "@/components/Heading/Heading";
-import styles from "./Entrar.module.scss";
-import { FormattedMessage } from "react-intl";
 import { logIn } from "@/redux/slices/auth-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
+import styles from "./Entrar.module.scss";
 
 export default function Entrar() {
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -17,14 +16,14 @@ export default function Entrar() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const { isAuth, email } = useAppSelector((state) => state.authReducer.value);
+  const { isAuth } = useAppSelector((state) => state.auth.value);
   const { push } = useRouter();
 
   useEffect(() => {
     if (isAuth) {
       push("/cuenta");
     }
-  }, [isAuth]);
+  }, [isAuth, push]);
 
   const logInHandler = () => {
     if (!emailRef?.current?.value) {
@@ -49,7 +48,9 @@ export default function Entrar() {
             subheading={<FormattedMessage id="entrar" />}
           />
           <div className={styles.form}>
-            <label>Email</label>
+            <label>
+              <FormattedMessage id="inputEmail" />
+            </label>
             <input
               type="email"
               className="rounded-md"
@@ -57,9 +58,13 @@ export default function Entrar() {
               required
             />
             {emailError && (
-              <div className={styles.error}>Ingresa tu email para entrar</div>
+              <div className={styles.error}>
+                <FormattedMessage id="inputEmailError" />
+              </div>
             )}
-            <label>Contraseña</label>
+            <label>
+              <FormattedMessage id="inputContrasena" />
+            </label>
             <input
               type="password"
               className="rounded-md"
@@ -68,12 +73,12 @@ export default function Entrar() {
             />
             {passwordError && (
               <div className={styles.error}>
-                Ingresa tu contraseña para entrar
+                <FormattedMessage id="inputContrasenaError" />
               </div>
             )}
 
             <button className="rounded-md" onClick={logInHandler}>
-              Entrar
+              <FormattedMessage id="entrar" />
             </button>
           </div>
         </div>

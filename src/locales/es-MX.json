@@ -27,5 +27,17 @@
   "entrar": "Entrar",
   "cuenta": "Cuenta",
   "miCuenta": "Mi cuenta",
-  "informacionPersonal": "Información personal"
+  "informacionPersonal": "Información personal",
+  "inputEmail": "Email",
+  "inputEmailError": "Ingresa tu email para entrar",
+  "inputContrasena": "Contraseña",
+  "inputContrasenaError": "Ingresa tu contraseña para entrar",
+  "cuentaPerfil": "Perfil",
+  "cuentaOrdenes": "Órdenes",
+  "cuentaDireccion": "Dirección",
+  "cuentaSalir": "Salir",
+  "cuentaNombre": "Nombre",
+  "cuentaEmail": "Email",
+  "cuentaEstado": "Estado",
+  "buscarPlaceholder": "Plantas, subastas, tiendas y más..."
 }

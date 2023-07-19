@@ -1,26 +1,19 @@
-"use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import styles from "./Tiendas.module.scss";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import FeaturedStores from "@/components/FeaturedStores/FeaturedStores";
-import storesJson from "../../constants/stores.json";
-import { Store } from "@/utils/types";
+import { useAppSelector } from "@/redux/store";
+import { getStores } from "@/redux/slices/stores-slice";
+import { useDispatch } from "react-redux";
 
 export default function Tiendas() {
-  const [stores, setStores] = useState<Store[]>([]);
+  const dispatch = useDispatch();
+  const { stores } = useAppSelector((state) => state.stores);
 
   useEffect(() => {
-    const storesArr = storesJson.map((s) => {
-      return {
-        id: s.id,
-        photoId: s.photo_id,
-        name: s.name,
-      };
-    });
-
-    setStores(storesArr);
-  }, []);
+    dispatch<any>(getStores());
+  }, [dispatch]);
 
   return (
     <main>

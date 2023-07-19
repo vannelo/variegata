@@ -1,5 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import Heading, {
   HeadingAlignEnum,
@@ -8,27 +7,18 @@ import Heading, {
 import styles from "./Tienda.module.scss";
 import Image from "next/image";
 import { FormattedMessage } from "react-intl";
-import { Product } from "@/utils/types";
-import productsJson from "../../../constants/products.json";
 import Products from "@/components/Products/Products";
+import { useAppSelector } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { getProducts } from "@/redux/slices/products-slice";
 
 export default function Tienda() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const dispatch = useDispatch();
+  const { products } = useAppSelector((state) => state.products);
 
   useEffect(() => {
-    const productsArr = productsJson.map((p) => {
-      return {
-        id: p.id,
-        photoId: p.photo_id,
-        price: p.price,
-        salePrice: p.sale_price,
-        name: p.name,
-        store: p.store,
-      };
-    });
-
-    setProducts(productsArr);
-  }, []);
+    dispatch<any>(getProducts());
+  }, [dispatch]);
 
   return (
     <section className={styles.storePage}>

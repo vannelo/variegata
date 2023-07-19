@@ -1,53 +1,43 @@
-"use client";
 import { useEffect, useState } from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import Link from "next/link";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Auctions from "@/components/Auctions/Auctions";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
-import { Product } from "@/utils/types";
 import { SlideshowLightbox } from "lightbox.js-react";
 import styles from "./Producto.module.scss";
-import productsJson from "../../../constants/products.json";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { getProducts } from "@/redux/slices/products-slice";
 
 export default function Producto() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [images, setImages] = useState<object[]>([
+  const dispatch = useDispatch();
+  const { products } = useAppSelector((state) => state.products);
+  const images = [
     {
-      src: "/img/products/plant-1-1.jpg",
+      src: "/img/products/plant-2-1.jpg",
       alt: "Plant 1",
     },
     {
-      src: "/img/products/plant-1-2.jpg",
+      src: "/img/products/plant-2-2.jpg",
       alt: "Plant 2",
     },
     {
-      src: "/img/products/plant-1-3.jpg",
+      src: "/img/products/plant-2-3.jpg",
       alt: "Plant 3",
     },
     {
-      src: "/img/products/plant-1-4.jpg",
+      src: "/img/products/plant-2-4.jpg",
       alt: "Plant 4",
     },
-  ]);
+  ];
   const [imageActive, setImageActive] = useState<string>(
-    "/img/products/plant-1-1.jpg"
+    "/img/products/plant-2-1.jpg"
   );
 
   useEffect(() => {
-    const productsArr = productsJson.map((p) => {
-      return {
-        id: p.id,
-        photoId: p.photo_id,
-        price: p.price,
-        salePrice: p.sale_price,
-        name: p.name,
-        store: p.store,
-      };
-    });
-
-    setProducts(productsArr);
-  }, []);
+    dispatch<any>(getProducts());
+  }, [dispatch]);
 
   return (
     <section className={styles.productPage}>
@@ -60,37 +50,37 @@ export default function Producto() {
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-1.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-1.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-1.jpg")
+                      setImageActive("/img/products/plant-2-1.jpg")
                     }
                   />
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-2.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-2.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-2.jpg")
+                      setImageActive("/img/products/plant-2-2.jpg")
                     }
                   />
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-3.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-3.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-3.jpg")
+                      setImageActive("/img/products/plant-2-3.jpg")
                     }
                   />
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-4.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-4.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-4.jpg")
+                      setImageActive("/img/products/plant-2-4.jpg")
                     }
                   />
                 </div>
@@ -98,7 +88,7 @@ export default function Producto() {
                   <div
                     className={styles.image}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-1.jpg)",
+                      backgroundImage: `url(${imageActive})`,
                     }}
                   >
                     {/* @ts-expect-error Server Component */}
@@ -131,37 +121,37 @@ export default function Producto() {
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-1.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-1.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-1.jpg")
+                      setImageActive("/img/products/plant-2-1.jpg")
                     }
                   />
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-2.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-2.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-2.jpg")
+                      setImageActive("/img/products/plant-2-2.jpg")
                     }
                   />
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-3.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-3.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-3.jpg")
+                      setImageActive("/img/products/plant-2-3.jpg")
                     }
                   />
                   <button
                     className={styles.thumb}
                     style={{
-                      backgroundImage: "url(/img/products/plant-1-4.jpg)",
+                      backgroundImage: "url(/img/products/plant-2-4.jpg)",
                     }}
                     onClick={() =>
-                      setImageActive("/img/products/plant-1-4.jpg")
+                      setImageActive("/img/products/plant-2-4.jpg")
                     }
                   />
                 </div>

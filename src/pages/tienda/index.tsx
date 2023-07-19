@@ -1,41 +1,37 @@
-"use client";
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import styles from "./Tienda.module.scss";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Products from "@/components/Products/Products";
-import { Product, productsPaginationData } from "@/utils/types";
-import productsJson from "../../constants/products.json";
+import { productsPaginationData } from "@/utils/types";
 import Pagination from "@/components/Pagination/Pagination";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { getProducts } from "@/redux/slices/products-slice";
 
 export default function Tienda() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const dispatch = useDispatch();
+  const { products, productsLength } = useAppSelector(
+    (state) => state.products
+  );
   const [productsPagesCount, setProductsPagesCount] = useState<number>(0);
   const [productsPageActive, setProductsPageActive] = useState<number>(0);
   const [paginationData, setPaginationData] =
     useState<productsPaginationData>();
 
   useEffect(() => {
-    const productsArr = productsJson.map((p) => {
-      return {
-        id: p.id,
-        photoId: p.photo_id,
-        price: p.price,
-        salePrice: p.sale_price,
-        name: p.name,
-        store: p.store,
-      };
-    });
+    dispatch<any>(getProducts());
+  }, [dispatch]);
 
-    setProducts(productsArr);
-    setProductsPagesCount(Math.ceil(productsArr.length / 15));
-    if (productsArr.length) {
+  useEffect(() => {
+    setProductsPagesCount(Math.ceil(productsLength / 15));
+    if (productsLength) {
       setPaginationData({
-        length: productsArr.length,
+        length: productsLength,
         pageActive: productsPageActive,
       });
     }
-  }, [productsPageActive]);
+  }, [productsPageActive, productsLength]);
 
   const onPageChange = (i: number) => {
     setProductsPageActive(i);
@@ -46,6 +42,7 @@ export default function Tienda() {
   const onNextClick = (i: number) => {
     setProductsPageActive(i);
   };
+
   return (
     <main>
       <section className={styles.page}>

@@ -58,6 +58,7 @@
     }
   }
   .info {
+    text-align: left;
     .price {
       font-size: 1.7rem;
       font-weight: 600;
@@ -74,6 +75,7 @@
     .name {
       font-size: 1.4rem;
       transition-duration: 0.2s;
+      font-weight: 500;
       &:hover {
         color: rgb(var(--gray));
       }

@@ -74,6 +74,7 @@
     .name {
       font-size: 1.4rem;
       transition-duration: 0.2s;
+      font-weight: 500;
       &:hover {
         color: rgb(var(--gray));
       }

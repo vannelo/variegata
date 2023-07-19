@@ -11,7 +11,7 @@ import { useAppSelector } from "@/redux/store";
 export default function Nav() {
   const [mobileMenuActive, setMobileMenuActive] = useState<boolean>(false);
   const currentPage = usePathname();
-  const { isAuth, email } = useAppSelector((state) => state.authReducer.value);
+  const { isAuth, email } = useAppSelector((state) => state.auth.value);
 
   return (
     <>
