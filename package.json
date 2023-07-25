@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.17",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
@@ -17,6 +18,7 @@
     "classnames": "^2.3.2",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
+    "graphql": "^16.7.1",
     "lightbox.js-react": "^0.6.9",
     "next": "13.4.10",
     "postcss": "8.4.26",

@@ -1,5 +1,6 @@
 export interface Product {
   id: string;
+  uuid: string;
   photoId: number;
   price: number;
   salePrice: number;
@@ -14,6 +15,7 @@ export interface ProductsPaginationData {
 
 export interface Store {
   id: string;
+  uuid: string;
   photoId: number;
   name: string;
 }

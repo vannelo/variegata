@@ -1,28 +1,56 @@
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Product } from "@/utils/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import productsJson from "../../constants/products.json";
 
 interface State {
   products: Product[];
   productsLength: number;
 }
 
+const client = new ApolloClient({
+  uri: "http://54.196.130.189:4000/graphql",
+  cache: new InMemoryCache(),
+});
+
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async () => {
-    const productsArr = productsJson.map(
-      ({ id, photo_id, price, sale_price, name, store }) => {
-        return {
-          id: id,
-          photoId: photo_id,
-          price: price,
-          salePrice: sale_price,
-          name: name,
-          store: store,
-        };
-      }
-    );
-    return productsArr;
+    let count = 0;
+    const data = client
+      .query({
+        query: gql`
+          query Product {
+            getProducts {
+              uuid
+              name
+              price
+              salePrice
+            }
+          }
+        `,
+      })
+      .then((result) => {
+        return result.data.getProducts.map(
+          ({ uuid, name, price, salePrice }: Product) => {
+            if (count === 9) {
+              count = 0;
+              count++;
+            } else {
+              count++;
+            }
+
+            return {
+              id: uuid,
+              photoId: count,
+              price: price,
+              salePrice: salePrice,
+              name: name,
+              store: "STORE",
+            };
+          }
+        );
+      });
+    return data;
   }
 );
 
