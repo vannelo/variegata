@@ -9,7 +9,7 @@ interface featuredProductProps {
 
 export default function FeaturedProduct(props: featuredProductProps) {
   const { product } = props;
-  const { id, photoId, price, salePrice, name, store } = product;
+  const { uuid, photoId, price, salePrice, name, store } = product;
   return (
     <div className={`${styles.featured} rounded-md`}>
       <div
@@ -25,7 +25,8 @@ export default function FeaturedProduct(props: featuredProductProps) {
         />
         <div className={styles.productBox}>
           <Auction
-            id={id}
+            id={uuid}
+            uuid={uuid}
             photoId={photoId}
             price={price}
             salePrice={salePrice}
