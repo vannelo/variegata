@@ -15,7 +15,6 @@ export interface ProductsPaginationData {
 
 export interface Store {
   id: string;
-  uuid: string;
   photoId: number;
   name: string;
 }
