@@ -8,7 +8,7 @@ interface State {
 }
 
 const client = new ApolloClient({
-  uri: "http://54.196.130.189:4000/graphql",
+  uri: "https://variegataapi.com.mx/graphql",
   cache: new InMemoryCache(),
 });
 
