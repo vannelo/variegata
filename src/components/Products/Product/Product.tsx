@@ -7,7 +7,7 @@ export default function Product(props: Product) {
   const { id, photoId, price, salePrice, name, store } = props;
   return (
     <article className={`${styles.product} rounded-md`} key={id}>
-      <Link href="/tienda/producto">
+      <Link href={`/tienda/producto/${id}`}>
         <div
           className={styles.img}
           style={{

@@ -36,11 +36,10 @@ export default function Auctions(props: auctionsProps) {
       {isPaginationActive
         ? products
             .slice(slideIndex, sliceEnd)
-            .map(({ uuid, photoId, name, price, salePrice, store }) => (
+            .map(({ id, photoId, name, price, salePrice, store }) => (
               <Auction
-                key={uuid}
-                id={uuid}
-                uuid={uuid}
+                key={id}
+                id={id}
                 photoId={photoId}
                 name={name}
                 price={price}
@@ -50,11 +49,10 @@ export default function Auctions(props: auctionsProps) {
             ))
         : products
             .slice(0, size)
-            .map(({ uuid, photoId, name, price, salePrice, store }) => (
+            .map(({ id, photoId, name, price, salePrice, store }) => (
               <Auction
-                key={uuid}
-                id={uuid}
-                uuid={uuid}
+                key={id}
+                id={id}
                 photoId={photoId}
                 name={name}
                 price={price}

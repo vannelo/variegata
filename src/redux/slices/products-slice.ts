@@ -21,7 +21,7 @@ export const getProducts = createAsyncThunk(
         query: gql`
           query Product {
             getProducts {
-              uuid
+              _id
               name
               price
               salePrice
@@ -31,7 +31,7 @@ export const getProducts = createAsyncThunk(
       })
       .then((result) => {
         return result.data.getProducts.map(
-          ({ uuid, name, price, salePrice }: Product) => {
+          ({ _id, name, price, salePrice }: any) => {
             if (count === 9) {
               count = 0;
               count++;
@@ -40,7 +40,7 @@ export const getProducts = createAsyncThunk(
             }
 
             return {
-              id: uuid,
+              id: _id,
               photoId: count,
               price: price,
               salePrice: salePrice,
