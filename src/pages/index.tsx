@@ -26,6 +26,11 @@ export default function Home() {
   const { products } = useAppSelector((state) => state.products);
   const { stores } = useAppSelector((state) => state.stores);
   const [featuredProduct, setFeaturedProduct] = useState<Product>();
+  const [headerBg, setHeaderBg] = useState<number>();
+
+  useEffect(() => {
+    setHeaderBg(Math.floor(Math.random() * (6 - 1 + 1) + 1));
+  }, []);
 
   useEffect(() => {
     dispatch<any>(getProducts());
@@ -40,46 +45,37 @@ export default function Home() {
 
   return (
     <main>
-      <header className={styles.headerContainer}>
-        <div className="container mx-auto">
-          <div className={`${styles.header}`}>
-            <div className={styles.left}>
-              <Heading
-                type={HeadingTypeEnum.PRIMARY}
-                heading={<FormattedMessage id="variegata" />}
-                subheading={<FormattedMessage id="homeHeading" />}
-              />
-              <Button
-                size={ButtonSizeEnum.MEDIUM}
-                color={ButtonColorEnum.PRIMARY}
-                href="/tienda"
-              >
-                <>
-                  <FormattedMessage id="explorarCatalogo" />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
-                  </svg>
-                </>
-              </Button>
-            </div>
-            <div className={`${styles.right} hide-mobile`}>
-              <div className={styles.imageContainer}>
-                <Image
-                  src="/img/header-bg-2.jpg"
-                  width={1500}
-                  height={1000}
-                  alt="Variegata"
-                  className="rounded-lg"
-                  priority
-                />
-              </div>
-            </div>
+      <header
+        className={styles.header}
+        style={{
+          backgroundImage: `url(/img/stock-${headerBg}.jpg)`,
+        }}
+      >
+        <div className={`container mx-auto ${styles.headerFlex}`}>
+          <div className={styles.content}>
+            <Heading
+              type={HeadingTypeEnum.PRIMARY}
+              heading={<FormattedMessage id="variegata" />}
+              subheading={<FormattedMessage id="homeHeading" />}
+            />
+            <Button
+              size={ButtonSizeEnum.MEDIUM}
+              color={ButtonColorEnum.PRIMARY}
+              href="/tienda"
+            >
+              <>
+                <FormattedMessage id="explorarCatalogo" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                </svg>
+              </>
+            </Button>
           </div>
         </div>
       </header>
@@ -150,15 +146,6 @@ export default function Home() {
       </section>
       <section className={styles.contactSection}>
         <div className="container mx-auto">
-          <div className={styles.imageContainer}>
-            <Image
-              src="/img/header-bg-1.jpg"
-              width={1400}
-              height={933}
-              alt="Variegata | Plantas de colección"
-              className={`${styles.image} rounded-md`}
-            />
-          </div>
           <div className={`${styles.contact} max-w-xl mx-auto`}>
             <Heading
               type={HeadingTypeEnum.SECONDARY}

@@ -1,10 +1,9 @@
 .nav {
   position: fixed;
-  background-color: white;
+  background-color: transparent;
   top: 0;
   left: 0;
   width: 100%;
-  color: white;
   padding: 1rem 4rem;
   z-index: 999;
   color: rgb(var(--dark));
@@ -44,18 +43,20 @@
       font-size: 1.2rem;
       font-weight: 600;
       transition-duration: 0.2s;
+      color: white;
       &:hover {
         color: rgb(var(--primary));
       }
     }
     .linkActive {
-      color: rgb(var(--primary));
+      color: rgb(var(--primary)) !important;
     }
   }
   .logo {
     .logoLink {
       font-weight: 600;
       font-size: 2rem;
+      color: white;
     }
   }
   .icons {
@@ -74,12 +75,16 @@
       }
       svg {
         transition-duration: 0.2s;
+        color: white;
       }
       &:hover {
         color: rgb(var(--primary));
         transition-duration: 0.2s;
       }
     }
+  }
+  .burger svg {
+    color: white !important;
   }
 }
 
@@ -113,6 +118,22 @@
     position: absolute;
     top: 1.4rem;
     right: 1.4rem;
+  }
+}
+
+.navScrolled {
+  background-color: white;
+  .link {
+    color: rgb(var(--dark)) !important;
+  }
+  .logoLink {
+    color: rgb(var(--dark)) !important;
+  }
+  svg {
+    color: rgb(var(--dark)) !important;
+  }
+  .burger svg {
+    color: rgb(var(--dark)) !important;
   }
 }
 

@@ -1,26 +1,39 @@
 "use client";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { FormattedMessage } from "react-intl";
 import styles from "./Nav.module.scss";
 import classnames from "classnames";
-import { useState } from "react";
 import { useAppSelector } from "@/redux/store";
 
 export default function Nav() {
   const [mobileMenuActive, setMobileMenuActive] = useState<boolean>(false);
   const currentPage = usePathname();
-  const { isAuth, email } = useAppSelector((state) => state.auth.value);
+  const { isAuth } = useAppSelector((state) => state.auth.value);
+  const [scrolled, setScrolled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 96);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      <nav className={`${styles.nav}`}>
+      <nav
+        className={classnames(styles.nav, {
+          [styles.navScrolled]: scrolled || currentPage !== "/",
+        })}
+      >
         <div className={styles.left}>
           <div className={styles.links}>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage === "/tienda",
+                [styles.linkActive]: currentPage.includes("tienda"),
               })}
             >
               <Link href="/tienda">
@@ -29,7 +42,7 @@ export default function Nav() {
             </div>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage === "/subastas",
+                [styles.linkActive]: currentPage.includes("subastas"),
               })}
             >
               <Link href="/subastas">
@@ -38,7 +51,7 @@ export default function Nav() {
             </div>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage === "/tiendas",
+                [styles.linkActive]: currentPage.includes("tiendas"),
               })}
             >
               <Link href="/tiendas">
