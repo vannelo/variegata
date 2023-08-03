@@ -33,7 +33,8 @@ export default function Nav() {
           <div className={styles.links}>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage.includes("tienda"),
+                [styles.linkActive]:
+                  currentPage && currentPage.includes("tienda"),
               })}
             >
               <Link href="/tienda">
@@ -42,7 +43,8 @@ export default function Nav() {
             </div>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage.includes("subastas"),
+                [styles.linkActive]:
+                  currentPage && currentPage.includes("subastas"),
               })}
             >
               <Link href="/subastas">
@@ -51,7 +53,8 @@ export default function Nav() {
             </div>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage.includes("tiendas"),
+                [styles.linkActive]:
+                  currentPage && currentPage.includes("tiendas"),
               })}
             >
               <Link href="/tiendas">
