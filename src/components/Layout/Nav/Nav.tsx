@@ -34,10 +34,10 @@ export default function Nav() {
             <div
               className={classnames(styles.link, {
                 [styles.linkActive]:
-                  currentPage && currentPage.includes("tienda"),
+                  currentPage && currentPage.includes("productos"),
               })}
             >
-              <Link href="/tienda">
+              <Link href="/productos">
                 <FormattedMessage id="navProductos" />
               </Link>
             </div>

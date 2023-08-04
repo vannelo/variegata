@@ -7,7 +7,7 @@ export default function Auction(props: Product) {
   const { id, photoId, price, salePrice, name, store } = props;
   return (
     <article className={`${styles.product} rounded-md`} key={id}>
-      <Link href={`/subastas/producto${id}`}>
+      <Link href={`/subastas/producto/${id}`}>
         <div
           className={styles.img}
           style={{

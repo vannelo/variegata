@@ -20,10 +20,9 @@ export default function Subastas() {
     useState<ProductsPaginationData>();
 
   useEffect(() => {
-    dispatch<any>(getProducts());
-  }, [dispatch]);
-
-  useEffect(() => {
+    if (!products.length) {
+      dispatch<any>(getProducts());
+    }
     setProductsPagesCount(Math.ceil(productsLength / 15));
     if (productsLength) {
       setPaginationData({

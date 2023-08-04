@@ -31,6 +31,7 @@ const images = [
     alt: "Plant 4",
   },
 ];
+
 const client = new ApolloClient({
   uri: "https://variegataapi.com.mx/graphql",
   cache: new InMemoryCache(),
@@ -85,6 +86,45 @@ export default function Producto() {
     fetchProduct();
     dispatch<any>(getProducts());
   }, [dispatch, productId]);
+
+  useEffect(() => {
+    const CountDownTimer = (date: string, id: string) => {
+      const end: any = new Date(date);
+      const _second = 1000;
+      const _minute = _second * 60;
+      const _hour = _minute * 60;
+      const _day = _hour * 24;
+      let timer: number;
+
+      const showRemaining = () => {
+        const now: any = new Date();
+        const distance = end - now;
+        const divDays = document.getElementById("days");
+        const divHours = document.getElementById("hours");
+        const divMinutes = document.getElementById("minutes");
+        const divSeconds = document.getElementById("seconds");
+
+        if (divDays && divHours && divMinutes && divSeconds) {
+          if (distance < 0) {
+            clearInterval(timer);
+            return;
+          }
+          let days = Math.floor(distance / _day);
+          let hours = Math.floor((distance % _day) / _hour);
+          let minutes = Math.floor((distance % _hour) / _minute);
+          let seconds = Math.floor((distance % _minute) / _second);
+          divDays.innerHTML = days.toString();
+          divHours.innerHTML = hours.toString();
+          divMinutes.innerHTML = minutes.toString();
+          divSeconds.innerHTML = seconds.toString();
+        }
+      };
+
+      timer = window.setInterval(showRemaining, 1000);
+    };
+    // Timer
+    CountDownTimer("09/20/2023 10:30 AM", "hora");
+  }, []);
 
   return loading ? (
     <p>Cargando...</p>
@@ -226,7 +266,6 @@ export default function Producto() {
                   <p>{product?.description}</p>
                 </div>
                 <div className={styles.timeContainer}>
-                  <h4 className={styles.title}>Subasta activa</h4>
                   <div className={`${styles.time} rounded-md`}>
                     <div className={styles.timeSlot}>
                       <svg
@@ -241,22 +280,23 @@ export default function Producto() {
                       </svg>
                     </div>
                     <div className={styles.timeSlot}>
-                      <div className={styles.head}>20</div>
+                      <div className={styles.head} id="days" />
                       <div className={styles.text}>DÍAS</div>
                     </div>
                     <div className={styles.timeSlot}>
-                      <div className={styles.head}>20</div>
+                      <div className={styles.head} id="hours" />
                       <div className={styles.text}>HORAS</div>
                     </div>
                     <div className={styles.timeSlot}>
-                      <div className={styles.head}>14</div>
+                      <div className={styles.head} id="minutes" />
                       <div className={styles.text}>MINS</div>
                     </div>
                     <div className={styles.timeSlot}>
-                      <div className={styles.head}>48</div>
+                      <div className={styles.head} id="seconds" />
                       <div className={styles.text}>SEGS</div>
                     </div>
                   </div>
+                  <h4 className={styles.title}>Subasta activa</h4>
                 </div>
                 <div className={styles.buy}>
                   <button className="rounded-md">Comprar ahora</button>

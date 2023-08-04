@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import Image from "next/image";
 import styles from "./Index.module.scss";
 import Heading, {
   HeadingAlignEnum,
@@ -26,17 +25,16 @@ export default function Home() {
   const { products } = useAppSelector((state) => state.products);
   const { stores } = useAppSelector((state) => state.stores);
   const [featuredProduct, setFeaturedProduct] = useState<Product>();
-  const [headerBg, setHeaderBg] = useState<number>();
+  const [headerBg, setHeaderBg] = useState<number>(1);
 
-  useEffect(() => {
-    setHeaderBg(Math.floor(Math.random() * (6 - 1 + 1) + 1));
-  }, []);
-
+  // Fetch products and stores
   useEffect(() => {
     dispatch<any>(getProducts());
     dispatch<any>(getStores());
   }, [dispatch]);
-
+  useEffect(() => {
+    setHeaderBg(Math.floor(Math.random() * (6 - 1 + 1) + 1));
+  }, []);
   useEffect(() => {
     if (products.length) {
       setFeaturedProduct(products[1]);

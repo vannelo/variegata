@@ -1,45 +1,93 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { getProducts } from "@/redux/slices/products-slice";
 import { FormattedMessage, FormattedNumber } from "react-intl";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Products from "@/components/Products/Products";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
 import { SlideshowLightbox } from "lightbox.js-react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { Product } from "@/utils/types";
 import styles from "./Producto.module.scss";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "@/redux/store";
-import { getProducts } from "@/redux/slices/products-slice";
+
+const images = [
+  {
+    src: "/img/products/plant-1-1.jpg",
+    alt: "Plant 1",
+  },
+  {
+    src: "/img/products/plant-1-2.jpg",
+    alt: "Plant 2",
+  },
+  {
+    src: "/img/products/plant-1-3.jpg",
+    alt: "Plant 3",
+  },
+  {
+    src: "/img/products/plant-1-4.jpg",
+    alt: "Plant 4",
+  },
+];
+const client = new ApolloClient({
+  uri: "https://variegataapi.com.mx/graphql",
+  cache: new InMemoryCache(),
+});
 
 export default function Producto() {
   const dispatch = useDispatch();
-  const { products } = useAppSelector((state) => state.products);
-  const images = [
-    {
-      src: "/img/products/plant-1-1.jpg",
-      alt: "Plant 1",
-    },
-    {
-      src: "/img/products/plant-1-2.jpg",
-      alt: "Plant 2",
-    },
-    {
-      src: "/img/products/plant-1-3.jpg",
-      alt: "Plant 3",
-    },
-    {
-      src: "/img/products/plant-1-4.jpg",
-      alt: "Plant 4",
-    },
-  ];
+  const router = useRouter();
+  const productId = router.query.id;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [product, setProduct] = useState<Product>();
   const [imageActive, setImageActive] = useState<string>(
     "/img/products/plant-1-1.jpg"
   );
+  const { products } = useAppSelector((state) => state.products);
 
+  // Start logic
   useEffect(() => {
+    const fetchProduct = () => {
+      setLoading(true);
+      client
+        .query({
+          query: gql`
+        query GetProduct {
+          product(id: "${productId}") {
+            _id
+            name
+            price
+            salePrice
+            description
+          }
+        }
+      `,
+        })
+        .then((result) => {
+          const { _id, name, price, salePrice, description } =
+            result.data.product;
+          const product = {
+            id: _id,
+            name,
+            photoId: 1,
+            price,
+            salePrice,
+            description,
+            store: "Rare Plant Fairy",
+          };
+          setProduct(product);
+          setLoading(false);
+        });
+    };
+    fetchProduct();
     dispatch<any>(getProducts());
-  }, [dispatch]);
+  }, [dispatch, productId]);
 
-  return (
+  return loading ? (
+    <p>Cargando...</p>
+  ) : (
     <section className={styles.productPage}>
       <div className="container mx-auto">
         <article className={styles.product}>
@@ -160,32 +208,21 @@ export default function Producto() {
             <div className={styles.right}>
               <div className={styles.info}>
                 <h4 className={styles.store}>
-                  <Link href="/tiendas/tienda">Rare Plant Fairy</Link>
+                  <Link href="/tiendas/tienda">{product?.store}</Link>
                 </h4>
-                <h3 className={styles.name}>Philodendron Gloriosum</h3>
+                <h3 className={styles.name}>{product?.name}</h3>
                 <div className={styles.miniDivider} />
                 <div className={styles.price}>
-                  <FormattedNumber
-                    value={2499}
-                    style="currency"
-                    currency="MXN"
-                  />
+                  {product?.price && (
+                    <FormattedNumber
+                      value={product.price}
+                      style="currency"
+                      currency="MXN"
+                    />
+                  )}
                 </div>
                 <div className={styles.description}>
-                  <p>
-                    Non laboris laboris aute sint minim sunt reprehenderit minim
-                    sint dolore mollit aliqua. Ea esse quis excepteur in enim
-                    duis enim ad non amet aliqua duis proident ut.
-                  </p>
-                  <p>
-                    Enim nisi consectetur consequat minim et cillum. Officia in
-                    ut elit fugiat excepteur ut eiusmod dolor non cillum ut
-                    adipisicing id.
-                  </p>
-                  <p>
-                    Magna cupidatat quis excepteur id magna sunt sit magna
-                    ipsum.
-                  </p>
+                  <p>{product?.description}</p>
                 </div>
                 <div className={styles.buy}>
                   <button className="rounded-md">Comprar ahora</button>

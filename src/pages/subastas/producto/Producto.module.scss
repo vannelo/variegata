@@ -123,12 +123,14 @@
             margin: 1rem 0 2rem 0;
           }
           .timeContainer {
+            background-color: rgb(var(--light));
             margin-bottom: 1rem;
             .title {
-              font-size: 1.2rem;
+              font-size: 1.4rem;
               color: rgb(var(--success));
-              margin-bottom: 0.5rem;
               font-weight: 500;
+              text-align: center;
+              padding-bottom: 0.8rem;
             }
             .time {
               background-color: rgb(var(--light));
