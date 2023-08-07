@@ -39,5 +39,12 @@
   "cuentaNombre": "Nombre",
   "cuentaEmail": "Email",
   "cuentaEstado": "Estado",
-  "buscarPlaceholder": "Plantas, subastas, tiendas y más..."
+  "buscarPlaceholder": "Plantas, subastas, tiendas y más...",
+  "timerDias": "DÍAS",
+  "timerHoras": "HORAS",
+  "timerMins": "MINS",
+  "timerSegs": "SEGS",
+  "subastaActiva": "Subasta activa",
+  "productoCompartir": "Compartir",
+  "productoComprar": "Comprar"
 }
