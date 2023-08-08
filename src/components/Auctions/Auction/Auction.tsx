@@ -2,23 +2,32 @@ import Link from "next/link";
 import styles from "./Auction.module.scss";
 import { Product } from "@/utils/types";
 import { FormattedNumber } from "react-intl";
+import Image from "next/image";
 
 export default function Auction(props: Product) {
   const { id, photoId, price, salePrice, name, store } = props;
   return (
     <article className={`${styles.product} rounded-md`} key={id}>
       <Link href={`/subastas/producto/${id}`}>
-        <div
-          className={styles.img}
-          style={{
-            backgroundImage: `url(/img/products/plant-${photoId}-1.jpg)`,
-          }}
-        >
-          <div
-            className={styles.imgBack}
+        <div className={styles.imageContainer}>
+          <Image
+            alt="Product image"
+            src={`/img/products/plant-${photoId}-1.jpg`}
+            fill
+            quality={1}
             style={{
-              backgroundImage: `url(/img/products/plant-${photoId}-4.jpg)`,
+              objectFit: "cover",
             }}
+          />
+          <Image
+            alt="Product image"
+            src={`/img/products/plant-${photoId}-4.jpg`}
+            fill
+            quality={1}
+            style={{
+              objectFit: "cover",
+            }}
+            className={styles.imageHover}
           />
           {salePrice !== 0 && (
             <div className={`${styles.sale} rounded-full`}>Oferta</div>
