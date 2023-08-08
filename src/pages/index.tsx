@@ -83,7 +83,11 @@ export default function Home() {
             type={HeadingTypeEnum.SECONDARY}
             heading={<FormattedMessage id="ultimasSubastas" />}
           />
-          <Auctions size={8} products={products} />
+          {products.length ? (
+            <Auctions size={8} products={products} />
+          ) : (
+            <Auctions size={8} products={products} loading />
+          )}
           <div className="text-center">
             <Button type={ButtonTypeEnum.FLAT} href="/subastas">
               <>
@@ -114,7 +118,12 @@ export default function Home() {
             align={HeadingAlignEnum.CENTER}
             heading={<FormattedMessage id="productosPopulares" />}
           />
-          <Products size={10} products={products} />
+          {products.length ? (
+            <Products size={10} products={products} />
+          ) : (
+            <Products size={10} products={products} loading />
+          )}
+
           <div className="text-center">
             <Button type={ButtonTypeEnum.FLAT} href="/tienda">
               <>

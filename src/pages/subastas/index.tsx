@@ -49,11 +49,15 @@ export default function Subastas() {
           type={HeadingTypeEnum.SECONDARY}
           heading={<FormattedMessage id="todasLasSubastas" />}
         />
-        <Auctions
-          size={16}
-          products={products}
-          paginationData={paginationData}
-        />
+        {products.length ? (
+          <Auctions
+            size={16}
+            products={products}
+            paginationData={paginationData}
+          />
+        ) : (
+          <Auctions size={16} products={products} loading />
+        )}
         <Pagination
           productsPageActive={productsPageActive}
           productsPagesCount={productsPagesCount}

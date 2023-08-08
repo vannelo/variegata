@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import styles from "./Auctions.module.scss";
 import Auction from "./Auction/Auction";
 import { Product, ProductsPaginationData } from "@/utils/types";
+import AuctionLoader from "./AuctionLoader/AuctionLoader";
 
 interface auctionsProps {
   size: number;
   products: Product[];
   paginationData?: ProductsPaginationData;
+  loading?: boolean;
 }
 
 export default function Auctions(props: auctionsProps) {
-  const { size, products, paginationData } = props;
+  const { size, products, paginationData, loading } = props;
   const [slideIndex, setSliceIndex] = useState<number>(0);
   const [sliceEnd, setSliceEnd] = useState<number>(size);
   const isPaginationActive = Boolean(paginationData);
@@ -28,6 +30,18 @@ export default function Auctions(props: auctionsProps) {
       }
     }
   }, [isPaginationActive, paginationData, size]);
+
+  if (loading) {
+    return (
+      <div
+        className={`${styles.productsGrid} grid lg:grid-cols-4 grid-cols-1 gap-6`}
+      >
+        {Array.from(Array(size ?? 12)).map(() => (
+          <AuctionLoader key={Math.random()} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div

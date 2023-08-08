@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.3",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",

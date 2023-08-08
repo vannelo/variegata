@@ -50,11 +50,15 @@ export default function Tienda() {
             type={HeadingTypeEnum.SECONDARY}
             heading={<FormattedMessage id="todosLosProductos" />}
           />
-          <Products
-            size={15}
-            products={products}
-            paginationData={paginationData}
-          />
+          {products.length ? (
+            <Products
+              size={15}
+              products={products}
+              paginationData={paginationData}
+            />
+          ) : (
+            <Products size={15} products={products} loading />
+          )}
           <Pagination
             productsPageActive={productsPageActive}
             productsPagesCount={productsPagesCount}

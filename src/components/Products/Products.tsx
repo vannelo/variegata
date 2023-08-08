@@ -2,15 +2,17 @@ import styles from "./Products.module.scss";
 import { Product as ProductType, ProductsPaginationData } from "@/utils/types";
 import Product from "./Product/Product";
 import { useEffect, useState } from "react";
+import ProductLoader from "./ProductLoader/ProductLoader";
 
 interface productsProps {
   size: number;
   products: ProductType[];
   paginationData?: ProductsPaginationData;
+  loading?: boolean;
 }
 
 export default function Products(props: productsProps) {
-  const { size, products, paginationData } = props;
+  const { size, products, paginationData, loading } = props;
   const [slideIndex, setSliceIndex] = useState<number>(0);
   const [sliceEnd, setSliceEnd] = useState<number>(size);
   const isPaginationActive = Boolean(paginationData);
@@ -28,6 +30,18 @@ export default function Products(props: productsProps) {
       }
     }
   }, [isPaginationActive, paginationData, size]);
+
+  if (loading) {
+    return (
+      <div
+        className={`${styles.productsGrid} grid lg:grid-cols-5 grid-cols-1 gap-6`}
+      >
+        {Array.from(Array(size ?? 12)).map(() => (
+          <ProductLoader key={Math.random()} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div
