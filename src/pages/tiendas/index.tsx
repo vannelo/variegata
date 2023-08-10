@@ -6,6 +6,7 @@ import FeaturedStores from "@/components/FeaturedStores/FeaturedStores";
 import { useAppSelector } from "@/redux/store";
 import { getStores } from "@/redux/slices/stores-slice";
 import { useDispatch } from "react-redux";
+import { motion } from "framer-motion";
 
 export default function Tiendas() {
   const dispatch = useDispatch();
@@ -23,7 +24,13 @@ export default function Tiendas() {
             type={HeadingTypeEnum.SECONDARY}
             heading={<FormattedMessage id="todasLasTiendas" />}
           />
-          <FeaturedStores stores={stores} />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <FeaturedStores stores={stores} />
+          </motion.div>
         </div>
       </section>
     </main>

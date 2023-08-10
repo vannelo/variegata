@@ -8,6 +8,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { getProducts } from "@/redux/slices/products-slice";
+import { motion } from "framer-motion";
 
 export default function Tienda() {
   const dispatch = useDispatch();
@@ -51,11 +52,17 @@ export default function Tienda() {
             heading={<FormattedMessage id="todosLosProductos" />}
           />
           {products.length ? (
-            <Products
-              size={15}
-              products={products}
-              paginationData={paginationData}
-            />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              <Products
+                size={15}
+                products={products}
+                paginationData={paginationData}
+              />
+            </motion.div>
           ) : (
             <Products size={15} products={products} loading />
           )}

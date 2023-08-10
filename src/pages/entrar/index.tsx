@@ -9,6 +9,7 @@ import { logIn } from "@/redux/slices/auth-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import styles from "./Entrar.module.scss";
+import { motion } from "framer-motion";
 
 export default function Entrar() {
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -41,46 +42,52 @@ export default function Entrar() {
     <div className={styles.page}>
       <div className="container mx-auto">
         <div className={`${styles.contact} max-w-xl mx-auto`}>
-          <Heading
-            type={HeadingTypeEnum.SECONDARY}
-            align={HeadingAlignEnum.CENTER}
-            heading={<FormattedMessage id="iniciaSesion" />}
-            subheading={<FormattedMessage id="entrar" />}
-          />
-          <div className={styles.form}>
-            <label>
-              <FormattedMessage id="inputEmail" />
-            </label>
-            <input
-              type="email"
-              className="rounded-md"
-              ref={emailRef}
-              required
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <Heading
+              type={HeadingTypeEnum.SECONDARY}
+              align={HeadingAlignEnum.CENTER}
+              heading={<FormattedMessage id="iniciaSesion" />}
+              subheading={<FormattedMessage id="entrar" />}
             />
-            {emailError && (
-              <div className={styles.error}>
-                <FormattedMessage id="inputEmailError" />
-              </div>
-            )}
-            <label>
-              <FormattedMessage id="inputContrasena" />
-            </label>
-            <input
-              type="password"
-              className="rounded-md"
-              ref={passwordRef}
-              required
-            />
-            {passwordError && (
-              <div className={styles.error}>
-                <FormattedMessage id="inputContrasenaError" />
-              </div>
-            )}
+            <div className={styles.form}>
+              <label>
+                <FormattedMessage id="inputEmail" />
+              </label>
+              <input
+                type="email"
+                className="rounded-md"
+                ref={emailRef}
+                required
+              />
+              {emailError && (
+                <div className={styles.error}>
+                  <FormattedMessage id="inputEmailError" />
+                </div>
+              )}
+              <label>
+                <FormattedMessage id="inputContrasena" />
+              </label>
+              <input
+                type="password"
+                className="rounded-md"
+                ref={passwordRef}
+                required
+              />
+              {passwordError && (
+                <div className={styles.error}>
+                  <FormattedMessage id="inputContrasenaError" />
+                </div>
+              )}
 
-            <button className="rounded-md" onClick={logInHandler}>
-              <FormattedMessage id="entrar" />
-            </button>
-          </div>
+              <button className="rounded-md" onClick={logInHandler}>
+                <FormattedMessage id="entrar" />
+              </button>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>
