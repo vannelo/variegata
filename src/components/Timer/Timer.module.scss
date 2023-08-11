@@ -1,6 +1,26 @@
 .timeContainer {
   background-color: rgb(var(--light));
   margin-bottom: 1rem;
+  &.grid {
+    background-color: rgb(var(--dark));
+    .time {
+      background-color: rgb(var(--dark));
+      color: rgb(var(--light));
+      font-size: 1rem;
+      column-gap: 1rem;
+      justify-content: center;
+      padding: 1rem 0;
+      .head {
+        font-size: 1.2rem;
+        font-weight: 500;
+        line-height: 1.2rem;
+      }
+      .text {
+        font-size: 0.8rem;
+        color: rgb(var(--light200));
+      }
+    }
+  }
   .title {
     font-size: 1.4rem;
     color: rgb(var(--success));

@@ -12,7 +12,7 @@ import { SlideshowLightbox } from "lightbox.js-react";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Product } from "@/utils/types";
 import styles from "./Producto.module.scss";
-import Timer from "@/components/Timer/Timer";
+import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
 
 const images = [
   {
@@ -68,7 +68,6 @@ export default function Producto() {
     `,
         })
         .then((result) => {
-          console.log(result.data.product);
           const { _id, name, price, salePrice, description } =
             result.data.product;
           const product = {
@@ -267,7 +266,10 @@ export default function Producto() {
                   <div className={styles.description}>
                     <p>{product.description}</p>
                   </div>
-                  <Timer />
+                  <Timer
+                    type={TimerTypeEnum.PRODUCT}
+                    id={`timer${productId}`}
+                  />
                   <div className={styles.buy}>
                     <button className="rounded-md">
                       <FormattedMessage id="productoComprar" />

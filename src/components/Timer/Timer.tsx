@@ -1,8 +1,21 @@
 import { useEffect } from "react";
 import styles from "./Timer.module.scss";
 import { FormattedMessage } from "react-intl";
+import classnames from "classnames";
 
-export default function Timer() {
+export enum TimerTypeEnum {
+  PRODUCT = "product",
+  GRID = "grid",
+}
+
+interface TimerProps {
+  id: string;
+  type: TimerTypeEnum;
+}
+
+export default function Timer(props: TimerProps) {
+  const { id: timerId, type } = props;
+
   useEffect(() => {
     const CountDownTimer = (date: string, id: string) => {
       const end: any = new Date(date);
@@ -15,10 +28,10 @@ export default function Timer() {
       const showRemaining = () => {
         const now: any = new Date();
         const distance = end - now;
-        const divDays = document.getElementById("days");
-        const divHours = document.getElementById("hours");
-        const divMinutes = document.getElementById("minutes");
-        const divSeconds = document.getElementById("seconds");
+        const divDays = document.querySelector(`#${timerId} .days`);
+        const divHours = document.querySelector(`#${timerId} .hours`);
+        const divMinutes = document.querySelector(`#${timerId} .minutes`);
+        const divSeconds = document.querySelector(`#${timerId} .seconds`);
 
         if (divDays && divHours && divMinutes && divSeconds) {
           if (distance < 0) {
@@ -43,7 +56,12 @@ export default function Timer() {
   }, []);
 
   return (
-    <div className={styles.timeContainer}>
+    <div
+      className={classnames(styles.timeContainer, {
+        [styles.grid]: type === TimerTypeEnum.GRID,
+      })}
+      id={timerId}
+    >
       <div className={`${styles.time} rounded-md`}>
         <div className={styles.timeSlot}>
           <svg
@@ -58,33 +76,35 @@ export default function Timer() {
           </svg>
         </div>
         <div className={styles.timeSlot}>
-          <div className={styles.head} id="days" />
+          <div className={`${styles.head} days`} />
           <div className={styles.text}>
             <FormattedMessage id="timerDias" />
           </div>
         </div>
         <div className={styles.timeSlot}>
-          <div className={styles.head} id="hours" />
+          <div className={`${styles.head} hours`} />
           <div className={styles.text}>
             <FormattedMessage id="timerHoras" />
           </div>
         </div>
         <div className={styles.timeSlot}>
-          <div className={styles.head} id="minutes" />
+          <div className={`${styles.head} minutes`} />
           <div className={styles.text}>
             <FormattedMessage id="timerMins" />
           </div>
         </div>
         <div className={styles.timeSlot}>
-          <div className={styles.head} id="seconds" />
+          <div className={`${styles.head} seconds`} />
           <div className={styles.text}>
             <FormattedMessage id="timerSegs" />
           </div>
         </div>
       </div>
-      <h4 className={styles.title}>
-        <FormattedMessage id="subastaActiva" />
-      </h4>
+      {type !== TimerTypeEnum.GRID && (
+        <h4 className={styles.title}>
+          <FormattedMessage id="subastaActiva" />
+        </h4>
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface State {
   products: Product[];
-  productsLength: number;
+  auctions: Product[];
 }
 
 const client = new ApolloClient({
@@ -16,41 +16,76 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async () => {
     let count = 0;
-    const data = client
-      .query({
-        query: gql`
-          query Product {
-            getProducts {
-              _id
-              name
-              price
-              salePrice
-            }
-          }
-        `,
-      })
-      .then((result) => {
-        return result.data.getProducts.map(
-          ({ _id, name, price, salePrice }: any) => {
-            if (count === 9) {
-              count = 0;
-              count++;
-            } else {
-              count++;
-            }
 
-            return {
-              id: _id,
-              photoId: count,
-              price: price,
-              salePrice: salePrice,
-              name: name,
-              store: "STORE",
-            };
+    const productsResponse = await client.query({
+      query: gql`
+        query Product {
+          getProducts {
+            _id
+            name
+            price
+            salePrice
+            isAuction
           }
-        );
+        }
+      `,
+    });
+    const products = await productsResponse.data.getProducts
+      .filter((product: any) => product.isAuction === false)
+      .map(({ _id, name, price, salePrice, isAuction }: any) => {
+        if (count === 9) {
+          count = 0;
+          count++;
+        } else {
+          count++;
+        }
+
+        return {
+          id: _id,
+          photoId: count,
+          price: price,
+          salePrice: salePrice,
+          name: name,
+          isAuction: isAuction,
+          store: "STORE",
+        };
       });
-    return data;
+
+    const auctionsResponse = await client.query({
+      query: gql`
+        query Product {
+          getProducts {
+            _id
+            name
+            price
+            salePrice
+            isAuction
+          }
+        }
+      `,
+    });
+    const auctions = await auctionsResponse.data.getProducts
+      .filter((product: any) => product.isAuction === true)
+      .map(({ _id, name, price, salePrice, isAuction }: any) => {
+        if (count === 9) {
+          count = 0;
+          count++;
+        } else {
+          count++;
+        }
+
+        return {
+          id: _id,
+          photoId: count,
+          price: price,
+          salePrice: salePrice,
+          name: name,
+          isAuction: isAuction,
+          store: "STORE",
+        };
+      });
+
+    return { products, auctions };
   }
 );
 
@@ -59,6 +94,7 @@ const productsSlice = createSlice({
   initialState: {
     products: [],
     productsLength: 0,
+    auctions: [],
   } as State,
   reducers: {},
   extraReducers: (builder) => {
@@ -67,9 +103,9 @@ const productsSlice = createSlice({
     });
     builder.addCase(
       getProducts.fulfilled,
-      (state: State, action: PayloadAction<Product[]>) => {
-        state.products = action.payload;
-        state.productsLength = action.payload.length;
+      (state: State, action: PayloadAction<any>) => {
+        state.products = action.payload.products;
+        state.auctions = action.payload.auctions;
       }
     );
     builder.addCase(getProducts.rejected, (state: State) => {

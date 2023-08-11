@@ -163,7 +163,7 @@ export default function Nav() {
           <div className={styles.links}>
             <div
               className={classnames(styles.link, {
-                [styles.linkActive]: currentPage === "/tienda",
+                [styles.linkActive]: currentPage === "/productos",
               })}
             >
               <Link href="/tienda" onClick={() => setMobileMenuActive(false)}>

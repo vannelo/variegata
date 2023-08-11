@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./Product.module.scss";
 import { Product } from "@/utils/types";
-import { FormattedNumber } from "react-intl";
+import { FormattedMessage, FormattedNumber } from "react-intl";
 import Image from "next/image";
 
 export default function Product(props: Product) {
@@ -29,8 +29,10 @@ export default function Product(props: Product) {
             }}
             className={styles.imageHover}
           />
-          {salePrice !== 0 && (
-            <div className={`${styles.sale} rounded-full`}>Oferta</div>
+          {salePrice && (
+            <div className={`${styles.sale} rounded-full`}>
+              <FormattedMessage id="productoOferta" />
+            </div>
           )}
         </div>
       </Link>
