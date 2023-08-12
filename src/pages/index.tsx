@@ -35,7 +35,7 @@ export default function Home() {
     dispatch<any>(getStores());
   }, [dispatch]);
   useEffect(() => {
-    setHeaderBg(Math.floor(Math.random() * (5 - 1 + 1) + 1));
+    setHeaderBg(Math.floor(Math.random() * (6 - 1 + 1) + 1));
   }, []);
   useEffect(() => {
     if (products.length) {

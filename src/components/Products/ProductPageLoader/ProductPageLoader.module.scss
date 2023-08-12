@@ -1,0 +1,12 @@
+.product {
+  display: flex;
+  padding-top: 5vh;
+  column-gap: 2rem;
+  .left {
+    width: 50%;
+    padding-left: 15rem;
+  }
+  .right {
+    width: 30%;
+  }
+}
