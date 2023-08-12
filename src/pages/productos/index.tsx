@@ -12,9 +12,7 @@ import { motion } from "framer-motion";
 
 export default function Tienda() {
   const dispatch = useDispatch();
-  const { products, productsLength } = useAppSelector(
-    (state) => state.products
-  );
+  const { products } = useAppSelector((state) => state.products);
   const [productsPagesCount, setProductsPagesCount] = useState<number>(0);
   const [productsPageActive, setProductsPageActive] = useState<number>(0);
   const [paginationData, setPaginationData] =
@@ -24,14 +22,14 @@ export default function Tienda() {
     if (!products.length) {
       dispatch<any>(getProducts());
     }
-    setProductsPagesCount(Math.ceil(productsLength / 15));
-    if (productsLength) {
+    setProductsPagesCount(Math.ceil(products.length / 15));
+    if (products.length) {
       setPaginationData({
-        length: productsLength,
+        length: products.length,
         pageActive: productsPageActive,
       });
     }
-  }, [productsPageActive, productsLength]);
+  }, [productsPageActive, products.length]);
 
   const onPageChange = (i: number) => {
     setProductsPageActive(i);
