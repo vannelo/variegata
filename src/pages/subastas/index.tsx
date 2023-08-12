@@ -12,26 +12,24 @@ import { motion } from "framer-motion";
 
 export default function Subastas() {
   const dispatch = useDispatch();
-  const { products, productsLength } = useAppSelector(
-    (state) => state.products
-  );
+  const { auctions } = useAppSelector((state) => state.products);
   const [productsPagesCount, setProductsPagesCount] = useState<number>(0);
   const [productsPageActive, setProductsPageActive] = useState<number>(0);
   const [paginationData, setPaginationData] =
     useState<ProductsPaginationData>();
 
   useEffect(() => {
-    if (!products.length) {
+    if (!auctions.length) {
       dispatch<any>(getProducts());
     }
-    setProductsPagesCount(Math.ceil(productsLength / 15));
-    if (productsLength) {
+    setProductsPagesCount(Math.ceil(auctions.length / 15));
+    if (auctions.length) {
       setPaginationData({
-        length: productsLength,
+        length: auctions.length,
         pageActive: productsPageActive,
       });
     }
-  }, [productsPageActive, productsLength]);
+  }, [productsPageActive, auctions.length]);
 
   const onPageChange = (i: number) => {
     setProductsPageActive(i);
@@ -50,7 +48,7 @@ export default function Subastas() {
           type={HeadingTypeEnum.SECONDARY}
           heading={<FormattedMessage id="todasLasSubastas" />}
         />
-        {products.length ? (
+        {auctions.length ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -58,12 +56,12 @@ export default function Subastas() {
           >
             <Auctions
               size={16}
-              products={products}
+              products={auctions}
               paginationData={paginationData}
             />
           </motion.div>
         ) : (
-          <Auctions size={16} products={products} loading />
+          <Auctions size={16} products={auctions} loading />
         )}
         <Pagination
           productsPageActive={productsPageActive}
