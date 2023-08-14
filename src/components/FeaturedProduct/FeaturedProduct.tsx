@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import Auction from "../Auctions/Auction/Auction";
 import Heading, { HeadingAlignEnum, HeadingTypeEnum } from "../Heading/Heading";
 import styles from "./FeaturedProduct.module.scss";
@@ -20,8 +21,8 @@ export default function FeaturedProduct(props: featuredProductProps) {
         <Heading
           type={HeadingTypeEnum.SECONDARY}
           align={HeadingAlignEnum.CENTER}
-          heading="Última oportunidad"
-          subheading="Próxima subasta finalizando"
+          heading={<FormattedMessage id="destacadoTitulo" />}
+          subheading={<FormattedMessage id="destacadoSubtitulo" />}
         />
         <div className={styles.productBox}>
           <Auction
@@ -37,7 +38,7 @@ export default function FeaturedProduct(props: featuredProductProps) {
       </div>
       <div
         className={`${styles.left} show-mobile`}
-        style={{ backgroundImage: `url(img/products/plant-${photoId}-3.jpg)` }}
+        style={{ backgroundImage: `url(${photos[0].url})` }}
       />
     </div>
   );
