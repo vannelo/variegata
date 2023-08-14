@@ -5,25 +5,27 @@ import { FormattedMessage, FormattedNumber } from "react-intl";
 import Image from "next/image";
 
 export default function Product(props: Product) {
-  const { id, photoId, price, salePrice, name, store } = props;
+  const { id, price, salePrice, name, store, photos } = props;
   return (
     <article className={`${styles.product} rounded-md`} key={id}>
       <Link href={`/productos/producto/${id}`}>
         <div className={styles.imageContainer}>
           <Image
             alt="Product image"
-            src={`/img/products/plant-${photoId}-1.jpg`}
+            src={photos[0].url}
             fill
-            quality={1}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={20}
             style={{
               objectFit: "cover",
             }}
           />
           <Image
             alt="Product image"
-            src={`/img/products/plant-${photoId}-4.jpg`}
+            src={photos.length > 1 ? photos[1].url : photos[0].url}
             fill
-            quality={1}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={20}
             style={{
               objectFit: "cover",
             }}

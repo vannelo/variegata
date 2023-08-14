@@ -1,3 +1,7 @@
+type ProductPhoto = {
+  url: string;
+};
+
 export interface Product {
   id: string;
   photoId: number;
@@ -6,6 +10,7 @@ export interface Product {
   name: string;
   description?: string;
   store: string;
+  photos: ProductPhoto[];
 }
 
 export interface ProductsPaginationData {

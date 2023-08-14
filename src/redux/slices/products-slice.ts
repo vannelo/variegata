@@ -15,9 +15,7 @@ const client = new ApolloClient({
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async () => {
-    let count = 0;
-
-    const productsResponse = await client.query({
+    const response = await client.query({
       query: gql`
         query Product {
           getProducts {
@@ -26,62 +24,38 @@ export const getProducts = createAsyncThunk(
             price
             salePrice
             isAuction
+            photos {
+              url
+            }
           }
         }
       `,
     });
-    const products = await productsResponse.data.getProducts
+    const products = await response.data.getProducts
       .filter((product: any) => product.isAuction === false)
-      .map(({ _id, name, price, salePrice, isAuction }: any) => {
-        if (count === 9) {
-          count = 0;
-          count++;
-        } else {
-          count++;
-        }
-
+      .map(({ _id, name, price, salePrice, isAuction, photos }: any) => {
         return {
           id: _id,
-          photoId: count,
           price: price,
           salePrice: salePrice,
           name: name,
           isAuction: isAuction,
           store: "STORE",
+          photos: photos,
         };
       });
 
-    const auctionsResponse = await client.query({
-      query: gql`
-        query Product {
-          getProducts {
-            _id
-            name
-            price
-            salePrice
-            isAuction
-          }
-        }
-      `,
-    });
-    const auctions = await auctionsResponse.data.getProducts
+    const auctions = await response.data.getProducts
       .filter((product: any) => product.isAuction === true)
-      .map(({ _id, name, price, salePrice, isAuction }: any) => {
-        if (count === 9) {
-          count = 0;
-          count++;
-        } else {
-          count++;
-        }
-
+      .map(({ _id, name, price, salePrice, isAuction, photos }: any) => {
         return {
           id: _id,
-          photoId: count,
           price: price,
           salePrice: salePrice,
           name: name,
           isAuction: isAuction,
           store: "STORE",
+          photos: photos,
         };
       });
 
@@ -93,13 +67,13 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
-    productsLength: 0,
     auctions: [],
   } as State,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state: State) => {
       state.products = [];
+      state.auctions = [];
     });
     builder.addCase(
       getProducts.fulfilled,
@@ -110,6 +84,7 @@ const productsSlice = createSlice({
     );
     builder.addCase(getProducts.rejected, (state: State) => {
       state.products = [];
+      state.auctions = [];
     });
   },
 });

@@ -9,12 +9,12 @@ interface featuredProductProps {
 
 export default function FeaturedProduct(props: featuredProductProps) {
   const { product } = props;
-  const { id, photoId, price, salePrice, name, store } = product;
+  const { id, photoId, price, salePrice, name, store, photos } = product;
   return (
     <div className={`${styles.featured} rounded-md`}>
       <div
         className={`${styles.left} hide-mobile`}
-        style={{ backgroundImage: `url(img/products/plant-${photoId}-3.jpg)` }}
+        style={{ backgroundImage: `url(${photos[0].url})` }}
       />
       <div className={styles.right}>
         <Heading
@@ -31,6 +31,7 @@ export default function FeaturedProduct(props: featuredProductProps) {
             salePrice={salePrice}
             name={name}
             store={store}
+            photos={photos}
           />
         </div>
       </div>
