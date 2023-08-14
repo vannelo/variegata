@@ -15,24 +15,6 @@ import styles from "./Producto.module.scss";
 import ProductPageLoader from "@/components/Products/ProductPageLoader/ProductPageLoader";
 import { motion } from "framer-motion";
 
-const images = [
-  {
-    src: "/img/products/plant-1-1.jpg",
-    alt: "Plant 1",
-  },
-  {
-    src: "/img/products/plant-1-2.jpg",
-    alt: "Plant 2",
-  },
-  {
-    src: "/img/products/plant-1-3.jpg",
-    alt: "Plant 3",
-  },
-  {
-    src: "/img/products/plant-1-4.jpg",
-    alt: "Plant 4",
-  },
-];
 const client = new ApolloClient({
   uri: "https://variegataapi.com.mx/graphql",
   cache: new InMemoryCache(),
@@ -44,10 +26,15 @@ export default function Producto() {
   const productId = router.query.id;
   const [loading, setLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<Product>();
-  const [imageActive, setImageActive] = useState<string>(
-    "/img/products/plant-1-1.jpg"
+  const [imageActive, setImageActive] = useState<string | undefined>(
+    product?.photos[0].url
   );
   const { products } = useAppSelector((state) => state.products);
+  const productPhotosUrls = product?.photos.map((photo: any) => {
+    return {
+      src: photo.url,
+    };
+  });
 
   // Start logic
   useEffect(() => {
@@ -63,12 +50,15 @@ export default function Producto() {
             price
             salePrice
             description
+            photos {
+              url
+            }
           }
         }
       `,
         })
         .then((result) => {
-          const { _id, name, price, salePrice, description } =
+          const { _id, name, price, salePrice, description, photos } =
             result.data.product;
           const product = {
             id: _id,
@@ -78,6 +68,7 @@ export default function Producto() {
             salePrice,
             description,
             store: "Rare Plant Fairy",
+            photos: photos,
           };
           setProduct(product);
           setLoading(false);
@@ -102,55 +93,30 @@ export default function Producto() {
               <div className={styles.left}>
                 <div className={styles.gallery}>
                   <div className={`${styles.thumbs} hide-mobile`}>
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-1.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-1.jpg")
-                      }
-                    />
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-2.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-2.jpg")
-                      }
-                    />
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-3.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-3.jpg")
-                      }
-                    />
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-4.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-4.jpg")
-                      }
-                    />
+                    {product?.photos.map((photo: any) => (
+                      <button
+                        className={styles.thumb}
+                        style={{
+                          backgroundImage: `url(${photo.url})`,
+                        }}
+                        onClick={() => setImageActive(photo.url)}
+                      />
+                    ))}
                   </div>
                   <div className={styles.mainImage}>
                     <div
                       className={styles.image}
                       style={{
-                        backgroundImage: `url(${imageActive})`,
+                        backgroundImage: `url(${
+                          imageActive ? imageActive : product?.photos[0].url
+                        })`,
                       }}
                     >
                       {/* @ts-expect-error Server Component */}
                       <SlideshowLightbox
                         lightboxIdentifier="product"
                         framework="next"
-                        images={images}
+                        images={productPhotosUrls}
                         showControls={false}
                         theme="day"
                         showThumbnails
@@ -173,42 +139,15 @@ export default function Producto() {
                     </div>
                   </div>
                   <div className={`${styles.thumbs} show-mobile-flex`}>
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-1.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-1.jpg")
-                      }
-                    />
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-2.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-2.jpg")
-                      }
-                    />
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-3.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-3.jpg")
-                      }
-                    />
-                    <button
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: "url(/img/products/plant-1-4.jpg)",
-                      }}
-                      onClick={() =>
-                        setImageActive("/img/products/plant-1-4.jpg")
-                      }
-                    />
+                    {product?.photos.map((photo: any) => (
+                      <button
+                        className={styles.thumb}
+                        style={{
+                          backgroundImage: `url(${photo.url})`,
+                        }}
+                        onClick={() => setImageActive(photo.url)}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
