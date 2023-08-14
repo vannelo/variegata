@@ -136,6 +136,7 @@ export default function Producto() {
                     <div className={`${styles.thumbs} hide-mobile`}>
                       {product?.photos.map((photo: any) => (
                         <button
+                          key={photo.url}
                           className={styles.thumb}
                           style={{
                             backgroundImage: `url(${photo.url})`,
@@ -182,6 +183,7 @@ export default function Producto() {
                     <div className={`${styles.thumbs} show-mobile-flex`}>
                       {product?.photos.map((photo: any) => (
                         <button
+                          key={photo.url}
                           className={styles.thumb}
                           style={{
                             backgroundImage: `url(${photo.url})`,
