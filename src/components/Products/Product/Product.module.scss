@@ -8,6 +8,7 @@
     height: 300px;
     overflow: hidden;
     transition-duration: 0.2s;
+    background-color: rgb(var(--lightGray));
     .imageHover {
       opacity: 0;
       transition-duration: 0.2s;

@@ -1,7 +1,9 @@
-import { useEffect } from "react";
-import styles from "./Timer.module.scss";
+import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import classnames from "classnames";
+import styles from "./Timer.module.scss";
 
 export enum TimerTypeEnum {
   PRODUCT = "product",
@@ -15,6 +17,25 @@ interface TimerProps {
 
 export default function Timer(props: TimerProps) {
   const { id: timerId, type } = props;
+  const [days, setDays] = useState<number>();
+  const [hours, setHours] = useState<number>();
+  const [minutes, setMinutes] = useState<number>();
+  const [seconds, setSeconds] = useState<number>();
+
+  const skeleton = (
+    <Box
+      sx={{
+        width: "30px",
+        margin: `${type === TimerTypeEnum.GRID ? ".3rem auto" : ".6rem auto"}`,
+      }}
+    >
+      <Skeleton
+        width={"100%"}
+        height={"10px"}
+        sx={{ bgcolor: `${type === TimerTypeEnum.GRID ? "white" : "black"}` }}
+      />
+    </Box>
+  );
 
   useEffect(() => {
     const CountDownTimer = (date: string, id: string) => {
@@ -42,10 +63,10 @@ export default function Timer(props: TimerProps) {
           let hours = Math.floor((distance % _day) / _hour);
           let minutes = Math.floor((distance % _hour) / _minute);
           let seconds = Math.floor((distance % _minute) / _second);
-          divDays.innerHTML = days.toString();
-          divHours.innerHTML = hours.toString();
-          divMinutes.innerHTML = minutes.toString();
-          divSeconds.innerHTML = seconds.toString();
+          setDays(days);
+          setHours(hours);
+          setMinutes(minutes);
+          setSeconds(seconds);
         }
       };
 
@@ -76,25 +97,25 @@ export default function Timer(props: TimerProps) {
           </svg>
         </div>
         <div className={styles.timeSlot}>
-          <div className={`${styles.head} days`} />
+          <div className={`${styles.head} days`}>{days ?? skeleton}</div>
           <div className={styles.text}>
             <FormattedMessage id="timerDias" />
           </div>
         </div>
         <div className={styles.timeSlot}>
-          <div className={`${styles.head} hours`} />
+          <div className={`${styles.head} hours`}>{hours ?? skeleton}</div>
           <div className={styles.text}>
             <FormattedMessage id="timerHoras" />
           </div>
         </div>
         <div className={styles.timeSlot}>
-          <div className={`${styles.head} minutes`} />
+          <div className={`${styles.head} minutes`}>{minutes ?? skeleton}</div>
           <div className={styles.text}>
             <FormattedMessage id="timerMins" />
           </div>
         </div>
         <div className={styles.timeSlot}>
-          <div className={`${styles.head} seconds`} />
+          <div className={`${styles.head} seconds`}>{seconds ?? skeleton}</div>
           <div className={styles.text}>
             <FormattedMessage id="timerSegs" />
           </div>
