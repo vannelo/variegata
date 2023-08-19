@@ -10,7 +10,7 @@ import Auctions from "@/components/Auctions/Auctions";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
 import { SlideshowLightbox } from "lightbox.js-react";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { Product } from "@/utils/types";
+import { Auction, Product } from "@/utils/types";
 import styles from "./Producto.module.scss";
 import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
 import ProductPageLoader from "@/components/Products/ProductPageLoader/ProductPageLoader";
@@ -26,7 +26,7 @@ export default function Producto() {
   const router = useRouter();
   const productId = router.query.id;
   const [loading, setLoading] = useState<boolean>(false);
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<Auction>();
   const [imageActive, setImageActive] = useState<string | undefined>(
     product?.photos[0].url
   );

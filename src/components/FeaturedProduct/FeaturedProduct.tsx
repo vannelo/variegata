@@ -2,10 +2,10 @@ import { FormattedMessage } from "react-intl";
 import Auction from "../Auctions/Auction/Auction";
 import Heading, { HeadingAlignEnum, HeadingTypeEnum } from "../Heading/Heading";
 import styles from "./FeaturedProduct.module.scss";
-import { Product } from "@/utils/types";
+import { Auction as AuctionType } from "@/utils/types";
 
 interface featuredProductProps {
-  product: Product;
+  product: AuctionType;
 }
 
 export default function FeaturedProduct(props: featuredProductProps) {

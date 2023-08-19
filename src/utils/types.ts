@@ -10,8 +10,11 @@ export interface Product {
   name: string;
   description?: string;
   store: string;
-  endTime?: string;
   photos: ProductPhoto[];
+}
+
+export interface Auction extends Product {
+  endTime: string;
 }
 
 export interface ProductsPaginationData {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "./Auctions.module.scss";
 import Auction from "./Auction/Auction";
-import { Product, ProductsPaginationData } from "@/utils/types";
+import { Auction as AuctionType, ProductsPaginationData } from "@/utils/types";
 import AuctionLoader from "./AuctionLoader/AuctionLoader";
 
 interface auctionsProps {
   size: number;
-  products: Product[];
+  products: AuctionType[];
   paginationData?: ProductsPaginationData;
   loading?: boolean;
 }

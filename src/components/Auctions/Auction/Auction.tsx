@@ -1,11 +1,10 @@
 import Link from "next/link";
 import styles from "./Auction.module.scss";
-import { Product } from "@/utils/types";
-import { FormattedNumber } from "react-intl";
+import { Auction } from "@/utils/types";
 import Image from "next/image";
 import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
 
-export default function Auction(props: Product) {
+export default function Auction(props: Auction) {
   const { id, name, store, photos, endTime } = props;
 
   return (

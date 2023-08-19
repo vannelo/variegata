@@ -15,18 +15,18 @@ import Auctions from "@/components/Auctions/Auctions";
 import FeaturedProduct from "@/components/FeaturedProduct/FeaturedProduct";
 import Products from "@/components/Products/Products";
 import FeaturedStores from "@/components/FeaturedStores/FeaturedStores";
-import { Product } from "@/utils/types";
 import { getProducts } from "@/redux/slices/products-slice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { getStores } from "@/redux/slices/stores-slice";
 import { motion } from "framer-motion";
+import { Auction } from "@/utils/types";
 
 export default function Home() {
   const dispatch = useDispatch();
   const { products, auctions } = useAppSelector((state) => state.products);
   const { stores } = useAppSelector((state) => state.stores);
-  const [featuredProduct, setFeaturedProduct] = useState<Product>();
+  const [featuredProduct, setFeaturedProduct] = useState<Auction>();
   const [headerBg, setHeaderBg] = useState<number>();
 
   // Fetch products and stores

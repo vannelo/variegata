@@ -31,12 +31,12 @@ export default function Timer(props: TimerProps) {
   const { id: timerId, type, endTime } = props;
   const [timerData, setTimerData] = useState<TimerData>();
   const [isPast, setIsPast] = useState<boolean>();
-  let timer: number;
 
   useEffect(() => {
     const CountDownTimer = (date: string) => {
       const end = new Date(date);
       const now = new Date();
+      let timer: number;
 
       if (end < now) {
         setIsPast(true);
