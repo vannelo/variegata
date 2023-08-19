@@ -7,6 +7,12 @@ const Layout = ({ children }: PropsWithChildren) => {
     <>
       <Head>
         <title>Variegata | Boutique de plantas de colección</title>
+        <meta property="og:title" content="Variegata" />
+        <meta
+          property="og:description"
+          content="Boutique de plantas de colección"
+        />
+        <meta property="og:image" content="https://variegata.mx/img/meta.jpg" />
       </Head>
       <Nav />
       {children}
