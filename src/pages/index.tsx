@@ -38,8 +38,8 @@ export default function Home() {
     setHeaderBg(Math.floor(Math.random() * (6 - 1 + 1) + 1));
   }, []);
   useEffect(() => {
-    if (products.length) {
-      setFeaturedProduct(products[1]);
+    if (auctions.length) {
+      setFeaturedProduct(auctions[1]);
     }
   }, [products]);
 

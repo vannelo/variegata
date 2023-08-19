@@ -10,7 +10,8 @@ interface featuredProductProps {
 
 export default function FeaturedProduct(props: featuredProductProps) {
   const { product } = props;
-  const { id, photoId, price, salePrice, name, store, photos } = product;
+  const { id, photoId, price, salePrice, name, store, photos, endTime } =
+    product;
   return (
     <div className={`${styles.featured} rounded-md`}>
       <div
@@ -33,6 +34,7 @@ export default function FeaturedProduct(props: featuredProductProps) {
             name={name}
             store={store}
             photos={photos}
+            endTime={endTime}
           />
         </div>
       </div>

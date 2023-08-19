@@ -10,6 +10,7 @@ export interface Product {
   name: string;
   description?: string;
   store: string;
+  endTime?: string;
   photos: ProductPhoto[];
 }
 

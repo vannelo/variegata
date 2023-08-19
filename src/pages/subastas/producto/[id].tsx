@@ -30,14 +30,13 @@ export default function Producto() {
   const [imageActive, setImageActive] = useState<string | undefined>(
     product?.photos[0].url
   );
-  const { products } = useAppSelector((state) => state.products);
+  const { auctions } = useAppSelector((state) => state.products);
   const productPhotosUrls = product?.photos.map((photo: any) => {
     return {
       src: photo.url,
     };
   });
 
-  // Start logic
   useEffect(() => {
     const fetchProduct = () => {
       setLoading(true);
@@ -51,6 +50,7 @@ export default function Producto() {
           price
           salePrice
           description
+          endTime
           photos {
             url
           }
@@ -59,7 +59,7 @@ export default function Producto() {
     `,
         })
         .then((result) => {
-          const { _id, name, price, salePrice, description, photos } =
+          const { _id, name, price, salePrice, description, endTime, photos } =
             result.data.product;
           const product = {
             id: _id,
@@ -68,6 +68,7 @@ export default function Producto() {
             price,
             salePrice,
             description,
+            endTime,
             store: "Rare Plant Fairy",
             photos,
           };
@@ -78,45 +79,6 @@ export default function Producto() {
     fetchProduct();
     dispatch<any>(getProducts());
   }, [dispatch, productId]);
-
-  useEffect(() => {
-    const CountDownTimer = (date: string, id: string) => {
-      const end: any = new Date(date);
-      const _second = 1000;
-      const _minute = _second * 60;
-      const _hour = _minute * 60;
-      const _day = _hour * 24;
-      let timer: number;
-
-      const showRemaining = () => {
-        const now: any = new Date();
-        const distance = end - now;
-        const divDays = document.getElementById("days");
-        const divHours = document.getElementById("hours");
-        const divMinutes = document.getElementById("minutes");
-        const divSeconds = document.getElementById("seconds");
-
-        if (divDays && divHours && divMinutes && divSeconds) {
-          if (distance < 0) {
-            clearInterval(timer);
-            return;
-          }
-          let days = Math.floor(distance / _day);
-          let hours = Math.floor((distance % _day) / _hour);
-          let minutes = Math.floor((distance % _hour) / _minute);
-          let seconds = Math.floor((distance % _minute) / _second);
-          divDays.innerHTML = days.toString();
-          divHours.innerHTML = hours.toString();
-          divMinutes.innerHTML = minutes.toString();
-          divSeconds.innerHTML = seconds.toString();
-        }
-      };
-
-      timer = window.setInterval(showRemaining, 1000);
-    };
-    // Timer
-    CountDownTimer("09/20/2023 10:30 AM", "hora");
-  }, []);
 
   return loading ? (
     <ProductPageLoader />
@@ -212,10 +174,13 @@ export default function Producto() {
                     <div className={styles.description}>
                       <p>{product.description}</p>
                     </div>
-                    <Timer
-                      type={TimerTypeEnum.PRODUCT}
-                      id={`timer${productId}`}
-                    />
+                    {product.endTime && (
+                      <Timer
+                        type={TimerTypeEnum.PRODUCT}
+                        id={`timer${productId}`}
+                        endTime={product.endTime}
+                      />
+                    )}
                     <div className={styles.buy}>
                       <button className="rounded-md">
                         <FormattedMessage id="productoComprar" />
@@ -258,7 +223,7 @@ export default function Producto() {
                 type={HeadingTypeEnum.SECONDARY}
                 heading={<FormattedMessage id="subastasRelacionadas" />}
               />
-              <Auctions size={4} products={products} />
+              <Auctions size={4} products={auctions} />
             </div>
           </motion.div>
         </div>

@@ -24,6 +24,7 @@ export const getProducts = createAsyncThunk(
             price
             salePrice
             isAuction
+            endTime
             photos {
               url
             }
@@ -36,28 +37,31 @@ export const getProducts = createAsyncThunk(
       .map(({ _id, name, price, salePrice, isAuction, photos }: any) => {
         return {
           id: _id,
-          price: price,
-          salePrice: salePrice,
-          name: name,
-          isAuction: isAuction,
+          price,
+          salePrice,
+          name,
+          isAuction,
           store: "STORE",
-          photos: photos,
+          photos,
         };
       });
 
     const auctions = await response.data.getProducts
       .filter((product: any) => product.isAuction === true)
-      .map(({ _id, name, price, salePrice, isAuction, photos }: any) => {
-        return {
-          id: _id,
-          price: price,
-          salePrice: salePrice,
-          name: name,
-          isAuction: isAuction,
-          store: "STORE",
-          photos: photos,
-        };
-      });
+      .map(
+        ({ _id, name, price, salePrice, isAuction, endTime, photos }: any) => {
+          return {
+            id: _id,
+            price,
+            salePrice,
+            name,
+            isAuction,
+            endTime,
+            store: "STORE",
+            photos,
+          };
+        }
+      );
 
     return { products, auctions };
   }

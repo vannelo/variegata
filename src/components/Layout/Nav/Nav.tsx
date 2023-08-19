@@ -166,7 +166,10 @@ export default function Nav() {
                 [styles.linkActive]: currentPage === "/productos",
               })}
             >
-              <Link href="/tienda" onClick={() => setMobileMenuActive(false)}>
+              <Link
+                href="/productos"
+                onClick={() => setMobileMenuActive(false)}
+              >
                 <FormattedMessage id="navProductos" />
               </Link>
             </div>

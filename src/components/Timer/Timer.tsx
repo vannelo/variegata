@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import classnames from "classnames";
 import styles from "./Timer.module.scss";
+import TimerLoader from "./TimerLoader";
+
+const _second = 1000;
+const _minute = _second * 60;
+const _hour = _minute * 60;
+const _day = _hour * 24;
 
 export enum TimerTypeEnum {
   PRODUCT = "product",
@@ -13,67 +17,51 @@ export enum TimerTypeEnum {
 interface TimerProps {
   id: string;
   type: TimerTypeEnum;
+  endTime: string;
 }
 
-export default function Timer(props: TimerProps) {
-  const { id: timerId, type } = props;
-  const [days, setDays] = useState<number>();
-  const [hours, setHours] = useState<number>();
-  const [minutes, setMinutes] = useState<number>();
-  const [seconds, setSeconds] = useState<number>();
+type TimerData = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
 
-  const skeleton = (
-    <Box
-      sx={{
-        width: "30px",
-        margin: `${type === TimerTypeEnum.GRID ? ".3rem auto" : ".6rem auto"}`,
-      }}
-    >
-      <Skeleton
-        width={"100%"}
-        height={"10px"}
-        sx={{ bgcolor: `${type === TimerTypeEnum.GRID ? "white" : "black"}` }}
-      />
-    </Box>
-  );
+export default function Timer(props: TimerProps) {
+  const { id: timerId, type, endTime } = props;
+  const [timerData, setTimerData] = useState<TimerData>();
+  const [isPast, setIsPast] = useState<boolean>();
+  let timer: number;
 
   useEffect(() => {
-    const CountDownTimer = (date: string, id: string) => {
-      const end: any = new Date(date);
-      const _second = 1000;
-      const _minute = _second * 60;
-      const _hour = _minute * 60;
-      const _day = _hour * 24;
-      let timer: number;
+    const CountDownTimer = (date: string) => {
+      const end = new Date(date);
+      const now = new Date();
+
+      if (end < now) {
+        setIsPast(true);
+        return;
+      }
 
       const showRemaining = () => {
         const now: any = new Date();
-        const distance = end - now;
-        const divDays = document.querySelector(`#${timerId} .days`);
-        const divHours = document.querySelector(`#${timerId} .hours`);
-        const divMinutes = document.querySelector(`#${timerId} .minutes`);
-        const divSeconds = document.querySelector(`#${timerId} .seconds`);
+        const distance = end.getTime() - now.getTime();
 
-        if (divDays && divHours && divMinutes && divSeconds) {
-          if (distance < 0) {
-            clearInterval(timer);
-            return;
-          }
-          let days = Math.floor(distance / _day);
-          let hours = Math.floor((distance % _day) / _hour);
-          let minutes = Math.floor((distance % _hour) / _minute);
-          let seconds = Math.floor((distance % _minute) / _second);
-          setDays(days);
-          setHours(hours);
-          setMinutes(minutes);
-          setSeconds(seconds);
+        if (distance < 0) {
+          clearInterval(timer);
+          return;
         }
+
+        const days = Math.floor(distance / _day);
+        const hours = Math.floor((distance % _day) / _hour);
+        const minutes = Math.floor((distance % _hour) / _minute);
+        const seconds = Math.floor((distance % _minute) / _second);
+        setTimerData({ days, hours, minutes, seconds });
       };
 
       timer = window.setInterval(showRemaining, 1000);
     };
-    // Timer
-    CountDownTimer("09/20/2023 10:30 AM", "hora");
+    endTime && CountDownTimer(endTime);
   }, []);
 
   return (
@@ -83,7 +71,11 @@ export default function Timer(props: TimerProps) {
       })}
       id={timerId}
     >
-      <div className={`${styles.time} rounded-md`}>
+      <div
+        className={classnames(styles.time, {
+          [styles.timeCentered]: isPast,
+        })}
+      >
         <div className={styles.timeSlot}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -96,36 +88,51 @@ export default function Timer(props: TimerProps) {
             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
           </svg>
         </div>
-        <div className={styles.timeSlot}>
-          <div className={`${styles.head} days`}>{days ?? skeleton}</div>
-          <div className={styles.text}>
-            <FormattedMessage id="timerDias" />
-          </div>
-        </div>
-        <div className={styles.timeSlot}>
-          <div className={`${styles.head} hours`}>{hours ?? skeleton}</div>
-          <div className={styles.text}>
-            <FormattedMessage id="timerHoras" />
-          </div>
-        </div>
-        <div className={styles.timeSlot}>
-          <div className={`${styles.head} minutes`}>{minutes ?? skeleton}</div>
-          <div className={styles.text}>
-            <FormattedMessage id="timerMins" />
-          </div>
-        </div>
-        <div className={styles.timeSlot}>
-          <div className={`${styles.head} seconds`}>{seconds ?? skeleton}</div>
-          <div className={styles.text}>
-            <FormattedMessage id="timerSegs" />
-          </div>
-        </div>
+        {!isPast && (
+          <>
+            <div className={styles.timeSlot}>
+              <div className={`${styles.head} days`}>
+                {timerData?.days ?? <TimerLoader type={type} />}
+              </div>
+              <div className={styles.text}>
+                <FormattedMessage id="timerDias" />
+              </div>
+            </div>
+            <div className={styles.timeSlot}>
+              <div className={`${styles.head} hours`}>
+                {timerData?.hours ?? <TimerLoader type={type} />}
+              </div>
+              <div className={styles.text}>
+                <FormattedMessage id="timerHoras" />
+              </div>
+            </div>
+            <div className={styles.timeSlot}>
+              <div className={`${styles.head} minutes`}>
+                {timerData?.minutes ?? <TimerLoader type={type} />}
+              </div>
+              <div className={styles.text}>
+                <FormattedMessage id="timerMins" />
+              </div>
+            </div>
+            <div className={styles.timeSlot}>
+              <div className={`${styles.head} seconds`}>
+                {timerData?.seconds ?? <TimerLoader type={type} />}
+              </div>
+              <div className={styles.text}>
+                <FormattedMessage id="timerSegs" />
+              </div>
+            </div>
+          </>
+        )}
+        {isPast && type === TimerTypeEnum.GRID && (
+          <FormattedMessage id="subastaFinalizada" />
+        )}
+        {isPast && type === TimerTypeEnum.PRODUCT && (
+          <h4 className={styles.ended}>
+            <FormattedMessage id="subastaFinalizada" />
+          </h4>
+        )}
       </div>
-      {type !== TimerTypeEnum.GRID && (
-        <h4 className={styles.title}>
-          <FormattedMessage id="subastaActiva" />
-        </h4>
-      )}
     </div>
   );
 }

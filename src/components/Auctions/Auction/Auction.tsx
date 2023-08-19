@@ -6,7 +6,7 @@ import Image from "next/image";
 import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
 
 export default function Auction(props: Product) {
-  const { id, price, salePrice, name, store, photos } = props;
+  const { id, name, store, photos, endTime } = props;
 
   return (
     <article className={`${styles.product} rounded-md`} key={id}>
@@ -37,28 +37,8 @@ export default function Auction(props: Product) {
           />
         </div>
       </Link>
-      <Timer type={TimerTypeEnum.GRID} id={`timer${id}`} />
+      <Timer type={TimerTypeEnum.GRID} id={`timer${id}`} endTime={endTime} />
       <div className={`${styles.info} p-4`}>
-        {salePrice ? (
-          <div className={`${styles.price} ${styles.priceSale}`}>
-            <FormattedNumber
-              value={salePrice}
-              style="currency"
-              currency="MXN"
-            />
-            <span className={styles.oldPrice}>
-              /
-              <FormattedNumber value={price} style="currency" currency="MXN" />
-            </span>
-          </div>
-        ) : (
-          <>
-            <div className={styles.price}>
-              <FormattedNumber value={price} style="currency" currency="MXN" />
-            </div>
-          </>
-        )}
-
         <div className={styles.name}>
           <Link href="/subastas/producto">
             <h4>{name}</h4>
