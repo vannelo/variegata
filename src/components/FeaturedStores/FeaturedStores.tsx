@@ -9,17 +9,13 @@ interface StoresProps {
 
 export default function Stores(props: StoresProps) {
   const { stores } = props;
+
   return (
     <div className={`${styles.stores} grid lg:grid-cols-4 grid-cols-1 gap-6`}>
-      {stores.map(({ id, photoId }) => (
-        <div className={styles.store} key={id}>
-          <Link href="/tiendas/tienda">
-            <Image
-              src={`/img/stores/store-logo-${photoId}.png`}
-              width={800}
-              height={300}
-              alt="Variegata Store"
-            />
+      {stores.map(({ slug, logo, name }) => (
+        <div className={styles.store} key={slug}>
+          <Link href={`/tiendas/${slug}`}>
+            <Image src={logo} width={800} height={300} alt={name} />
           </Link>
         </div>
       ))}

@@ -10,7 +10,7 @@ import Auctions from "@/components/Auctions/Auctions";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
 import { SlideshowLightbox } from "lightbox.js-react";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { Auction, Product } from "@/utils/types";
+import { Auction } from "@/utils/types";
 import styles from "./Producto.module.scss";
 import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
 import ProductPageLoader from "@/components/Products/ProductPageLoader/ProductPageLoader";
@@ -54,13 +54,30 @@ export default function Producto() {
           photos {
             url
           }
+          store {
+            name
+            slug
+            description
+            logo
+            facebook
+            instagram
+            phone
+          }
         }
       }
     `,
         })
         .then((result) => {
-          const { _id, name, price, salePrice, description, endTime, photos } =
-            result.data.product;
+          const {
+            _id,
+            name,
+            price,
+            salePrice,
+            description,
+            endTime,
+            photos,
+            store,
+          } = result.data.product;
           const product = {
             id: _id,
             name,
@@ -69,7 +86,7 @@ export default function Producto() {
             salePrice,
             description,
             endTime,
-            store: "Rare Plant Fairy",
+            store,
             photos,
           };
           setProduct(product);
@@ -158,9 +175,8 @@ export default function Producto() {
                 </div>
                 <div className={styles.right}>
                   <div className={styles.info}>
-                    <Link href="/tiendas/tienda">
-                      {/* TO BE REPLACED WITH REAL STORE NAME */}
-                      <h4 className={styles.store}>Rare Plant Fairy</h4>
+                    <Link href={`/tiendas/${product?.store.slug}`}>
+                      <h4 className={styles.store}> {product?.store.name}</h4>
                     </Link>
                     <h3 className={styles.name}>{product.name}</h3>
                     <div className={styles.miniDivider} />

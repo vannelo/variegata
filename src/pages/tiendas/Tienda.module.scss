@@ -15,7 +15,6 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
-
     svg {
       width: 1.5rem;
       height: 1.5rem;
@@ -33,6 +32,8 @@
     text-align: center;
     color: rgb(var(--darkLight));
     margin-bottom: 2rem;
+    max-width: 600px;
+    margin: auto;
   }
   @media only screen and (max-width: 1000px) {
     padding: 1rem;

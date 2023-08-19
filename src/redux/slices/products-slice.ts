@@ -28,20 +28,24 @@ export const getProducts = createAsyncThunk(
             photos {
               url
             }
+            store {
+              name
+              slug
+            }
           }
         }
       `,
     });
     const products = await response.data.getProducts
       .filter((product: any) => product.isAuction === false)
-      .map(({ _id, name, price, salePrice, isAuction, photos }: any) => {
+      .map(({ _id, name, price, salePrice, isAuction, photos, store }: any) => {
         return {
           id: _id,
           price,
           salePrice,
           name,
           isAuction,
-          store: "STORE",
+          store,
           photos,
         };
       });
@@ -49,7 +53,16 @@ export const getProducts = createAsyncThunk(
     const auctions = await response.data.getProducts
       .filter((product: any) => product.isAuction === true)
       .map(
-        ({ _id, name, price, salePrice, isAuction, endTime, photos }: any) => {
+        ({
+          _id,
+          name,
+          price,
+          salePrice,
+          isAuction,
+          endTime,
+          photos,
+          store,
+        }: any) => {
           return {
             id: _id,
             price,
@@ -57,7 +70,7 @@ export const getProducts = createAsyncThunk(
             name,
             isAuction,
             endTime,
-            store: "STORE",
+            store,
             photos,
           };
         }

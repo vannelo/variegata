@@ -9,7 +9,7 @@ export interface Product {
   salePrice: number;
   name: string;
   description?: string;
-  store: string;
+  store: Store;
   photos: ProductPhoto[];
 }
 
@@ -23,7 +23,12 @@ export interface ProductsPaginationData {
 }
 
 export interface Store {
-  id: string;
-  photoId: number;
   name: string;
+  slug: string;
+  description: string;
+  logo: string;
+  facebook?: string;
+  instagram?: string;
+  phone?: string;
+  products: Product[];
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { getProducts } from "@/redux/slices/products-slice";
@@ -9,7 +10,6 @@ import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Products from "@/components/Products/Products";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
 import { SlideshowLightbox } from "lightbox.js-react";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Product } from "@/utils/types";
 import styles from "./Producto.module.scss";
 import ProductPageLoader from "@/components/Products/ProductPageLoader/ProductPageLoader";
@@ -20,7 +20,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function Producto() {
+export default function ProductoProfile() {
   const dispatch = useDispatch();
   const router = useRouter();
   const productId = router.query.id;
@@ -36,7 +36,6 @@ export default function Producto() {
     };
   });
 
-  // Start logic
   useEffect(() => {
     const fetchProduct = () => {
       setLoading(true);
@@ -53,12 +52,21 @@ export default function Producto() {
             photos {
               url
             }
+            store {
+              name
+              slug
+              description
+              logo
+              facebook
+              instagram
+              phone
+            }
           }
         }
       `,
         })
         .then((result) => {
-          const { _id, name, price, salePrice, description, photos } =
+          const { _id, name, price, salePrice, description, photos, store } =
             result.data.product;
           const product = {
             id: _id,
@@ -67,7 +75,7 @@ export default function Producto() {
             price,
             salePrice,
             description,
-            store: "Rare Plant Fairy",
+            store,
             photos: photos,
           };
           setProduct(product);
@@ -155,9 +163,9 @@ export default function Producto() {
               </div>
               <div className={styles.right}>
                 <div className={styles.info}>
-                  <h4 className={styles.store}>
-                    <Link href="/tiendas/tienda">{product?.store}</Link>
-                  </h4>
+                  <Link href={`/tiendas/${product?.store.slug}`}>
+                    <h4 className={styles.store}> {product?.store.name}</h4>
+                  </Link>
                   <h3 className={styles.name}>{product?.name}</h3>
                   <div className={styles.miniDivider} />
                   <div className={styles.price}>

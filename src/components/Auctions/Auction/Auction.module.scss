@@ -65,7 +65,7 @@
       transition-duration: 0.2s;
       font-weight: 500;
       &:hover {
-        color: rgb(var(--gray));
+        color: rgb(var(--primary));
       }
     }
     .miniDivider {
@@ -81,8 +81,13 @@
       font-size: 0.9rem;
       font-weight: 600;
       color: rgb(var(--gray));
+      transition-duration: 0.2s;
       svg {
         display: inline-block;
+      }
+      &:hover {
+        transition-duration: 0.2s;
+        color: rgb(var(--primary));
       }
     }
   }
