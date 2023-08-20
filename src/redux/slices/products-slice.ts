@@ -49,7 +49,6 @@ export const getProducts = createAsyncThunk(
           photos,
         };
       });
-
     const auctions = await response.data.getProducts
       .filter((product: any) => product.isAuction === true)
       .map(

@@ -36,11 +36,19 @@ body {
   color: rgb(var(--dark));
   background: white;
 }
+input:focus-visible {
+  outline: none;
+}
 .show-mobile {
   display: none !important;
 }
 .show-mobile-flex {
   display: none !important;
+}
+.imageModal {
+  right: 2rem !important;
+  display: flex !important;
+  justify-content: flex-end !important;
 }
 
 @media only screen and (max-width: 1000px) {

@@ -50,5 +50,7 @@
   "productoOferta": "Oferta",
   "destacadoTitulo": "Última oportunidad",
   "destacadoSubtitulo": "Próxima subasta finalizando",
-  "subastaFinalizada": "Subasta finalizada"
+  "subastaFinalizada": "Subasta finalizada",
+  "buscando": "Resultads de: {busqueda}",
+  "sinResultados": "No se encontraron resultados para esta búsqueda"
 }

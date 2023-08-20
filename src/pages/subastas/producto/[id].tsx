@@ -93,7 +93,11 @@ export default function Producto() {
           setLoading(false);
         });
     };
-    fetchProduct();
+
+    if (productId) {
+      fetchProduct();
+    }
+
     dispatch<any>(getProducts());
   }, [dispatch, productId]);
 
