@@ -63,16 +63,18 @@
   }
   .icons {
     display: flex;
+    align-items: center;
     column-gap: 0.8rem;
     .icon {
       .iconBox {
         display: flex;
         justify-content: center;
         align-items: center;
-        column-gap: 0.3rem;
+        column-gap: 0.7rem;
         transition-duration: 0.2s;
       }
       .username {
+        color: rgb(var(--light));
         transition-duration: 0.2s;
       }
       svg {
@@ -136,6 +138,39 @@
   }
   .burger svg {
     color: rgb(var(--dark)) !important;
+  }
+  .username {
+    color: rgb(var(--dark)) !important;
+    transition-duration: 0.2s;
+  }
+}
+
+.accountMenuContainer {
+  position: relative;
+  .accountMenu {
+    position: absolute;
+    top: 2rem;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    .accountMenuItem {
+      min-width: 200px;
+      .accountMenuItemLink {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        color: rgb(var(--dark));
+        text-align: left;
+        transition-duration: 0.2s;
+        &:hover {
+          background-color: #eee;
+          transition-duration: 0.2s;
+        }
+      }
+    }
   }
 }
 

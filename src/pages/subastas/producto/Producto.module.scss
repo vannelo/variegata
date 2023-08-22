@@ -117,10 +117,56 @@
           .price {
             font-weight: 500;
             font-size: 1.8rem;
+            color: rgb(var(--success));
+            .bestBid {
+              color: rgb(var(--success));
+              font-size: 1rem;
+            }
           }
           .description {
             color: rgb(var(--gray));
-            margin: 1rem 0 2rem 0;
+            margin: 1rem 0;
+          }
+          .bids {
+            margin-bottom: 1rem;
+            .title {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              font-weight: 600;
+              .icon {
+                display: flex;
+                align-items: center;
+                column-gap: 0.5rem;
+              }
+              .plus {
+                display: flex;
+                align-items: center;
+                column-gap: 0.5rem;
+              }
+            }
+            .list {
+              padding: 0.5rem 0;
+              .item {
+                font-size: 0.8rem;
+                display: flex;
+                column-gap: 0.5rem;
+                border-bottom: 1px solid rgb(var(--lightGray));
+                padding: 0.3rem;
+                .user {
+                  font-weight: 600;
+                }
+                .date {
+                  width: 100%;
+                  text-align: right;
+                  justify-self: flex-end;
+                }
+              }
+            }
+            .more {
+              padding: 0.5rem;
+              text-align: right;
+            }
           }
           .timeContainer {
             background-color: rgb(var(--light));

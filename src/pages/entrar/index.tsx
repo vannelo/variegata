@@ -1,41 +1,47 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/navigation";
 import Heading, {
   HeadingAlignEnum,
   HeadingTypeEnum,
 } from "@/components/Heading/Heading";
-import { logIn } from "@/redux/slices/auth-slice";
-import { useDispatch } from "react-redux";
-import { AppDispatch, useAppSelector } from "@/redux/store";
 import styles from "./Entrar.module.scss";
 import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
 
 export default function Entrar() {
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
-  const { isAuth } = useAppSelector((state) => state.auth.value);
-  const { push } = useRouter();
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setFormValues({ email: "", password: "" });
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: formValues.email,
+        password: formValues.password,
+        callbackUrl: "/",
+      });
+      setLoading(false);
+      if (!res?.error) {
+        router.push("/");
+      } else {
+        console.log(res.error);
+      }
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
 
-  useEffect(() => {
-    if (isAuth) {
-      push("/cuenta");
-    }
-  }, [isAuth, push]);
-
-  const logInHandler = () => {
-    if (!emailRef?.current?.value) {
-      setEmailError(true);
-    }
-    if (!passwordRef?.current?.value) {
-      setPasswordError(true);
-    }
-    if (emailRef?.current?.value && passwordRef?.current?.value) {
-      dispatch(logIn(emailRef.current.value));
-    }
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
   };
 
   return (
@@ -53,40 +59,40 @@ export default function Entrar() {
               heading={<FormattedMessage id="iniciaSesion" />}
               subheading={<FormattedMessage id="entrar" />}
             />
-            <div className={styles.form}>
-              <label>
-                <FormattedMessage id="inputEmail" />
-              </label>
-              <input
-                type="email"
-                className="rounded-md"
-                ref={emailRef}
-                required
-              />
-              {emailError && (
-                <div className={styles.error}>
-                  <FormattedMessage id="inputEmailError" />
-                </div>
-              )}
-              <label>
-                <FormattedMessage id="inputContrasena" />
-              </label>
-              <input
-                type="password"
-                className="rounded-md"
-                ref={passwordRef}
-                required
-              />
-              {passwordError && (
-                <div className={styles.error}>
-                  <FormattedMessage id="inputContrasenaError" />
-                </div>
-              )}
 
-              <button className="rounded-md" onClick={logInHandler}>
-                <FormattedMessage id="entrar" />
-              </button>
-            </div>
+            <form onSubmit={onSubmit}>
+              <div className={styles.form}>
+                <label>
+                  <FormattedMessage id="inputEmail" />
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="rounded-md"
+                  required
+                  value={formValues.email}
+                  onChange={handleChange}
+                />
+                <label>
+                  <FormattedMessage id="inputContrasena" />
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  className="rounded-md"
+                  required
+                  value={formValues.password}
+                  onChange={handleChange}
+                />
+                <button type="submit" className="rounded-md">
+                  {loading ? (
+                    <p>Entrando...</p>
+                  ) : (
+                    <FormattedMessage id="entrar" />
+                  )}
+                </button>
+              </div>
+            </form>
           </motion.div>
         </div>
       </div>

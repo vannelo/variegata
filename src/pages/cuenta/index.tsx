@@ -1,29 +1,18 @@
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Heading, {
   HeadingAlignEnum,
   HeadingTypeEnum,
 } from "@/components/Heading/Heading";
 import styles from "./Cuenta.module.scss";
 import { FormattedMessage } from "react-intl";
-import { AppDispatch, useAppSelector } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { logOut } from "@/redux/slices/auth-slice";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function Entrar() {
-  const { isAuth } = useAppSelector((state) => state.auth.value);
-  const dispatch = useDispatch<AppDispatch>();
-  const { push } = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
-    if (!isAuth) {
-      push("/entrar");
-    }
-  }, [isAuth, push]);
-
-  const logOutHandler = () => {
-    dispatch(logOut());
-  };
+    if (!session) signIn();
+  }, [session]);
 
   return (
     <div className={styles.page}>
@@ -45,9 +34,6 @@ export default function Entrar() {
               </button>
               <button className={styles.option}>
                 <FormattedMessage id="cuentaDireccion" />
-              </button>
-              <button className={styles.option} onClick={logOutHandler}>
-                <FormattedMessage id="cuentaSalir" />
               </button>
             </div>
           </div>

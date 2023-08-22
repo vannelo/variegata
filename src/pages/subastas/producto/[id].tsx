@@ -26,6 +26,7 @@ export default function Producto() {
   const router = useRouter();
   const productId = router.query.id;
   const [loading, setLoading] = useState<boolean>(false);
+  const [isBidsListActive, setIsBidsListActive] = useState<boolean>(false);
   const [product, setProduct] = useState<Auction>();
   const [imageActive, setImageActive] = useState<string | undefined>(
     product?.photos[0].url
@@ -54,6 +55,11 @@ export default function Producto() {
           photos {
             url
           }
+          bids {
+            _id
+            amount
+            timestamp
+          }
           store {
             name
             slug
@@ -77,6 +83,7 @@ export default function Producto() {
             endTime,
             photos,
             store,
+            bids,
           } = result.data.product;
           const product = {
             id: _id,
@@ -88,6 +95,7 @@ export default function Producto() {
             endTime,
             store,
             photos,
+            bids,
           };
           setProduct(product);
           setLoading(false);
@@ -190,9 +198,94 @@ export default function Producto() {
                         style="currency"
                         currency="MXN"
                       />
+                      <div className={styles.bestBid}>
+                        Puja más alta hasta el momento
+                      </div>
                     </div>
                     <div className={styles.description}>
                       <p>{product.description}</p>
+                    </div>
+                    <div className={styles.bids}>
+                      <button
+                        className={styles.title}
+                        onClick={() => setIsBidsListActive((prev) => !prev)}
+                      >
+                        <div className={styles.icon}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="1rem"
+                            height="1rem"
+                            fill="currentColor"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+                          </svg>
+                          Historial de pujas
+                        </div>
+                        <div className={styles.plus}>
+                          {isBidsListActive ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5rem"
+                              height="1.5rem"
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                            </svg>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5rem"
+                              height="1.5rem"
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                          )}
+                        </div>
+                      </button>
+                      {isBidsListActive && (
+                        <div className={styles.list}>
+                          <div className={styles.item}>
+                            <div className={styles.user}>Allan</div>
+                            <div className={styles.amount}>
+                              <FormattedNumber
+                                value={product.price}
+                                style="currency"
+                                currency="MXN"
+                              />
+                            </div>
+                            <div className={styles.date}>Hace 1 hora</div>
+                          </div>
+                          <div className={styles.item}>
+                            <div className={styles.user}>Allan</div>
+                            <div className={styles.amount}>
+                              <FormattedNumber
+                                value={product.price}
+                                style="currency"
+                                currency="MXN"
+                              />
+                            </div>
+                            <div className={styles.date}>Hace 1 hora</div>
+                          </div>
+                          <div className={styles.item}>
+                            <div className={styles.user}>Allan</div>
+                            <div className={styles.amount}>
+                              <FormattedNumber
+                                value={product.price}
+                                style="currency"
+                                currency="MXN"
+                              />
+                            </div>
+                            <div className={styles.date}>Hace 1 hora</div>
+                          </div>
+                          <div className={styles.more}>
+                            y <b>{product.bids.length}</b> más...
+                          </div>
+                        </div>
+                      )}
                     </div>
                     {product.endTime && (
                       <Timer

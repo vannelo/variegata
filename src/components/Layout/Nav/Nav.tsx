@@ -6,13 +6,15 @@ import Image from "next/image";
 import { FormattedMessage } from "react-intl";
 import styles from "./Nav.module.scss";
 import classnames from "classnames";
-import { useAppSelector } from "@/redux/store";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Nav() {
   const [mobileMenuActive, setMobileMenuActive] = useState<boolean>(false);
+  const [isAccountMenuActive, setIsAccountMenuActive] =
+    useState<boolean>(false);
   const currentPage = usePathname();
-  const { isAuth } = useAppSelector((state) => state.auth.value);
   const [scrolled, setScrolled] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,8 +111,8 @@ export default function Nav() {
                 <Link href="/buscar">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="1.4rem"
-                    height="1.4rem"
+                    width="1rem"
+                    height="1rem"
                     fill="currentColor"
                     viewBox="0 0 16 16"
                   >
@@ -119,18 +121,61 @@ export default function Nav() {
                 </Link>
               </div>
               <div className={styles.icon}>
-                <Link href="/entrar" className={styles.iconBox}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1.4rem"
-                    height="1.4rem"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                  </svg>
-                  {isAuth && <div className={styles.username}>Allan</div>}
-                </Link>
+                {session ? (
+                  <div className={styles.accountMenuContainer}>
+                    <button
+                      className={styles.iconBox}
+                      onClick={() => setIsAccountMenuActive((prev) => !prev)}
+                    >
+                      <div className={styles.username}>Allan</div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width=".8rem"
+                        height=".8rem"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                        />
+                      </svg>
+                    </button>
+                    {isAccountMenuActive && (
+                      <div className={styles.accountMenu}>
+                        <div className={styles.accountMenuItem}>
+                          <Link
+                            href="/cuenta"
+                            className={styles.accountMenuItemLink}
+                            onClick={() => setIsAccountMenuActive(false)}
+                          >
+                            <FormattedMessage id="accountMenuCuenta" />
+                          </Link>
+                        </div>
+                        <div className={styles.accountMenuItem}>
+                          <button
+                            onClick={() => signOut()}
+                            className={styles.accountMenuItemLink}
+                          >
+                            <FormattedMessage id="accountMenuSalir" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button onClick={() => signIn()} className={styles.iconBox}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1.4rem"
+                      height="1.4rem"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           </div>

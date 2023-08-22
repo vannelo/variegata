@@ -52,5 +52,7 @@
   "destacadoSubtitulo": "Próxima subasta finalizando",
   "subastaFinalizada": "Subasta finalizada",
   "buscando": "Resultads de: {busqueda}",
-  "sinResultados": "No se encontraron resultados para esta búsqueda"
+  "sinResultados": "No se encontraron resultados para esta búsqueda",
+  "accountMenuCuenta": "Cuenta",
+  "accountMenuSalir": "Salir"
 }

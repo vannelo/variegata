@@ -2,6 +2,10 @@ type ProductPhoto = {
   url: string;
 };
 
+type Bid = {
+  amount: number;
+  timestamp: string;
+};
 export interface Product {
   id: string;
   photoId: number;
@@ -15,6 +19,7 @@ export interface Product {
 
 export interface Auction extends Product {
   endTime: string;
+  bids: Bid[];
 }
 
 export interface ProductsPaginationData {
