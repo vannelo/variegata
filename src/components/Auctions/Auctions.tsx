@@ -60,6 +60,7 @@ export default function Auctions(props: auctionsProps) {
                 store,
                 photos,
                 endTime,
+                bids,
               }) => (
                 <Auction
                   key={id}
@@ -71,6 +72,7 @@ export default function Auctions(props: auctionsProps) {
                   store={store}
                   photos={photos}
                   endTime={endTime}
+                  bids={bids}
                 />
               )
             )
@@ -86,6 +88,7 @@ export default function Auctions(props: auctionsProps) {
                 store,
                 photos,
                 endTime,
+                bids,
               }) => (
                 <Auction
                   key={id}
@@ -97,6 +100,7 @@ export default function Auctions(props: auctionsProps) {
                   store={store}
                   photos={photos}
                   endTime={endTime}
+                  bids={bids}
                 />
               )
             )}
