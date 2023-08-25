@@ -2,7 +2,7 @@ type ProductPhoto = {
   url: string;
 };
 
-type Bid = {
+export type Bid = {
   amount: number;
   timestamp: string;
 };

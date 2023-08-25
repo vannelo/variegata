@@ -20,7 +20,9 @@
   --grayLight: 140, 140, 140;
   --gray200: 120, 120, 120;
   --danger: 218, 63, 63;
+  --dangerLight: 255, 245, 244;
   --success: 22, 179, 110;
+  --successLight: 240, 253, 244;
   --warning: 245, 158, 11;
 }
 
