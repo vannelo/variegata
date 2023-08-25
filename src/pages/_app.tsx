@@ -9,8 +9,14 @@ import { ReduxProvider } from "@/redux/provider";
 import { initLightboxJS } from "lightbox.js-react";
 import "lightbox.js-react/dist/index.css";
 import { SessionProvider } from "next-auth/react";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const outfit = Outfit({ subsets: ["latin"] });
+
+const client = new ApolloClient({
+  uri: "https://variegataapi.com.mx/graphql",
+  cache: new InMemoryCache(),
+});
 
 export default function App({
   Component,
@@ -23,13 +29,15 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <ReduxProvider>
-        <IntlProvider messages={locales} locale="es-MX" defaultLocale="es-MX">
-          <div className={outfit.className}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </div>
-        </IntlProvider>
+        <ApolloProvider client={client}>
+          <IntlProvider messages={locales} locale="es-MX" defaultLocale="es-MX">
+            <div className={outfit.className}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </div>
+          </IntlProvider>
+        </ApolloProvider>
       </ReduxProvider>
     </SessionProvider>
   );

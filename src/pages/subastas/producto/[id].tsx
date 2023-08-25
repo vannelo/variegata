@@ -9,7 +9,7 @@ import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import Auctions from "@/components/Auctions/Auctions";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
 import { SlideshowLightbox } from "lightbox.js-react";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Auction, Bid } from "@/utils/types";
 import styles from "./Producto.module.scss";
 import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
@@ -18,206 +18,167 @@ import { motion } from "framer-motion";
 import classnames from "classnames";
 import CurrencyInput from "react-currency-input-field";
 
-const client = new ApolloClient({
-  uri: "https://variegataapi.com.mx/graphql",
-  cache: new InMemoryCache(),
-});
+const GET_PRODUCT = gql`
+  query GetProduct($productId: ID!) {
+    product(id: $productId) {
+      _id
+      name
+      price
+      salePrice
+      description
+      endTime
+      photos {
+        url
+      }
+      bids {
+        _id
+        amount
+        timestamp
+      }
+      store {
+        name
+        slug
+        description
+        logo
+        facebook
+        instagram
+        phone
+      }
+    }
+  }
+`;
+
+const CREATE_BID = gql`
+  mutation CreateBid($productId: String!, $amount: Float!) {
+    createBid(
+      bidInput: { productId: $productId, userId: "user-ui", amount: $amount }
+    ) {
+      amount
+    }
+  }
+`;
 
 export default function Producto() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const productId = router.query.id;
   const inputRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [bidLoading, setBidLoading] = useState<boolean>(false);
-  const [bidSuccess, setBidSuccess] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const {
+    loading: productLoading,
+    error: productError,
+    data: productData,
+  } = useQuery(GET_PRODUCT, {
+    variables: { productId },
+  });
+  const [product, setProduct] = useState<Auction>();
+  const [productImageActive, setProductImageActive] = useState<string>();
+  const [productPhotos, setProductPhotos] = useState<string[]>([]);
+  const { auctions } = useAppSelector((state) => state.products);
+  const [
+    createBid,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(CREATE_BID, {
+    refetchQueries: [GET_PRODUCT, "GetProduct"],
+    errorPolicy: "all",
+  });
+  const [formError, setFormError] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isAuctionActive, setIsAuctionActive] = useState<boolean>(true);
   const [isBidsListActive, setIsBidsListActive] = useState<boolean>(false);
   const [lastBids, setLastBids] = useState<Bid[]>([]);
   const [highestBid, setHighestBid] = useState<Bid>({} as Bid);
-  const [product, setProduct] = useState<Auction>();
-  const [imageActive, setImageActive] = useState<string | undefined>(
-    product?.photos[0].url
-  );
-  const { auctions } = useAppSelector((state) => state.products);
-  const productId = router.query.id;
-  const productPhotosUrls = product?.photos.map((photo: any) => {
-    return {
-      src: photo.url,
-    };
-  });
 
+  // First render fetch
   useEffect(() => {
-    const fetchProduct = () => {
-      setLoading(true);
-      client
-        .query({
-          query: gql`
-      query GetProduct {
-        product(id: "${productId}") {
-          _id
-          name
-          price
-          salePrice
-          description
-          endTime
-          photos {
-            url
-          }
-          bids {
-            _id
-            amount
-            timestamp
-          }
-          store {
-            name
-            slug
-            description
-            logo
-            facebook
-            instagram
-            phone
-          }
-        }
-      }
-    `,
-        })
-        .then((result) => {
-          const {
-            _id,
-            name,
-            price,
-            salePrice,
-            description,
-            endTime,
-            photos,
-            store,
-            bids,
-          } = result.data.product;
-          const product = {
-            id: _id,
-            name,
-            photoId: 1,
-            price,
-            salePrice,
-            description,
-            endTime,
-            store,
-            photos,
-            bids,
+    dispatch<any>(getProducts());
+  }, []);
+
+  // Fetch product
+  useEffect(() => {
+    const mapProduct = (product: any) => {
+      const productMapped = {
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        endTime: product.endTime,
+        store: product.store.name,
+        photos: product.photos,
+        bids: product.bids,
+      };
+      const sortedBids = [...product.bids];
+      sortedBids.sort((a: Bid, b: Bid) => b.amount - a.amount);
+      const end = new Date(product.endTime);
+      const now = new Date();
+      setIsAuctionActive(!(end < now));
+      setProduct(productMapped);
+      setProductImageActive(product.photos[0].url);
+      setProductPhotos(
+        product?.photos.map((photo: any) => {
+          return {
+            src: photo.url,
           };
-
-          const sortedBids = [...bids];
-          sortedBids.sort((a: Bid, b: Bid) => b.amount - a.amount);
-          const end = new Date(product.endTime);
-          const now = new Date();
-
-          setProduct(product);
-          setLastBids(sortedBids.slice(0, 3));
-          setHighestBid(sortedBids[0]);
-          setLoading(false);
-          setIsAuctionActive(!(end < now));
-        });
+        })
+      );
+      setLastBids(sortedBids.slice(0, 3));
+      setHighestBid(sortedBids[0]);
     };
 
-    if (productId) {
-      fetchProduct();
+    if (productData) {
+      mapProduct(productData.product);
     }
+  }, [productData]);
 
-    dispatch<any>(getProducts());
-  }, [dispatch, productId]);
+  // Bid mutation
+  useEffect(() => {
+    if (showModal) {
+      inputRef?.current?.focus();
+    }
+    if (mutationData) {
+      setShowModal(false);
+    }
+    if (mutationError) {
+      const errorData = JSON.parse(JSON.stringify(mutationError));
+      setFormError(JSON.parse(errorData.message).message);
+    }
+  }, [mutationData, mutationError, showModal]);
 
+  // Create bid handler
   const postBid = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setBidLoading(true);
-    setBidSuccess(false);
-
-    if (!inputRef?.current?.value) {
-      setError("Ingresa una cantidad");
-      setBidLoading(false);
-      return;
-    }
-
     const convertedAmount = Number(
       inputRef?.current?.value.replace(/[^0-9.-]+/g, "")
     );
-
-    client
-      .mutate({
-        mutation: gql`
-          mutation CreateBid {
-            createBid(
-              bidInput: {
-                productId: "${productId}"
-                userId: "user-ui"
-                amount: ${convertedAmount}
-              }
-            ) {
-              amount
-            }
-          }
-        `,
-      })
-      .then(() => {
-        setBidLoading(false);
-        setBidSuccess(true);
-        setShowModal(false);
-      })
-      .catch((error) => {
-        const errorData = JSON.parse(JSON.stringify(error));
-        setError(JSON.parse(errorData.message).message);
-        setBidLoading(false);
-      });
+    if (!inputRef?.current?.value) {
+      setFormError("Ingresa una cantidad");
+      return;
+    }
+    createBid({ variables: { productId: productId, amount: convertedAmount } });
   };
 
-  return loading ? (
+  // Product not found or fetch error
+  if (productError) {
+    // Redirect to 404
+    console.log(productError);
+    router.push("/404");
+  }
+
+  return productLoading ? (
     <ProductPageLoader />
   ) : (
     product && (
       <section className={styles.productPage}>
         {showModal && (
           <div className={styles.modal}>
-            <div className={styles.modalContent}>
-              <div className={styles.modalClose}>
-                <button onClick={() => setShowModal(false)}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1.5rem"
-                    height="1.5rem"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                  </svg>
-                </button>
-              </div>
-              <div className={styles.modalHeader}>
-                <div className={styles.modalIcon}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="2rem"
-                    height="2rem"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z" />
-                    <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z" />
-                  </svg>
-                </div>
-                <div className={styles.modalTitle}>
-                  <h4>
-                    <FormattedMessage id="subastaHacerOferta" />
-                  </h4>
-                </div>
-                <div className={styles.modalText}>
-                  <p>
-                    <FormattedMessage id="subastaOfertaTexto" />
-                  </p>
-                </div>
-                {error && (
-                  <div className={styles.modalError}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className={styles.modalContent}>
+                <div className={styles.modalClose}>
+                  <button onClick={() => setShowModal(false)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="1.5rem"
@@ -225,57 +186,94 @@ export default function Producto() {
                       fill="currentColor"
                       viewBox="0 0 16 16"
                     >
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                     </svg>
-                    <p>{error}</p>
-                  </div>
-                )}
-                <div className={styles.modalForm}>
-                  <form onSubmit={postBid}>
-                    <CurrencyInput
-                      id="amount"
-                      prefix="$"
-                      name="amount"
-                      placeholder="Cantidad a ofertar"
-                      decimalsLimit={2}
-                      className={classnames(styles.input, {
-                        [styles.danger]: error,
-                      })}
-                      ref={inputRef}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setDisabled(!event.target.value)
-                      }
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className={classnames("rounded-md", {
-                        [styles.disabled]: disabled,
-                      })}
-                      disabled={disabled}
+                  </button>
+                </div>
+                <div className={styles.modalHeader}>
+                  <div className={styles.modalIcon}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="2rem"
+                      height="2rem"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
                     >
-                      {bidLoading ? (
-                        <svg
-                          width="1rem"
-                          height="1rem"
-                          viewBox="0 0 13 14"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className={styles.spinner}
-                        >
-                          <path
-                            d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231 0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475 2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464 1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
-                            stroke="white"
-                          />
-                        </svg>
-                      ) : (
-                        <FormattedMessage id="subastaOfertar" />
-                      )}
-                    </button>
-                  </form>
+                      <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z" />
+                      <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z" />
+                    </svg>
+                  </div>
+                  <div className={styles.modalTitle}>
+                    <h4>
+                      <FormattedMessage id="subastaHacerOferta" />
+                    </h4>
+                  </div>
+                  <div className={styles.modalText}>
+                    <p>
+                      <FormattedMessage id="subastaOfertaTexto" />
+                    </p>
+                  </div>
+                  {formError && (
+                    <div className={styles.modalError}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="1.5rem"
+                        height="1.5rem"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                      </svg>
+                      <p>{formError}</p>
+                    </div>
+                  )}
+                  <div className={styles.modalForm}>
+                    <form onSubmit={postBid}>
+                      <CurrencyInput
+                        id="amount"
+                        prefix="$"
+                        name="amount"
+                        placeholder="Cantidad a ofertar"
+                        decimalsLimit={2}
+                        className={classnames(styles.input, {
+                          [styles.danger]: formError,
+                        })}
+                        ref={inputRef}
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>
+                        ) => setDisabled(!event.target.value)}
+                        required
+                      />
+                      <button
+                        type="submit"
+                        className={classnames("rounded-md", {
+                          [styles.disabled]: disabled,
+                        })}
+                        disabled={disabled}
+                      >
+                        {mutationLoading ? (
+                          <svg
+                            width="1rem"
+                            height="1rem"
+                            viewBox="0 0 13 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={styles.spinner}
+                          >
+                            <path
+                              d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231 0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475 2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464 1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
+                              stroke="white"
+                            />
+                          </svg>
+                        ) : (
+                          <FormattedMessage id="subastaOfertar" />
+                        )}
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         )}
         <div className="container mx-auto">
@@ -296,7 +294,7 @@ export default function Producto() {
                           style={{
                             backgroundImage: `url(${photo.url})`,
                           }}
-                          onClick={() => setImageActive(photo.url)}
+                          onClick={() => setProductImageActive(photo.url)}
                         />
                       ))}
                     </div>
@@ -305,7 +303,9 @@ export default function Producto() {
                         className={styles.image}
                         style={{
                           backgroundImage: `url(${
-                            imageActive ? imageActive : product?.photos[0].url
+                            productImageActive
+                              ? productImageActive
+                              : product?.photos[0].url
                           })`,
                         }}
                       >
@@ -313,7 +313,7 @@ export default function Producto() {
                         <SlideshowLightbox
                           lightboxIdentifier="product"
                           framework="next"
-                          images={productPhotosUrls}
+                          images={productPhotos}
                           showControls={false}
                           theme="day"
                           showThumbnails
@@ -343,7 +343,7 @@ export default function Producto() {
                           style={{
                             backgroundImage: `url(${photo.url})`,
                           }}
-                          onClick={() => setImageActive(photo.url)}
+                          onClick={() => setProductImageActive(photo.url)}
                         />
                       ))}
                     </div>
@@ -370,7 +370,7 @@ export default function Producto() {
                         )}
                       </div>
                     </div>
-                    {bidSuccess && (
+                    {mutationData && (
                       <div className={styles.success}>
                         <div className={styles.icon}>
                           <svg

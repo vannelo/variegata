@@ -280,6 +280,12 @@
       align-items: center;
       padding: 0 4rem;
       position: relative;
+      @media only screen and (max-width: 1000px) {
+        width: 90%;
+        height: 70vh;
+        padding: 2rem;
+        margin: auto;
+      }
       .modalClose {
         position: absolute;
         top: 1.5rem;
@@ -320,6 +326,11 @@
         padding: 1rem;
         font-size: 0.9rem;
         column-gap: 0.8rem;
+        @media only screen and (max-width: 1000px) {
+          flex-direction: column;
+          row-gap: 0.5rem;
+          text-align: center;
+        }
       }
       .modalForm {
         form {
@@ -335,7 +346,10 @@
             font-size: 1.2rem;
             line-height: 1.2rem;
             border: 1px solid rgb(var(--lightGray));
-            margin-bottom: 1rem;
+            margin-bottom: 0.7rem;
+            @media only screen and (max-width: 1000px) {
+              max-width: none;
+            }
             &:focus {
               outline: none;
               border: 1px solid rgb(var(--primary));
@@ -362,6 +376,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            @media only screen and (max-width: 1000px) {
+              max-width: none;
+            }
             .spinner {
               animation-name: spin;
               animation-duration: 500ms;

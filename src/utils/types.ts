@@ -6,18 +6,19 @@ export type Bid = {
   amount: number;
   timestamp: string;
 };
-export interface Product {
+export interface ProductBase {
   id: string;
-  photoId: number;
   price: number;
-  salePrice: number;
   name: string;
   description?: string;
   store: Store;
   photos: ProductPhoto[];
 }
 
-export interface Auction extends Product {
+export interface Product extends ProductBase {
+  salePrice: number;
+}
+export interface Auction extends ProductBase {
   endTime: string;
   bids: Bid[];
 }
