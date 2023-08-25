@@ -50,60 +50,32 @@ export default function Auctions(props: auctionsProps) {
       {isPaginationActive
         ? products
             .slice(slideIndex, sliceEnd)
-            .map(
-              ({
-                id,
-                photoId,
-                name,
-                price,
-                salePrice,
-                store,
-                photos,
-                endTime,
-                bids,
-              }) => (
-                <Auction
-                  key={id}
-                  id={id}
-                  photoId={photoId}
-                  name={name}
-                  price={price}
-                  salePrice={salePrice}
-                  store={store}
-                  photos={photos}
-                  endTime={endTime}
-                  bids={bids}
-                />
-              )
-            )
+            .map(({ id, name, price, store, photos, endTime, bids }) => (
+              <Auction
+                key={id}
+                id={id}
+                name={name}
+                price={price}
+                store={store}
+                photos={photos}
+                endTime={endTime}
+                bids={bids}
+              />
+            ))
         : products
             .slice(0, size)
-            .map(
-              ({
-                id,
-                photoId,
-                name,
-                price,
-                salePrice,
-                store,
-                photos,
-                endTime,
-                bids,
-              }) => (
-                <Auction
-                  key={id}
-                  id={id}
-                  photoId={photoId}
-                  name={name}
-                  price={price}
-                  salePrice={salePrice}
-                  store={store}
-                  photos={photos}
-                  endTime={endTime}
-                  bids={bids}
-                />
-              )
-            )}
+            .map(({ id, name, price, store, photos, endTime, bids }) => (
+              <Auction
+                key={id}
+                id={id}
+                name={name}
+                price={price}
+                store={store}
+                photos={photos}
+                endTime={endTime}
+                bids={bids}
+              />
+            ))}
     </div>
   );
 }

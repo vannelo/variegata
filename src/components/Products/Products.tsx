@@ -50,11 +50,10 @@ export default function Products(props: productsProps) {
       {isPaginationActive
         ? products
             .slice(slideIndex, sliceEnd)
-            .map(({ id, photoId, name, price, salePrice, store, photos }) => (
+            .map(({ id, name, price, salePrice, store, photos }) => (
               <Product
                 key={id}
                 id={id}
-                photoId={photoId}
                 name={name}
                 price={price}
                 salePrice={salePrice}
@@ -64,11 +63,10 @@ export default function Products(props: productsProps) {
             ))
         : products
             .slice(0, size)
-            .map(({ id, photoId, name, price, salePrice, store, photos }) => (
+            .map(({ id, name, price, salePrice, store, photos }) => (
               <Product
                 key={id}
                 id={id}
-                photoId={photoId}
                 name={name}
                 price={price}
                 salePrice={salePrice}
