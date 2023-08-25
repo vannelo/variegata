@@ -48,6 +48,17 @@ const GET_PRODUCT = gql`
   }
 `;
 
+const GET_PRODUCT_BIDS = gql`
+  query GetProductBids($productId: String!) {
+    getProductBids(productId: $productId) {
+      _id
+      amount
+      timestamp
+      userId
+    }
+  }
+`;
+
 const CREATE_BID = gql`
   mutation CreateBid($productId: String!, $amount: Float!) {
     createBid(
@@ -70,10 +81,14 @@ export default function Producto() {
   } = useQuery(GET_PRODUCT, {
     variables: { productId },
   });
-  const [product, setProduct] = useState<Auction>();
-  const [productImageActive, setProductImageActive] = useState<string>();
-  const [productPhotos, setProductPhotos] = useState<string[]>([]);
-  const { auctions } = useAppSelector((state) => state.products);
+  const {
+    loading: productBidsLoading,
+    error: productBidsError,
+    data: productBidsData,
+  } = useQuery(GET_PRODUCT_BIDS, {
+    variables: { productId },
+    pollInterval: 1000,
+  });
   const [
     createBid,
     { data: mutationData, loading: mutationLoading, error: mutationError },
@@ -81,6 +96,10 @@ export default function Producto() {
     refetchQueries: [GET_PRODUCT, "GetProduct"],
     errorPolicy: "all",
   });
+  const [product, setProduct] = useState<Auction>();
+  const [productImageActive, setProductImageActive] = useState<string>();
+  const [productPhotos, setProductPhotos] = useState<string[]>([]);
+  const { auctions } = useAppSelector((state) => state.products);
   const [formError, setFormError] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -129,6 +148,16 @@ export default function Producto() {
       mapProduct(productData.product);
     }
   }, [productData]);
+
+  // Fetch product bids
+  useEffect(() => {
+    if (productBidsData) {
+      const sortedBids = [...productBidsData.getProductBids];
+      sortedBids.sort((a: Bid, b: Bid) => b.amount - a.amount);
+      setLastBids(sortedBids.slice(0, 3));
+      setHighestBid(sortedBids[0]);
+    }
+  }, [productBidsData]);
 
   // Bid mutation
   useEffect(() => {
