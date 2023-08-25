@@ -436,7 +436,7 @@ export default function Producto() {
                         {isBidsListActive && (
                           <div className={styles.list}>
                             {lastBids.map((bid) => (
-                              <div className={styles.item}>
+                              <div className={styles.item} key={bid.amount}>
                                 <div className={styles.user}>Allan</div>
                                 <div className={styles.amount}>
                                   <FormattedNumber
