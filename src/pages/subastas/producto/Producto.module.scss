@@ -270,15 +270,15 @@
     justify-content: center;
     align-items: center;
     .modalContent {
-      width: 750px;
-      height: 450px;
+      width: 700px;
+      min-height: 500px;
       background-color: white;
       border-radius: 10px;
       text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 4rem;
+      padding: 1rem 4rem;
       position: relative;
       @media only screen and (max-width: 1000px) {
         width: 90%;
@@ -293,8 +293,8 @@
       }
       .modalIcon {
         background-color: rgb(var(--light));
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         margin: auto;
         display: flex;
@@ -307,7 +307,18 @@
       .modalTitle {
         font-size: 1.5rem;
         font-weight: 500;
-        margin: 1rem 0;
+        margin: 0.5rem 0;
+      }
+      .modalCurrentOffer {
+        margin-bottom: 1rem;
+        .amount {
+          font-size: 1.4rem;
+          font-weight: 600;
+        }
+        .text {
+          font-size: 0.8rem;
+          color: rgb(var(--gray));
+        }
       }
       .modalText {
         font-size: 1rem;

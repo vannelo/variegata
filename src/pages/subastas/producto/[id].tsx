@@ -70,6 +70,7 @@ const CREATE_BID = gql`
 `;
 
 export default function Producto() {
+  const { auctions } = useAppSelector((state) => state.products);
   const dispatch = useDispatch();
   const router = useRouter();
   const productId = router.query.id;
@@ -91,7 +92,11 @@ export default function Producto() {
   });
   const [
     createBid,
-    { data: mutationData, loading: mutationLoading, error: mutationError },
+    {
+      data: bidMutationData,
+      loading: bidMutationLoading,
+      error: bidMutationError,
+    },
   ] = useMutation(CREATE_BID, {
     refetchQueries: [GET_PRODUCT, "GetProduct"],
     errorPolicy: "all",
@@ -99,7 +104,6 @@ export default function Producto() {
   const [product, setProduct] = useState<Auction>();
   const [productImageActive, setProductImageActive] = useState<string>();
   const [productPhotos, setProductPhotos] = useState<string[]>([]);
-  const { auctions } = useAppSelector((state) => state.products);
   const [formError, setFormError] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -161,17 +165,25 @@ export default function Producto() {
 
   // Bid mutation
   useEffect(() => {
+    if (bidMutationData) {
+      setShowModal(false);
+    }
+    if (bidMutationError) {
+      const errorData = JSON.parse(JSON.stringify(bidMutationError));
+      setFormError(JSON.parse(errorData.message).message);
+    }
+  }, [bidMutationData, bidMutationError]);
+
+  // Modal behavior
+  useEffect(() => {
     if (showModal) {
       inputRef?.current?.focus();
     }
-    if (mutationData) {
-      setShowModal(false);
+    if (!showModal) {
+      setDisabled(!showModal);
+      setFormError("");
     }
-    if (mutationError) {
-      const errorData = JSON.parse(JSON.stringify(mutationError));
-      setFormError(JSON.parse(errorData.message).message);
-    }
-  }, [mutationData, mutationError, showModal]);
+  }, [showModal]);
 
   // Create bid handler
   const postBid = (event: React.FormEvent<HTMLFormElement>) => {
@@ -188,7 +200,6 @@ export default function Producto() {
 
   // Product not found or fetch error
   if (productError) {
-    // Redirect to 404
     console.log(productError);
     router.push("/404");
   }
@@ -242,6 +253,18 @@ export default function Producto() {
                       <FormattedMessage id="subastaOfertaTexto" />
                     </p>
                   </div>
+                  <div className={styles.modalCurrentOffer}>
+                    <div className={styles.amount}>
+                      <FormattedNumber
+                        value={highestBid.amount}
+                        style="currency"
+                        currency="MXN"
+                      />
+                    </div>
+                    <div className={styles.text}>
+                      <FormattedMessage id="subastaOfertaActual" />
+                    </div>
+                  </div>
                   {formError && (
                     <div className={styles.modalError}>
                       <svg
@@ -271,6 +294,7 @@ export default function Producto() {
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>
                         ) => setDisabled(!event.target.value)}
+                        allowDecimals={false}
                         required
                       />
                       <button
@@ -280,7 +304,7 @@ export default function Producto() {
                         })}
                         disabled={disabled}
                       >
-                        {mutationLoading ? (
+                        {bidMutationLoading ? (
                           <svg
                             width="1rem"
                             height="1rem"
@@ -399,7 +423,7 @@ export default function Producto() {
                         )}
                       </div>
                     </div>
-                    {mutationData && (
+                    {bidMutationData && (
                       <div className={styles.success}>
                         <div className={styles.icon}>
                           <svg
@@ -490,7 +514,7 @@ export default function Producto() {
                             <div className={styles.more}>
                               <FormattedMessage
                                 id="subastaYMas"
-                                values={{ pujas: product.bids.length }}
+                                values={{ ofertas: product.bids.length }}
                               />
                             </div>
                           </div>

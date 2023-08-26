@@ -55,13 +55,14 @@
   "sinResultados": "No se encontraron resultados para esta búsqueda",
   "accountMenuCuenta": "Cuenta",
   "accountMenuSalir": "Salir",
-  "pujaMasAlta": "Puja más alta hasta el momento",
-  "pujaGanadora": "Puja ganadora",
-  "subastaYMas": "Y {pujas} más...",
+  "pujaMasAlta": "Oferta más alta hasta el momento",
+  "pujaGanadora": "Oferta ganadora",
+  "subastaYMas": "Y {ofertas} más...",
   "subastaOfertar": "Ofertar",
   "subastaHacerOferta": "Hacer una oferta",
   "subastaOfertaTexto": "Recuerda que al hacer una oferta, te comprometes a comprar el producto si eres el ganador de la subasta.",
   "subastaOfertaPlaceholder": "Cantidad a ofertar",
   "subastaOfertaExitosa": "Oferta realizada con éxito",
-  "subastaHistorial": "Historial de ofertas"
+  "subastaHistorial": "Historial de ofertas",
+  "subastaOfertaActual": "Oferta actual"
 }
