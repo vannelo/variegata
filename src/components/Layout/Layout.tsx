@@ -14,9 +14,11 @@ const Layout = ({ children }: PropsWithChildren) => {
         />
         <meta property="og:image" content="https://variegata.mx/img/meta.jpg" />
       </Head>
-      <Nav />
-      {children}
-      <Footer />
+      <main>
+        <Nav />
+        {children}
+        <Footer />
+      </main>
     </>
   );
 };

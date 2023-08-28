@@ -1,0 +1,27 @@
+.product {
+  display: flex;
+  padding-top: 5vh;
+  column-gap: 2rem;
+  max-width: 1150px;
+  margin: auto;
+  padding: 8rem 0;
+  .left {
+    width: 60%;
+    .gallery {
+      display: flex;
+      column-gap: 1rem;
+      .thumbs {
+        width: 100px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+      }
+      .mainImg {
+        width: 100%;
+      }
+    }
+  }
+  .right {
+    width: 40%;
+  }
+}

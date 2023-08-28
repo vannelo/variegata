@@ -1,0 +1,11 @@
+.page {
+  &.padding-small {
+    padding: 4rem 0;
+  }
+  &.padding-medium {
+    padding: 8rem 0;
+  }
+  &.padding-large {
+    padding: 12rem 0;
+  }
+}

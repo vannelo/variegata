@@ -1,0 +1,159 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modalContent {
+    width: 700px;
+    min-height: 500px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 4rem;
+    position: relative;
+    @media only screen and (max-width: 1000px) {
+      width: 90%;
+      height: 70vh;
+      padding: 2rem;
+      margin: auto;
+    }
+    .modalClose {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+    .modalIcon {
+      background-color: rgb(var(--light));
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        color: rgb(var(--primary));
+      }
+    }
+    .modalTitle {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0.5rem 0;
+    }
+    .modalCurrentOffer {
+      margin-bottom: 1rem;
+      .amount {
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+      .text {
+        font-size: 0.8rem;
+        color: rgb(var(--gray));
+      }
+    }
+    .modalText {
+      font-size: 1rem;
+      color: rgb(var(--gray));
+      margin-bottom: 1rem;
+    }
+    .modalError {
+      font-size: 1rem;
+      color: rgb(var(--danger));
+      background-color: rgb(var(--dangerLight));
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: left;
+      padding: 1rem;
+      font-size: 0.9rem;
+      column-gap: 0.8rem;
+      @media only screen and (max-width: 1000px) {
+        flex-direction: column;
+        row-gap: 0.5rem;
+        text-align: center;
+      }
+    }
+    .modalForm {
+      form {
+        width: 100%;
+        .input {
+          display: block;
+          margin: auto;
+          width: 100%;
+          max-width: 200px;
+          text-align: center;
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          font-size: 1.2rem;
+          line-height: 1.2rem;
+          border: 1px solid rgb(var(--lightGray));
+          margin-bottom: 0.7rem;
+          @media only screen and (max-width: 1000px) {
+            max-width: none;
+          }
+          &:focus {
+            outline: none;
+            border: 1px solid rgb(var(--primary));
+          }
+          &::placeholder {
+            font-size: 1rem;
+            line-height: 1rem;
+          }
+          &.danger {
+            border: 1px solid rgb(var(--danger));
+          }
+        }
+        button {
+          background-color: rgb(var(--dark));
+          color: white;
+          width: 100%;
+          height: 45px;
+          max-width: 200px;
+          padding: 0.7rem;
+          font-size: 1rem;
+          margin: auto;
+          margin-bottom: 1rem;
+          transition-duration: 0.2s;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          @media only screen and (max-width: 1000px) {
+            max-width: none;
+          }
+          .spinner {
+            animation-name: spin;
+            animation-duration: 500ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+          }
+          @keyframes spin {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+          &:hover {
+            transition-duration: 0.2s;
+            background-color: rgb(var(--primary));
+          }
+          &.disabled {
+            cursor: not-allowed;
+            background-color: rgb(var(--gray));
+          }
+        }
+      }
+    }
+  }
+}
