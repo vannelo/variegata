@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import styles from "./Subastas.module.scss";
 import Heading, { HeadingTypeEnum } from "@/components/Heading/Heading";
 import { ProductsPaginationData } from "@/utils/types";
 import Auctions from "@/components/Auctions/Auctions";
@@ -9,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { getProducts } from "@/redux/slices/products-slice";
 import { motion } from "framer-motion";
+import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
 
 export default function Subastas() {
   const dispatch = useDispatch();
@@ -42,35 +42,33 @@ export default function Subastas() {
   };
 
   return (
-    <section className={styles.page}>
-      <div className="container mx-auto">
-        <Heading
-          type={HeadingTypeEnum.SECONDARY}
-          heading={<FormattedMessage id="todasLasSubastas" />}
-        />
-        {auctions.length ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <Auctions
-              size={16}
-              products={auctions}
-              paginationData={paginationData}
-            />
-          </motion.div>
-        ) : (
-          <Auctions size={16} products={auctions} loading />
-        )}
-        <Pagination
-          productsPageActive={productsPageActive}
-          productsPagesCount={productsPagesCount}
-          onPageChange={onPageChange}
-          onPrevClick={onPrevClick}
-          onNextClick={onNextClick}
-        />
-      </div>
-    </section>
+    <Page padding={PagePaddingSize.SMALL} contained>
+      <Heading
+        type={HeadingTypeEnum.SECONDARY}
+        heading={<FormattedMessage id="todasLasSubastas" />}
+      />
+      {auctions.length ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Auctions
+            size={16}
+            products={auctions}
+            paginationData={paginationData}
+          />
+        </motion.div>
+      ) : (
+        <Auctions size={16} products={auctions} loading />
+      )}
+      <Pagination
+        productsPageActive={productsPageActive}
+        productsPagesCount={productsPagesCount}
+        onPageChange={onPageChange}
+        onPrevClick={onPrevClick}
+        onNextClick={onNextClick}
+      />
+    </Page>
   );
 }

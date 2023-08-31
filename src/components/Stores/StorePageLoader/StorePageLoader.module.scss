@@ -1,0 +1,39 @@
+.storePageLoader {
+  .logo {
+    max-width: 200px;
+    margin: auto;
+    .img {
+      width: 100%;
+    }
+  }
+  .socials {
+    display: flex;
+    column-gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .social {
+      transition-duration: 0.2s;
+      &:hover {
+        color: rgb(var(--primary));
+        transition-duration: 0.2s;
+      }
+    }
+  }
+  .bio {
+    font-size: 1.2rem;
+    text-align: center;
+    color: rgb(var(--darkLight));
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin: auto;
+  }
+  @media only screen and (max-width: 1000px) {
+    padding: 1rem;
+    margin: 2rem 0;
+  }
+}

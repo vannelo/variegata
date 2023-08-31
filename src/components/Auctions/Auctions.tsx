@@ -3,6 +3,7 @@ import styles from "./Auctions.module.scss";
 import Auction from "./Auction/Auction";
 import { Auction as AuctionType, ProductsPaginationData } from "@/utils/types";
 import AuctionLoader from "./AuctionLoader/AuctionLoader";
+import { motion } from "framer-motion";
 
 interface auctionsProps {
   size: number;
@@ -44,38 +45,45 @@ export default function Auctions(props: auctionsProps) {
   }
 
   return (
-    <div
-      className={`${styles.productsGrid} grid lg:grid-cols-4 grid-cols-1 gap-6`}
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
     >
-      {isPaginationActive
-        ? products
-            .slice(slideIndex, sliceEnd)
-            .map(({ id, name, price, store, photos, endTime, bids }) => (
-              <Auction
-                key={id}
-                id={id}
-                name={name}
-                price={price}
-                store={store}
-                photos={photos}
-                endTime={endTime}
-                bids={bids}
-              />
-            ))
-        : products
-            .slice(0, size)
-            .map(({ id, name, price, store, photos, endTime, bids }) => (
-              <Auction
-                key={id}
-                id={id}
-                name={name}
-                price={price}
-                store={store}
-                photos={photos}
-                endTime={endTime}
-                bids={bids}
-              />
-            ))}
-    </div>
+      <div
+        className={`${styles.productsGrid} grid lg:grid-cols-4 grid-cols-1 gap-6`}
+      >
+        {isPaginationActive
+          ? products
+              .slice(slideIndex, sliceEnd)
+              .map(({ id, name, price, store, photos, endTime, bids }) => (
+                <Auction
+                  key={id}
+                  id={id}
+                  name={name}
+                  price={price}
+                  store={store}
+                  photos={photos}
+                  endTime={endTime}
+                  bids={bids}
+                />
+              ))
+          : products
+              .slice(0, size)
+              .map(({ id, name, price, store, photos, endTime, bids }) => (
+                <Auction
+                  key={id}
+                  id={id}
+                  name={name}
+                  price={price}
+                  store={store}
+                  photos={photos}
+                  endTime={endTime}
+                  bids={bids}
+                />
+              ))}
+      </div>
+    </motion.div>
   );
 }

@@ -1,17 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/navigation";
-import Heading, {
-  HeadingAlignEnum,
-  HeadingTypeEnum,
-} from "@/components/Heading/Heading";
-import styles from "./Entrar.module.scss";
-import { motion } from "framer-motion";
+import styles from "./SignInForm.module.scss";
 import { signIn } from "next-auth/react";
-import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
-import SignInForm from "@/components/Forms/SignInForm/SignInForm";
 
-export default function Entrar() {
+export default function SignInForm() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [formValues, setFormValues] = useState({
@@ -47,20 +40,36 @@ export default function Entrar() {
   };
 
   return (
-    <Page padding={PagePaddingSize.MEDIUM}>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <Heading
-          type={HeadingTypeEnum.SECONDARY}
-          align={HeadingAlignEnum.CENTER}
-          heading={<FormattedMessage id="iniciaSesion" />}
-          subheading={<FormattedMessage id="entrar" />}
-        />
-        <SignInForm />
-      </motion.div>
-    </Page>
+    <div className={`${styles.contact} max-w-xl mx-auto`}>
+      <form onSubmit={onSubmit}>
+        <div className={styles.form}>
+          <label>
+            <FormattedMessage id="inputEmail" />
+          </label>
+          <input
+            type="email"
+            name="email"
+            className="rounded-md"
+            required
+            value={formValues.email}
+            onChange={handleChange}
+          />
+          <label>
+            <FormattedMessage id="inputContrasena" />
+          </label>
+          <input
+            type="password"
+            name="password"
+            className="rounded-md"
+            required
+            value={formValues.password}
+            onChange={handleChange}
+          />
+          <button type="submit" className="rounded-md">
+            {loading ? <p>Entrando...</p> : <FormattedMessage id="entrar" />}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
