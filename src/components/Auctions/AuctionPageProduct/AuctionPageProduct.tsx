@@ -121,20 +121,33 @@ export default function AuctionPageProduct(props: AuctionPageProductProps) {
                 </Link>
                 <h3 className={styles.name}>{product.name}</h3>
                 <div className={styles.miniDivider} />
-                <div className={styles.price}>
-                  <FormattedNumber
-                    value={highestBid.amount}
-                    style="currency"
-                    currency="MXN"
-                  />
-                  <div className={styles.bestBid}>
-                    {isAuctionActive ? (
-                      <FormattedMessage id="pujaMasAlta" />
-                    ) : (
-                      <FormattedMessage id="pujaGanadora" />
-                    )}
+                {highestBid ? (
+                  <div className={styles.price}>
+                    <FormattedNumber
+                      value={highestBid.amount}
+                      style="currency"
+                      currency="MXN"
+                    />
+                    <div className={styles.bestBid}>
+                      {isAuctionActive ? (
+                        <FormattedMessage id="pujaMasAlta" />
+                      ) : (
+                        <FormattedMessage id="pujaGanadora" />
+                      )}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className={styles.price}>
+                    <FormattedNumber
+                      value={0}
+                      style="currency"
+                      currency="MXN"
+                    />
+                    <div className={styles.bestBid}>
+                      <FormattedMessage id="sinOfertas" />
+                    </div>
+                  </div>
+                )}
                 {auctionBidSuccess && (
                   <div className={styles.success}>
                     <div className={styles.icon}>

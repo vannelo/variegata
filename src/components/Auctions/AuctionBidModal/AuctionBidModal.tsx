@@ -48,6 +48,7 @@ export default function AuctionBidModal(props: AuctionBidModalProps) {
       onSuccess();
     }
     if (bidMutationError) {
+      console.log("bidMutationError", bidMutationError);
       const errorData = JSON.parse(JSON.stringify(bidMutationError));
       setAuctionBidError(JSON.parse(errorData.message).message);
     }
@@ -113,11 +114,11 @@ export default function AuctionBidModal(props: AuctionBidModalProps) {
             </div>
             <div className={styles.modalCurrentOffer}>
               <div className={styles.amount}>
-                <FormattedNumber
-                  value={highestBid.amount}
+                {/* <FormattedNumber
+                  value={highestBid ? highestBid.amount : 0}
                   style="currency"
                   currency="MXN"
-                />
+                /> */}
               </div>
               <div className={styles.text}>
                 <FormattedMessage id="subastaOfertaActual" />
