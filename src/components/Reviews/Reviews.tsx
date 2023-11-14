@@ -12,8 +12,8 @@ export default function Reviews(props: ReviewsProps) {
   return (
     <div className={styles.reviews}>
       {reviews.length > 0 ? (
-        reviews.map((review: ReviewType) => (
-          <Review rating={review.rating} comment={review.comment} />
+        reviews.map((review: ReviewType, i: number) => (
+          <Review rating={review.rating} comment={review.comment} key={i} />
         ))
       ) : (
         <p>No hay reviews</p>
