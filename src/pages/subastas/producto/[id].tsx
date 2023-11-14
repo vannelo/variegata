@@ -46,6 +46,7 @@ export default function Producto() {
   // First render fetch
   useEffect(() => {
     dispatch<any>(getProducts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetch product
@@ -106,8 +107,6 @@ export default function Producto() {
     console.log(productError);
     router.push("/404");
   }
-
-  console.log("product", product);
 
   return productLoading ? (
     <AuctionPageLoader />

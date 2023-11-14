@@ -62,6 +62,7 @@ export default function Timer(props: TimerProps) {
       timer = window.setInterval(showRemaining, 1000);
     };
     endTime && CountDownTimer(endTime);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

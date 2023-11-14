@@ -29,6 +29,7 @@ export default function Subastas() {
         pageActive: productsPageActive,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsPageActive, auctions.length]);
 
   const onPageChange = (i: number) => {

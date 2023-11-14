@@ -82,6 +82,7 @@ export default function ProductSearch() {
       setIsSearching(false);
       setSearchTerm("");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParam]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {

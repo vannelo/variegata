@@ -39,6 +39,7 @@ export default function Home() {
     if (auctions.length) {
       setFeaturedProduct(auctions[1]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products]);
 
   return (

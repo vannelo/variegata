@@ -29,6 +29,7 @@ export default function Tienda() {
         pageActive: productsPageActive,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsPageActive, products.length]);
 
   const onPageChange = (i: number) => {

@@ -52,6 +52,7 @@ export default function AuctionBidModal(props: AuctionBidModalProps) {
       const errorData = JSON.parse(JSON.stringify(bidMutationError));
       setAuctionBidError(JSON.parse(errorData.message).message);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bidMutationData, bidMutationError]);
 
   const postBid = (event: React.FormEvent<HTMLFormElement>) => {
