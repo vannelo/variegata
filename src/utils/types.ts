@@ -6,6 +6,12 @@ export type Bid = {
   amount: number;
   timestamp: string;
 };
+
+export type Review = {
+  comment: string;
+  rating: number;
+};
+
 export interface ProductBase {
   id: string;
   price: number;
@@ -29,6 +35,7 @@ export interface ProductsPaginationData {
 }
 
 export interface Store {
+  id: string;
   name: string;
   slug: string;
   description: string;
@@ -36,5 +43,6 @@ export interface Store {
   facebook?: string;
   instagram?: string;
   phone?: string;
-  products: Product[];
+  products?: Product[];
+  reviews?: Review[];
 }

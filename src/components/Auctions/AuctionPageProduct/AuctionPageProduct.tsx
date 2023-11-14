@@ -287,7 +287,7 @@ export default function AuctionPageProduct(props: AuctionPageProductProps) {
             </div>
           </div>
           <div className={styles.moreInfo}>
-            <ProductTabs />
+            <ProductTabs product={product} />
           </div>
         </article>
       </motion.div>

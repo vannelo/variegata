@@ -63,4 +63,25 @@
   .subtabContent {
     padding: 1rem;
   }
+  .reviewForm {
+    .stars {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+      .star {
+        cursor: pointer;
+        &.starActive svg {
+          color: rgb(var(--warning));
+        }
+        &.starInactive svg {
+          color: rgb(var(--gray));
+        }
+      }
+    }
+    .textArea {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid rgb(var(--light200));
+    }
+  }
 }

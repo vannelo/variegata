@@ -1,13 +1,40 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import styles from "./ProductTabs.module.scss";
 import Reviews from "@/components/Reviews/Reviews";
 import { FormattedMessage } from "react-intl";
+import { Auction } from "@/utils/types";
+import Button, {
+  ButtonColorEnum,
+  ButtonSizeEnum,
+} from "@/components/Button/Button";
+import { useMutation } from "@apollo/client";
+import { CreateReview } from "@/graphql/mutations/CreateReview.mutation";
+import { GetProduct } from "@/graphql/queries/GetProduct.query";
 
-export default function ProductTabs() {
+interface ProductTabsProps {
+  product: Auction;
+}
+
+export default function ProductTabs(props: ProductTabsProps) {
+  const { product } = props;
   const [tabActive, setTabActive] = useState<Number>(1);
   const [subtabActive, setSubtabActive] = useState<Number | null>();
+  const [starsGiven, setStarsGiven] = useState<Number>(0);
+  const [reviewCreated, setReviewCreated] = useState<boolean>(false);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+  const [
+    createReview,
+    {
+      data: createReviewData,
+      loading: createReviewLoading,
+      error: createReviewError,
+    },
+  ] = useMutation(CreateReview, {
+    refetchQueries: [GetProduct, "GetProduct"],
+    errorPolicy: "all",
+  });
 
   const getSubtabButtonIcon = (subtab: Number) => {
     return subtabActive === subtab ? (
@@ -38,6 +65,35 @@ export default function ProductTabs() {
       </svg>
     );
   };
+
+  const onReviewSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const comment = commentRef.current?.value;
+    if (!comment) {
+      alert("Agrega un comentario");
+      return;
+    }
+    createReview({
+      variables: {
+        comment: comment,
+        rating: starsGiven.valueOf(),
+        storeId: product.store.id,
+        userId: "user-1",
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (createReviewData) {
+      setReviewCreated(true);
+    }
+    if (createReviewError) {
+      console.log("createReviewError", createReviewError);
+      const errorData = JSON.parse(JSON.stringify(createReviewError));
+
+      alert("Error: " + JSON.parse(errorData.message).message);
+    }
+  }, [createReviewData, createReviewError]);
 
   return (
     <section>
@@ -407,7 +463,122 @@ export default function ProductTabs() {
         <div className={styles.contents}>
           <div className={styles.content}>
             <h4>Reseñas de la tienda</h4>
-            <Reviews />
+            <Reviews reviews={product?.store.reviews ?? []} />
+            {createReviewLoading && <p>Enviando reseña...</p>}
+            {reviewCreated && (
+              <p>Gracias por compartir tu experiencia con esta tienda.</p>
+            )}
+            {!reviewCreated && !createReviewLoading && (
+              <div className={styles.reviewForm}>
+                <h4>Deja una reseña</h4>
+                <p>Comparte tu experiencia de comprar con este proveedor</p>
+                <form onSubmit={onReviewSubmitHandler}>
+                  <div className={styles.stars}>
+                    <div
+                      className={`${styles.star} ${
+                        starsGiven.valueOf() > 0
+                          ? styles.starActive
+                          : styles.starInactive
+                      }`}
+                      onClick={() => setStarsGiven(1)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>
+                    </div>
+                    <div
+                      className={`${styles.star} ${
+                        starsGiven.valueOf() > 1
+                          ? styles.starActive
+                          : styles.starInactive
+                      }`}
+                      onClick={() => setStarsGiven(2)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>
+                    </div>
+                    <div
+                      className={`${styles.star} ${
+                        starsGiven.valueOf() > 2
+                          ? styles.starActive
+                          : styles.starInactive
+                      }`}
+                      onClick={() => setStarsGiven(3)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>
+                    </div>
+                    <div
+                      className={`${styles.star} ${
+                        starsGiven.valueOf() > 3
+                          ? styles.starActive
+                          : styles.starInactive
+                      }`}
+                      onClick={() => setStarsGiven(4)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>
+                    </div>
+                    <div
+                      className={`${styles.star} ${
+                        starsGiven.valueOf() > 4
+                          ? styles.starActive
+                          : styles.starInactive
+                      }`}
+                      onClick={() => setStarsGiven(5)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <textarea
+                    placeholder="Escribe tu reseña"
+                    ref={commentRef}
+                    className={styles.textArea}
+                  ></textarea>
+                  <Button
+                    size={ButtonSizeEnum.SMALL}
+                    color={ButtonColorEnum.PRIMARY}
+                  >
+                    Enviar
+                  </Button>
+                </form>
+              </div>
+            )}
           </div>
         </div>
       )}

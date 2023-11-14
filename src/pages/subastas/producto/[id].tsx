@@ -57,7 +57,14 @@ export default function Producto() {
         price: product.price,
         description: product.description,
         endTime: product.endTime,
-        store: product.store.name,
+        store: {
+          id: product.store._id,
+          name: product.store.name,
+          slug: product.store.slug,
+          reviews: product.store.reviews,
+          description: product.store.description,
+          logo: product.store.logo,
+        },
         photos: product.photos,
         bids: product.bids,
       };
@@ -99,6 +106,8 @@ export default function Producto() {
     console.log(productError);
     router.push("/404");
   }
+
+  console.log("product", product);
 
   return productLoading ? (
     <AuctionPageLoader />

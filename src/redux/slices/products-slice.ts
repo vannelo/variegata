@@ -29,6 +29,7 @@ export const getProducts = createAsyncThunk(
               url
             }
             store {
+              _id
               name
               slug
             }

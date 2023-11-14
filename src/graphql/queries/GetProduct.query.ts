@@ -18,6 +18,7 @@ export const GetProduct = gql`
         timestamp
       }
       store {
+        _id
         name
         slug
         description
@@ -25,6 +26,11 @@ export const GetProduct = gql`
         facebook
         instagram
         phone
+        reviews {
+          _id
+          rating
+          comment
+        }
       }
     }
   }
