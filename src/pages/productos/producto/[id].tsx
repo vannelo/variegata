@@ -206,9 +206,11 @@ export default function ProductoProfile() {
               </div>
             </div>
           </div>
-          <div className={styles.moreInfo}>
-            <ProductTabs />
-          </div>
+          {product && (
+            <div className={styles.moreInfo}>
+              <ProductTabs product={product} />
+            </div>
+          )}
         </article>
       </motion.div>
       <motion.div

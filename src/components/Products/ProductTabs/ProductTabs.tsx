@@ -4,7 +4,7 @@ import classnames from "classnames";
 import styles from "./ProductTabs.module.scss";
 import Reviews from "@/components/Reviews/Reviews";
 import { FormattedMessage } from "react-intl";
-import { Auction } from "@/utils/types";
+import { Auction, Product } from "@/utils/types";
 import Button, {
   ButtonColorEnum,
   ButtonSizeEnum,
@@ -14,7 +14,7 @@ import { CreateReview } from "@/graphql/mutations/CreateReview.mutation";
 import { GetProduct } from "@/graphql/queries/GetProduct.query";
 
 interface ProductTabsProps {
-  product: Auction;
+  product: Auction | Product;
 }
 
 export default function ProductTabs(props: ProductTabsProps) {
