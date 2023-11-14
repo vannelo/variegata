@@ -29,6 +29,7 @@ export default function TiendaProfile() {
         query: gql`
         query  {
           store(slug: "${productSlug}") {
+            _id
             name
             slug
             description
@@ -55,6 +56,7 @@ export default function TiendaProfile() {
       `,
       });
       const {
+        _id,
         name,
         slug,
         description,
@@ -65,6 +67,7 @@ export default function TiendaProfile() {
         products,
       } = await response.data.store;
       const store = {
+        id: _id,
         name,
         slug,
         description,
