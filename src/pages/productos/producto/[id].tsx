@@ -87,9 +87,12 @@ export default function ProductoProfile() {
     dispatch<any>(getProducts());
   }, [dispatch, productId]);
 
-  return loading ? (
-    <ProductPageLoader />
-  ) : (
+  console.log("product", product);
+
+  if (!product) return null;
+  if (loading) return <ProductPageLoader />;
+
+  return (
     <Page padding={PagePaddingSize.MEDIUM} contained>
       <motion.div
         initial={{ opacity: 0 }}

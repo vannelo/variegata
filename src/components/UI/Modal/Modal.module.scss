@@ -1,0 +1,89 @@
+.modalContainer {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 901;
+  width: 100%;
+  height: 100vh;
+  .modalContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(var(--light));
+    width: 90%;
+    max-width: 40rem;
+    border-radius: 0.5rem;
+    z-index: 902;
+    .modalHeader {
+      padding: 1rem 1.2rem;
+      font-size: 1.3rem;
+      border-bottom: 1px solid rgb(var(--light200));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .modalIcon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 0.6rem;
+        .modalIconSuccess {
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: rgb(var(--success));
+        }
+        .modalIconError {
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: rgb(var(--danger));
+        }
+        .modalIconWarning {
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: rgb(var(--warning));
+        }
+      }
+      .modalCloseButton {
+        border: none;
+        background-color: transparent;
+        font-size: 1.5rem;
+        color: rgb(var(--gray));
+        transition-duration: 0.2s;
+        &:hover {
+          color: rgb(var(--dark));
+        }
+      }
+    }
+    .modalBody {
+      padding: 1.2rem;
+      display: flex;
+      align-items: center;
+
+      color: rgb(var(--gray));
+      border-bottom: 1px solid rgb(var(--light200));
+    }
+    .modalFooter {
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .modalCancelButton {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgb(var(--gray));
+        background-color: transparent;
+        transition-duration: 0.2s;
+      }
+      .modalConfirmButton {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgb(var(--dark));
+        background-color: rgb(var(--dark));
+        color: white;
+        transition-duration: 0.2s;
+        margin-left: 1rem;
+      }
+    }
+  }
+}
