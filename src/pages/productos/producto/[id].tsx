@@ -61,6 +61,11 @@ export default function ProductoProfile() {
               facebook
               instagram
               phone
+              reviews {
+                _id
+                rating
+                comment
+              }
             }
           }
         }

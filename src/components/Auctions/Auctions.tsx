@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./Auctions.module.scss";
-import Auction from "./Auction/Auction";
+import Auction from "./AuctionItem/AuctionItem";
 import { Auction as AuctionType, ProductsPaginationData } from "@/utils/types";
-import AuctionLoader from "./AuctionLoader/AuctionLoader";
+import AuctionLoader from "./AuctionItem/AuctionItemLoader";
 import { motion } from "framer-motion";
 
 interface auctionsProps {

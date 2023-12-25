@@ -1,6 +1,7 @@
 .product {
   background-color: white;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
   overflow: hidden;
   .imageContainer {
     position: relative;
@@ -47,6 +48,7 @@
   }
   .info {
     text-align: left;
+    padding: 1rem;
     .price {
       font-size: 1.7rem;
       font-weight: 600;

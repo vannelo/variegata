@@ -40,6 +40,8 @@ export default function AuctionPageProduct(props: AuctionPageProductProps) {
   const [productImageActive, setProductImageActive] = useState<string>("");
   const [showBidsList, setShowBidsList] = useState<boolean>(false);
 
+  console.log("product", product);
+
   return (
     <div className="container mx-auto">
       <motion.div

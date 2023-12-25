@@ -1,5 +1,5 @@
 import { FormattedMessage } from "react-intl";
-import Auction from "../Auctions/Auction/Auction";
+import Auction from "../Auctions/AuctionItem/AuctionItem";
 import Heading, { HeadingAlignEnum, HeadingTypeEnum } from "../Heading/Heading";
 import styles from "./FeaturedProduct.module.scss";
 import { Auction as AuctionType } from "@/utils/types";

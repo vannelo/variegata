@@ -1,0 +1,30 @@
+.iconContainer {
+  font-size: 0;
+  &.small {
+    width: 15px;
+    height: 15px;
+  }
+  &.medium {
+    width: 30px;
+    height: 30px;
+  }
+  &.large {
+    width: 60px;
+    height: 60px;
+  }
+  &.primary {
+    color: rgb(var(--secondary));
+  }
+  &.secondary {
+    color: rgb(var(--secondary));
+  }
+  &.success {
+    color: rgb(var(--success));
+  }
+  &.warning {
+    color: rgb(var(--warning));
+  }
+  &.danger {
+    color: rgb(var(--danger));
+  }
+}
