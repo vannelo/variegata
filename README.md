@@ -25,5 +25,16 @@ Follow these instructions to get the project up and running on your local machin
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/variegata-mx.git
-   cd variegata-mx
+   git clone https://github.com/your-username/variegata.git
+   cd variegata
+
+2. **Install dependencies:**
+   ```bash
+   npm i
+
+2. **Run the project:**
+   ```bash
+   npm run dev
+
+
+   
