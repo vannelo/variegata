@@ -1,5 +1,5 @@
-import getIconSvg from "./Icon.utils";
 import styles from "./Icon.module.scss";
+import IconSVG from "./IconSVG";
 
 export enum IconNameEnum {
   STORE = "store",
@@ -30,13 +30,12 @@ interface IconProps {
 
 export default function Icon(props: IconProps) {
   const { icon, size, color } = props;
-  const IconComponent = getIconSvg(icon);
   const sizeClass = size ? styles[size] : styles[IconSizeEnum.MEDIUM];
   const colorClass = color ? styles[color] : styles[IconColorEnum.PRIMARY];
 
   return (
     <div className={`${styles.iconContainer} ${sizeClass} ${colorClass}`}>
-      <IconComponent />
+      <IconSVG iconName={icon} />
     </div>
   );
 }

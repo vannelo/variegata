@@ -2,22 +2,22 @@ import BidIcon from "./Assets/BidIcon";
 import CloseIcon from "./Assets/CloseIcon";
 import CloseOutlineIcon from "./Assets/CloseOutlineIcon";
 import StoreIcon from "./Assets/StoreIcon";
+interface IconSVGProps {
+  readonly iconName: string;
+}
 
-const getIconSvg = (iconName: string): React.FC => {
+export default function IconSVG(props: IconSVGProps) {
+  const { iconName } = props;
   switch (iconName) {
     case "store":
-      return StoreIcon;
+      return <StoreIcon />;
     case "bid":
-      return BidIcon;
+      return <BidIcon />;
     case "close":
-      return CloseIcon;
+      return <CloseIcon />;
     case "close-outline":
-      return CloseOutlineIcon;
+      return <CloseOutlineIcon />;
     default:
-      return () => <></>;
+      return <></>;
   }
-};
-
-getIconSvg.displayName = "getIconSvg";
-
-export default getIconSvg;
+}
