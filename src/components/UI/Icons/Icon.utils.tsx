@@ -1,3 +1,4 @@
+import React from "react";
 import BidIcon from "./Assets/BidIcon";
 import CloseIcon from "./Assets/CloseIcon";
 import CloseOutlineIcon from "./Assets/CloseOutlineIcon";
