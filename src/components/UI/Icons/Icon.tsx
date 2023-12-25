@@ -1,4 +1,4 @@
-import { getIconSvg } from "./Icon.utils";
+import getIconSvg from "./Icon.utils";
 import styles from "./Icon.module.scss";
 
 export enum IconNameEnum {

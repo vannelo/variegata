@@ -4,7 +4,7 @@ import CloseIcon from "./Assets/CloseIcon";
 import CloseOutlineIcon from "./Assets/CloseOutlineIcon";
 import StoreIcon from "./Assets/StoreIcon";
 
-export const getIconSvg = (iconName: string): React.FC => {
+export default function getIconSvg(iconName: string): React.FC {
   switch (iconName) {
     case "store":
       return StoreIcon;
@@ -17,4 +17,4 @@ export const getIconSvg = (iconName: string): React.FC => {
     default:
       return () => <></>;
   }
-};
+}
