@@ -34,7 +34,4 @@ Follow these instructions to get the project up and running on your local machin
 
 2. **Run the project:**
    ```bash
-   npm run dev
-
-
-   
+   npm run dev 
