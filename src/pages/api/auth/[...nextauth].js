@@ -1,23 +1,13 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import CognitoProvider from "next-auth/providers/cognito";
 
 export const authOptions = {
-  pages: { signIn: "/entrar" },
+  // pages: { signIn: "/entrar" },
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        const user = {
-          id: "1",
-          name: "Preview Deployment",
-          email: "preview@deployment.com",
-        };
-        return user;
-      },
+    CognitoProvider({
+      clientId: process.env.COGNITO_CLIENT_ID,
+      clientSecret: process.env.COGNITO_CLIENT_SECRET,
+      issuer: process.env.COGNITO_ISSUER,
     }),
   ],
 };
