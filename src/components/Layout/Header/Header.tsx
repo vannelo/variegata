@@ -18,24 +18,18 @@ export default function Header(props: HeaderProps) {
     <header className={styles.header}>
       <>
         <div className={styles.imageBg}></div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <Image
-            priority
-            alt="Variegata Plantas de Boutique"
-            src={`/img/stock-${headerBg}.jpg`}
-            fill
-            quality={90}
-            style={{
-              objectFit: "cover",
-              zIndex: -1,
-              backgroundColor: "black",
-            }}
-          />
-        </motion.div>
+        <Image
+          priority
+          alt="Variegata Plantas de Boutique"
+          src={`/img/stock-${headerBg}.jpg`}
+          fill
+          quality={90}
+          style={{
+            objectFit: "cover",
+            zIndex: -1,
+            backgroundColor: "black",
+          }}
+        />
       </>
       <div className={`container mx-auto ${styles.headerFlex}`}>
         <div className={styles.content}>
