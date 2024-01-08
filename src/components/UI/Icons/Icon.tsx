@@ -8,6 +8,26 @@ export enum IconNameEnum {
   CLOSE_OUTLINE = "close-outline",
   EXPAND = "expand",
   CHECK = "check",
+  BIDS_HISTORY = "bids-history",
+  PLUS = "plus",
+  MINUS = "minus",
+  SHARE = "share",
+  MAIL = "mail",
+  WHATSAPP = "whatsapp",
+  ARROW = "arrow",
+  BURGER = "burger",
+  SEARCH = "search",
+  CHEVRON_DOWN = "chevron-down",
+  CHEVRON_LEFT = "chevron-left",
+  CHEVRON_RIGHT = "chevron-right",
+  USER = "user",
+  STAR = "star",
+  FACEBOOK = "facebook",
+  INSTAGRAM = "instagram",
+  TIMER = "timer",
+  CIRCLE_SUCCESS = "circle-success",
+  CIRCLE_ERROR = "circle-error",
+  CIRCLE_WARNING = "circle-warning",
 }
 
 export enum IconSizeEnum {
@@ -22,6 +42,7 @@ export enum IconColorEnum {
   SUCCCESS = "success",
   WARNING = "warning",
   DANGER = "danger",
+  LIGHT = "light",
 }
 
 interface IconProps {

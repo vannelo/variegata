@@ -16,6 +16,7 @@ import ProductPageLoader from "@/components/Products/ProductPageLoader/ProductPa
 import { motion } from "framer-motion";
 import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
 import { useSession } from "next-auth/react";
+import Icon, { IconNameEnum, IconSizeEnum } from "@/components/UI/Icons/Icon";
 
 const client = new ApolloClient({
   uri: "https://variegataapi.com.mx/graphql",
@@ -144,15 +145,10 @@ export default function ProductoProfile() {
                         className={styles.fullScreenIcon}
                         data-lightboxjs="product"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
-                        </svg>
+                        <Icon
+                          icon={IconNameEnum.EXPAND}
+                          size={IconSizeEnum.SMALL}
+                        />
                       </button>
                     </SlideshowLightbox>
                   </div>
@@ -200,15 +196,10 @@ export default function ProductoProfile() {
                     <div className={styles.actions}>
                       <button className={styles.action}>
                         <div className={styles.icon}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="1.2rem"
-                            height="1.2rem"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
-                          </svg>
+                          <Icon
+                            icon={IconNameEnum.SHARE}
+                            size={IconSizeEnum.SMALL}
+                          />
                         </div>
                         <div className={styles.name}>
                           <FormattedMessage id="productoCompartir" />

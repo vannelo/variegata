@@ -10,6 +10,7 @@ import AuctionPageGallery from "./AuctionPageGallery/AuctionPageGallery";
 import AuctionPagePrice from "./AuctionPagePrice/AuctionPagePrice";
 import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
 import Animated from "@/components/Layout/Animated/Animated";
+import Icon, { IconNameEnum, IconSizeEnum } from "@/components/UI/Icons/Icon";
 
 interface AuctionPageProps {
   readonly product: Auction;
@@ -64,38 +65,23 @@ export default function AuctionPage({
                       onClick={() => setShowBidsList((prev) => !prev)}
                     >
                       <div className={styles.icon}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="1rem"
-                          height="1rem"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
-                        </svg>
+                        <Icon
+                          icon={IconNameEnum.BIDS_HISTORY}
+                          size={IconSizeEnum.SMALL}
+                        />
                         <FormattedMessage id="subastaHistorial" />
                       </div>
                       <div className={styles.plus}>
                         {showBidsList ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="1.5rem"
-                            height="1.5rem"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                          </svg>
+                          <Icon
+                            icon={IconNameEnum.MINUS}
+                            size={IconSizeEnum.SMALL}
+                          />
                         ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="1.5rem"
-                            height="1.5rem"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                          </svg>
+                          <Icon
+                            icon={IconNameEnum.PLUS}
+                            size={IconSizeEnum.SMALL}
+                          />
                         )}
                       </div>
                     </button>
@@ -166,15 +152,10 @@ export default function AuctionPage({
                     <div className={styles.actions}>
                       <button className={styles.action}>
                         <div className={styles.icon}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="1.2rem"
-                            height="1.2rem"
-                            fill="currentColor"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
-                          </svg>
+                          <Icon
+                            icon={IconNameEnum.SHARE}
+                            size={IconSizeEnum.SMALL}
+                          />
                         </div>
                         <div className={styles.name}>
                           <FormattedMessage id="productoCompartir" />

@@ -7,6 +7,11 @@ import { FormattedMessage } from "react-intl";
 import styles from "./Nav.module.scss";
 import classnames from "classnames";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Icon, {
+  IconColorEnum,
+  IconNameEnum,
+  IconSizeEnum,
+} from "@/components/UI/Icons/Icon";
 
 export default function Nav() {
   const [mobileMenuActive, setMobileMenuActive] = useState<boolean>(false);
@@ -80,15 +85,7 @@ export default function Nav() {
               className={`${styles.burger} show-mobile`}
               onClick={() => setMobileMenuActive(true)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1.9rem"
-                height="1.9rem"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-              </svg>
+              <Icon icon={IconNameEnum.BURGER} color={IconColorEnum.LIGHT} />
             </button>
             <div className={styles.logo}>
               <Link href="/" className={styles.logoLink}>
@@ -109,15 +106,11 @@ export default function Nav() {
             <div className={styles.icons}>
               <div className={styles.icon}>
                 <Link href="/buscar">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1rem"
-                    height="1rem"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                  </svg>
+                  <Icon
+                    icon={IconNameEnum.SEARCH}
+                    color={IconColorEnum.LIGHT}
+                    size={IconSizeEnum.SMALL}
+                  />
                 </Link>
               </div>
               <div className={styles.icon}>
@@ -128,18 +121,10 @@ export default function Nav() {
                       onClick={() => setIsAccountMenuActive((prev) => !prev)}
                     >
                       <div className={styles.username}>Allan</div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width=".8rem"
-                        height=".8rem"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                        />
-                      </svg>
+                      <Icon
+                        icon={IconNameEnum.CHEVRON_DOWN}
+                        size={IconSizeEnum.SMALL}
+                      />
                     </button>
                     {isAccountMenuActive && (
                       <div className={styles.accountMenu}>
@@ -168,15 +153,11 @@ export default function Nav() {
                     onClick={() => signIn("cognito")}
                     className={styles.iconBox}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="1.4rem"
-                      height="1.4rem"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                    </svg>
+                    <Icon
+                      icon={IconNameEnum.USER}
+                      size={IconSizeEnum.SMALL}
+                      color={IconColorEnum.LIGHT}
+                    />
                   </button>
                 )}
               </div>
@@ -190,15 +171,7 @@ export default function Nav() {
             className={styles.close}
             onClick={() => setMobileMenuActive(false)}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1.7rem"
-              height="1.7rem"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-            </svg>
+            <Icon icon={IconNameEnum.CLOSE} />
           </button>
           <div className={styles.logo}>
             <Link

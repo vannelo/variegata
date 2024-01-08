@@ -19,6 +19,7 @@ import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
 import Header from "@/components/Layout/Header/Header";
 import Section from "@/components/Layout/Section/Section";
 import Contact, { ContactThemeEnum } from "@/components/Contact/Contact";
+import Icon, { IconNameEnum } from "@/components/UI/Icons/Icon";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -58,15 +59,7 @@ export default function Home() {
         <Button type={ButtonTypeEnum.FLAT} href="/subastas">
           <>
             <FormattedMessage id="verMas" />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-            </svg>
+            <Icon icon={IconNameEnum.CHEVRON_RIGHT} />
           </>
         </Button>
       </Section>
@@ -96,15 +89,7 @@ export default function Home() {
         <Button type={ButtonTypeEnum.FLAT} href="/tienda">
           <>
             <FormattedMessage id="verMas" />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-            </svg>
+            <Icon icon={IconNameEnum.CHEVRON_RIGHT} />
           </>
         </Button>
       </Section>

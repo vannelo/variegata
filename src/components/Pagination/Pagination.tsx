@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import styles from "./Pagination.module.scss";
+import Icon, { IconNameEnum, IconSizeEnum } from "../UI/Icons/Icon";
 
 interface PaginationProps {
   productsPageActive: number;
@@ -25,15 +26,7 @@ export default function Pagination(props: PaginationProps) {
           className={styles.prevPage}
           onClick={() => onPrevClick(productsPageActive - 1)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-          >
-            <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-          </svg>
+          <Icon icon={IconNameEnum.CHEVRON_LEFT} size={IconSizeEnum.MEDIUM} />
         </button>
       ) : (
         <button className={styles.spaceBox} />
@@ -54,15 +47,7 @@ export default function Pagination(props: PaginationProps) {
           className={styles.nextPage}
           onClick={() => onNextClick(productsPageActive + 1)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-          >
-            <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-          </svg>
+          <Icon icon={IconNameEnum.CHEVRON_RIGHT} size={IconSizeEnum.MEDIUM} />
         </button>
       ) : (
         <button className={styles.spaceBox} />

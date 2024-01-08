@@ -13,7 +13,7 @@
     height: 60px;
   }
   &.primary {
-    color: rgb(var(--secondary));
+    color: rgb(var(--primary));
   }
   &.secondary {
     color: rgb(var(--secondary));
@@ -26,5 +26,8 @@
   }
   &.danger {
     color: rgb(var(--danger));
+  }
+  &.light {
+    color: rgb(var(--light));
   }
 }
