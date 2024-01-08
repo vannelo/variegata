@@ -4,7 +4,7 @@ import Heading, {
   HeadingAlignEnum,
   HeadingTypeEnum,
 } from "@/components/Heading/Heading";
-import Button, { ButtonTypeEnum } from "@/components/Button/Button";
+import Button, { ButtonTypeEnum } from "@/components/UI/Button/Button";
 import Auctions from "@/components/Auctions/Auctions";
 import FeaturedProduct from "@/components/FeaturedProduct/FeaturedProduct";
 import Products from "@/components/Products/Products";

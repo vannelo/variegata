@@ -6,7 +6,7 @@ import { FormattedMessage } from "react-intl";
 import Button, {
   ButtonColorEnum,
   ButtonSizeEnum,
-} from "@/components/Button/Button";
+} from "@/components/UI/Button/Button";
 
 interface HeaderProps {
   readonly headerBg: number;

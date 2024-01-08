@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import { useAppSelector } from "@/redux/store";
 import { getProducts } from "@/redux/slices/products-slice";
 import { useQuery } from "@apollo/client";
-import { GetProduct } from "@/graphql/queries/GetProduct.query";
-import { GetProductBids } from "@/graphql/queries/GetProductBids.query";
+import { GetProductQuery } from "@/graphql/queries/GetProduct.query";
+import { GetProductBidsQuery } from "@/graphql/queries/GetProductBids.query";
 import { Auction, Bid } from "@/utils/types";
-import AuctionPageLoader from "@/components/Auctions/AuctionPageLoader/AuctionPageLoader";
+import AuctionPageLoader from "@/components/Auctions/AuctionPage/AuctionPageLoader/AuctionPageLoader";
 import AuctionBidModal from "@/components/Auctions/AuctionBidModal/AuctionBidModal";
-import AuctionPageProduct from "@/components/Auctions/AuctionPageProduct/AuctionPageProduct";
+import AuctionPageProduct from "@/components/Auctions/AuctionPage/AuctionPage";
 import RelatedAuctions from "@/components/Auctions/RelatedAuctions/RelatedAuctions";
 import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
 
@@ -31,14 +31,14 @@ export default function Producto() {
     loading: productLoading,
     error: productError,
     data: productData,
-  } = useQuery(GetProduct, {
+  } = useQuery(GetProductQuery, {
     variables: { productId },
   });
   const {
     loading: productBidsLoading,
     error: productBidsError,
     data: productBidsData,
-  } = useQuery(GetProductBids, {
+  } = useQuery(GetProductBidsQuery, {
     variables: { productId },
     pollInterval: 1000,
   });

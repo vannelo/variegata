@@ -7,7 +7,7 @@ import Button, {
   ButtonColorEnum,
   ButtonSizeEnum,
   ButtonTypeEnum,
-} from "@/components/Button/Button";
+} from "@/components/UI/Button/Button";
 import styles from "./Contact.module.scss";
 import { motion } from "framer-motion";
 

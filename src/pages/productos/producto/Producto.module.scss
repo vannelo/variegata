@@ -255,4 +255,18 @@
       }
     }
   }
+  .noAccount {
+    padding: 2rem;
+    text-align: center;
+    color: rgb(var(--gray));
+    .link {
+      color: rgb(var(--primary));
+      font-weight: 500;
+      transition-duration: 0.2s;
+      &:hover {
+        transition-duration: 0.2s;
+        color: rgb(var(--primaryDark));
+      }
+    }
+  }
 }

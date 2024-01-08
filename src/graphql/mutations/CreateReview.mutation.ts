@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const CreateReview = gql`
+export const CreateReviewMutation = gql`
   mutation CreateReview(
     $comment: String!
     $storeId: String!

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const CreateBid = gql`
+export const CreateBidMutation = gql`
   mutation CreateBid($productId: String!, $amount: Float!) {
     createBid(
       bidInput: { productId: $productId, userId: "user-ui", amount: $amount }

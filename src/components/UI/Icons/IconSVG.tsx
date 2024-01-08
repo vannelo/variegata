@@ -1,6 +1,8 @@
 import BidIcon from "./Assets/BidIcon";
+import CheckIcon from "./Assets/CheckIcon";
 import CloseIcon from "./Assets/CloseIcon";
 import CloseOutlineIcon from "./Assets/CloseOutlineIcon";
+import ExpandIcon from "./Assets/ExpandIcon";
 import StoreIcon from "./Assets/StoreIcon";
 interface IconSVGProps {
   readonly iconName: string;
@@ -17,6 +19,10 @@ export default function IconSVG(props: IconSVGProps) {
       return <CloseIcon />;
     case "close-outline":
       return <CloseOutlineIcon />;
+    case "expand":
+      return <ExpandIcon />;
+    case "check":
+      return <CheckIcon />;
     default:
       return <></>;
   }

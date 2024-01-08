@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import CognitoProvider from "next-auth/providers/cognito";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { CheckUserQuery } from "@/graphql/queries/CheckUser.query";
+import { CreateUserMutation } from "@/graphql/mutations/CreateUser.mutation";
 
 const client = new ApolloClient({
   uri: "https://variegataapi.com.mx/graphql",
@@ -17,32 +19,16 @@ export const authOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      const checkUserQuery = gql`
-        query CheckUser($awsId: String) {
-          checkUser(awsId: $awsId) {
-            email
-          }
-        }
-      `;
-      const createUserMutation = gql`
-        mutation CreateUser($email: String!, $aws_id: String!) {
-          createUser(userInput: { email: $email, aws_id: $aws_id }) {
-            email
-          }
-        }
-      `;
-
       try {
         const userExists = await client.query({
-          query: checkUserQuery,
+          query: CheckUserQuery,
           variables: {
             awsId: token.sub,
           },
         });
-
         if (userExists.data.checkUser === null) {
           await client.mutate({
-            mutation: createUserMutation,
+            mutation: CreateUserMutation,
             variables: {
               email: session.user.email,
               aws_id: token.sub,
@@ -50,7 +36,7 @@ export const authOptions = {
           });
         }
       } catch (error) {
-        console.error("Error during user creation:", error);
+        console.error("Error", error);
       }
       return session;
     },

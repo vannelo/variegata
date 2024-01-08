@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { FormattedMessage, FormattedNumber, useIntl } from "react-intl";
-import { CreateBid } from "@/graphql/mutations/CreateProductBid.mutation";
-import { GetProduct } from "@/graphql/queries/GetProduct.query";
+import { CreateBidMutation } from "@/graphql/mutations/CreateProductBid.mutation";
+import { GetProductQuery } from "@/graphql/queries/GetProduct.query";
 import CurrencyInput from "react-currency-input-field";
 import { motion } from "framer-motion";
 import classnames from "classnames";
@@ -33,8 +33,8 @@ export default function AuctionBidModal(props: AuctionBidModalProps) {
       loading: bidMutationLoading,
       error: bidMutationError,
     },
-  ] = useMutation(CreateBid, {
-    refetchQueries: [GetProduct, "GetProduct"],
+  ] = useMutation(CreateBidMutation, {
+    refetchQueries: [GetProductQuery, "GetProductQuery"],
     errorPolicy: "all",
   });
   const intl = useIntl();

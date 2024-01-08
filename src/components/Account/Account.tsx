@@ -20,12 +20,12 @@ export default function Account() {
             <button className={`${styles.option} ${styles.active}`}>
               <FormattedMessage id="cuentaPerfil" />
             </button>
-            <button className={styles.option}>
+            {/* <button className={styles.option}>
               <FormattedMessage id="cuentaOrdenes" />
             </button>
             <button className={styles.option}>
               <FormattedMessage id="cuentaDireccion" />
-            </button>
+            </button> */}
           </div>
         </div>
         <div className={styles.right}>
@@ -35,24 +35,24 @@ export default function Account() {
               heading={<FormattedMessage id="informacionPersonal" />}
             />
             <div className={styles.info}>
-              <div className={styles.item}>
+              {/* <div className={styles.item}>
                 <div className={styles.left}>
                   <FormattedMessage id="cuentaNombre" />
                 </div>
                 <div className={styles.right}>Allan Castellanos</div>
-              </div>
+              </div> */}
               <div className={styles.item}>
                 <div className={styles.left}>
                   <FormattedMessage id="cuentaEmail" />
                 </div>
                 <div className={styles.right}>allancastellanosmx@gmail.com</div>
               </div>
-              <div className={styles.item}>
+              {/* <div className={styles.item}>
                 <div className={styles.left}>
                   <FormattedMessage id="cuentaEstado" />
                 </div>
                 <div className={styles.right}>Ciudad de México</div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

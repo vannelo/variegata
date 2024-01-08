@@ -13,77 +13,6 @@
       @media only screen and (max-width: 1000px) {
         width: 100%;
       }
-      .gallery {
-        display: flex;
-        column-gap: 1rem;
-        @media only screen and (max-width: 1000px) {
-          display: block;
-        }
-        .thumbs {
-          width: 15%;
-          display: flex;
-          flex-direction: column;
-          row-gap: 1rem;
-          @media only screen and (max-width: 1000px) {
-            width: 100%;
-            flex-direction: row;
-            column-gap: 1rem;
-            margin-bottom: 1rem;
-          }
-          .thumb {
-            width: 100%;
-            height: 100px;
-            background-position: center;
-            background-size: cover;
-            @media only screen and (max-width: 1000px) {
-              width: 100px;
-              height: 80px;
-            }
-          }
-        }
-        .mainImage {
-          width: 80%;
-          @media only screen and (max-width: 1000px) {
-            width: 100%;
-            margin-bottom: 1rem;
-          }
-          .image {
-            position: relative;
-            width: 100%;
-            height: 700px;
-            background-position: center;
-            background-size: cover;
-            @media only screen and (max-width: 1000px) {
-              height: 400px;
-            }
-            .fullScreenIcon {
-              position: absolute;
-              top: 1.5rem;
-              right: 1.8rem;
-              width: 40px;
-              height: 40px;
-              background-color: white;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              border-radius: 50%;
-              box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-              transition-duration: 0.2s;
-              &:hover {
-                background-color: rgb(var(--primary));
-                transition-duration: 0.2s;
-                svg {
-                  color: white;
-                }
-              }
-              @media only screen and (max-width: 1000px) {
-                top: 1rem;
-                right: 1rem;
-              }
-            }
-          }
-        }
-      }
     }
     .right {
       width: 40%;
@@ -108,26 +37,6 @@
           color: rgb(var(--dark));
           font-weight: 600;
           margin-bottom: 0.5rem;
-        }
-        .price {
-          font-weight: 500;
-          font-size: 1.8rem;
-          .bestBid {
-            color: rgb(var(--grayLight));
-            font-size: 1rem;
-          }
-        }
-        .success {
-          font-weight: 500;
-          font-size: 1rem;
-          color: rgb(var(--success));
-          background-color: rgb(var(--successLight));
-          display: flex;
-          align-items: center;
-          column-gap: 0.5rem;
-          padding: 1rem;
-          margin: 1rem 0;
-          border-radius: 5px;
         }
         .description {
           color: rgb(var(--gray));
@@ -251,5 +160,19 @@
   }
   .moreInfo {
     width: 100%;
+  }
+  .noAccount {
+    padding: 2rem;
+    text-align: center;
+    color: rgb(var(--gray));
+    .link {
+      color: rgb(var(--primary));
+      font-weight: 500;
+      transition-duration: 0.2s;
+      &:hover {
+        transition-duration: 0.2s;
+        color: rgb(var(--primaryDark));
+      }
+    }
   }
 }

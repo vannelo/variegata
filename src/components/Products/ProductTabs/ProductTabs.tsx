@@ -8,10 +8,10 @@ import { Auction, Product } from "@/utils/types";
 import Button, {
   ButtonColorEnum,
   ButtonSizeEnum,
-} from "@/components/Button/Button";
+} from "@/components/UI/Button/Button";
 import { useMutation } from "@apollo/client";
-import { CreateReview } from "@/graphql/mutations/CreateReview.mutation";
-import { GetProduct } from "@/graphql/queries/GetProduct.query";
+import { CreateReviewMutation } from "@/graphql/mutations/CreateReview.mutation";
+import { GetProductQuery } from "@/graphql/queries/GetProduct.query";
 import Modal, { ModalTypeEnum } from "@/components/UI/Modal/Modal";
 
 interface ProductTabsProps {
@@ -33,8 +33,8 @@ export default function ProductTabs(props: ProductTabsProps) {
       loading: createReviewLoading,
       error: createReviewError,
     },
-  ] = useMutation(CreateReview, {
-    refetchQueries: [GetProduct, "GetProduct"],
+  ] = useMutation(CreateReviewMutation, {
+    refetchQueries: [GetProductQuery, "GetProductQuery"],
     errorPolicy: "all",
   });
 

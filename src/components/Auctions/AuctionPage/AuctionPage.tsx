@@ -1,120 +1,46 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FormattedDate, FormattedMessage, FormattedNumber } from "react-intl";
-import { SlideshowLightbox } from "lightbox.js-react";
-import { Auction } from "@/utils/types";
-import { motion } from "framer-motion";
-import styles from "./AuctionPageProduct.module.scss";
+import { Auction, Bid } from "@/utils/types";
+import styles from "./AuctionPage.module.scss";
 import Timer, { TimerTypeEnum } from "@/components/Timer/Timer";
 import ProductTabs from "@/components/Products/ProductTabs/ProductTabs";
+import { useSession } from "next-auth/react";
+import AuctionPageGallery from "./AuctionPageGallery/AuctionPageGallery";
+import AuctionPagePrice from "./AuctionPagePrice/AuctionPagePrice";
+import Page, { PagePaddingSize } from "@/components/Layout/Page/Page";
+import Animated from "@/components/Layout/Animated/Animated";
 
-interface AuctionPageProductProps {
+interface AuctionPageProps {
   readonly product: Auction;
   readonly productId: string;
-  // TODO Reaplce with type
   readonly productPhotos: string[];
-  readonly highestBid: {
-    readonly amount: number;
-  };
+  readonly highestBid: Bid;
   readonly isAuctionActive: boolean;
   readonly auctionBidSuccess: boolean;
-  // TODO Replace with type
-  readonly latestBids: {
-    readonly amount: number;
-    readonly timestamp: string;
-  }[];
+  readonly latestBids: Bid[];
   readonly setShowModal: (value: boolean) => void;
 }
 
-export default function AuctionPageProduct(props: AuctionPageProductProps) {
-  const {
-    product,
-    productId,
-    productPhotos,
-    highestBid,
-    isAuctionActive,
-    auctionBidSuccess,
-    latestBids,
-    setShowModal,
-  } = props;
-  const [productImageActive, setProductImageActive] = useState<string>("");
+export default function AuctionPage({
+  product,
+  productId,
+  highestBid,
+  isAuctionActive,
+  auctionBidSuccess,
+  latestBids,
+  setShowModal,
+}: AuctionPageProps) {
+  const { data: session } = useSession();
   const [showBidsList, setShowBidsList] = useState<boolean>(false);
 
-  console.log("product", product);
-
   return (
-    <div className="container mx-auto">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
+    <Page padding={PagePaddingSize.EXTRA_SMALL}>
+      <Animated>
         <article className={styles.product}>
           <div className={styles.mainInfo}>
             <div className={styles.left}>
-              <div className={styles.gallery}>
-                <div className={`${styles.thumbs} hide-mobile`}>
-                  {product?.photos.map((photo: any) => (
-                    <button
-                      key={photo.url}
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: `url(${photo.url})`,
-                      }}
-                      onClick={() => setProductImageActive(photo.url)}
-                    />
-                  ))}
-                </div>
-                <div className={styles.mainImage}>
-                  <div
-                    className={styles.image}
-                    style={{
-                      backgroundImage: `url(${
-                        productImageActive
-                          ? productImageActive
-                          : product?.photos[0].url
-                      })`,
-                    }}
-                  >
-                    {/* @ts-expect-error Server Component */}
-                    <SlideshowLightbox
-                      lightboxIdentifier="product"
-                      framework="next"
-                      images={productPhotos}
-                      showControls={false}
-                      theme="day"
-                      showThumbnails
-                    >
-                      <button
-                        className={styles.fullScreenIcon}
-                        data-lightboxjs="product"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
-                        </svg>
-                      </button>
-                    </SlideshowLightbox>
-                  </div>
-                </div>
-                <div className={`${styles.thumbs} show-mobile-flex`}>
-                  {product?.photos.map((photo: any) => (
-                    <button
-                      key={photo.url}
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: `url(${photo.url})`,
-                      }}
-                      onClick={() => setProductImageActive(photo.url)}
-                    />
-                  ))}
-                </div>
-              </div>
+              <AuctionPageGallery product={product} />
             </div>
             <div className={styles.right}>
               <div className={styles.info}>
@@ -123,51 +49,11 @@ export default function AuctionPageProduct(props: AuctionPageProductProps) {
                 </Link>
                 <h3 className={styles.name}>{product.name}</h3>
                 <div className={styles.miniDivider} />
-                {highestBid ? (
-                  <div className={styles.price}>
-                    <FormattedNumber
-                      value={highestBid.amount}
-                      style="currency"
-                      currency="MXN"
-                    />
-                    <div className={styles.bestBid}>
-                      {isAuctionActive ? (
-                        <FormattedMessage id="pujaMasAlta" />
-                      ) : (
-                        <FormattedMessage id="pujaGanadora" />
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.price}>
-                    <FormattedNumber
-                      value={0}
-                      style="currency"
-                      currency="MXN"
-                    />
-                    <div className={styles.bestBid}>
-                      <FormattedMessage id="sinOfertas" />
-                    </div>
-                  </div>
-                )}
-                {auctionBidSuccess && (
-                  <div className={styles.success}>
-                    <div className={styles.icon}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1rem"
-                        height="1rem"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                      </svg>
-                    </div>
-                    <div className={styles.text}>
-                      <FormattedMessage id="subastaOfertaExitosa" />
-                    </div>
-                  </div>
-                )}
+                <AuctionPagePrice
+                  highestBid={highestBid}
+                  isAuctionActive={isAuctionActive}
+                  auctionBidSuccess={auctionBidSuccess}
+                />
                 <div className={styles.description}>
                   <p>{product.description}</p>
                 </div>
@@ -255,7 +141,19 @@ export default function AuctionPageProduct(props: AuctionPageProductProps) {
                     endTime={product.endTime}
                   />
                 )}
-                {isAuctionActive && (
+                {!session && (
+                  <p className={styles.noAccount}>
+                    Para poder hacer una oferta necesitas tener una cuenta. Crea
+                    una cuenta{" "}
+                    <Link
+                      href="https://variegata.auth.us-east-1.amazoncognito.com/signup?client_id=2au11v1bl3u0binafkofa7ajfd&scope=openid&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback%2Fcognito&state=YR4VmnFdCq-86HAvXC55D0v9Om9oT1kwbbPJCafaPa8"
+                      className={styles.link}
+                    >
+                      aquí
+                    </Link>
+                  </p>
+                )}
+                {isAuctionActive && session && (
                   <>
                     <div className={styles.buy}>
                       <button
@@ -292,7 +190,7 @@ export default function AuctionPageProduct(props: AuctionPageProductProps) {
             <ProductTabs product={product} />
           </div>
         </article>
-      </motion.div>
-    </div>
+      </Animated>
+    </Page>
   );
 }

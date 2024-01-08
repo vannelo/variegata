@@ -6,6 +6,8 @@ export enum IconNameEnum {
   BID = "bid",
   CLOSE = "close",
   CLOSE_OUTLINE = "close-outline",
+  EXPAND = "expand",
+  CHECK = "check",
 }
 
 export enum IconSizeEnum {

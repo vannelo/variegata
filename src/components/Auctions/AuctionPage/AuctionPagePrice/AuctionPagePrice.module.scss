@@ -1,0 +1,22 @@
+.auctionPagePrice {
+  .price {
+    font-weight: 500;
+    font-size: 1.8rem;
+    .bestBid {
+      color: rgb(var(--grayLight));
+      font-size: 1rem;
+    }
+  }
+  .success {
+    font-weight: 500;
+    font-size: 1rem;
+    color: rgb(var(--success));
+    background-color: rgb(var(--successLight));
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+  }
+}
